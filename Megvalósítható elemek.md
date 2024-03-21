@@ -1,8 +1,3 @@
-**Jelmagyarázat:** 
-
-1. A triggerrel (is) megvalósítható követelmények után szerepel a T betű. 
-2. A tárolt eljárással/függvénnyel megvalósításra ajánlott követelmények után a PF felirat áll. 
-
 **Internetes áruház** 
 
 Megvalósítható elemek: 
@@ -25,3 +20,8 @@ Megvalósítható elemek:
 17. Törzsvásárlóvá válás (T) 
 18. Termékek ajánlása a bejelentkezett felhasználóknak a korábbi vásárlások alapján 
 19. Éves statisztika készítése a havi bevételekről 
+
+**Jelmagyarázat:** 
+
+1. A triggerrel (is) megvalósítható követelmények után szerepel a T betű. 
+2. A tárolt eljárással/függvénnyel megvalósításra ajánlott követelmények után a PF felirat áll. 
