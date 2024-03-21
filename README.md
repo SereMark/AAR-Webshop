@@ -58,3 +58,28 @@ Kényelmes használatot biztosít a felhasználók számára.
 **Amennyiben a fent leírt minimális elvárások bármelyike nem teljesül a projekt kapcsán, úgy a projekt sikertelen (minden csapattag nulla pontot kap).** **Fontos**, hogy a minimális elvárások teljesítéséből nem következik, hogy az alkalmazásra adható pontok mindegyikét megkapja a hallgató. Az értékelési szempontokban szerepet kap az alkalmazás használhatósága/letisztultsága.
 
 **Oktatói javaslat:** a feladatok felosztását a csapat maga határozza meg, de ügyelni kell rá, hogy minden csapattagnak arányos munkája legyen. Minden feladathoz előre ki kell jelölni a felelősöket. A frontend és backend részt egy-egy funkció kapcsán nem érdemes szétválasztani, mert pontszám a funkció  megvalósítására  jár,  vagyis  akár  a  grafikus  felhasználói  felület,  akár  a  funkció háttérműveletét megvalósító rész hiányzik, a funkció nem látja el a feladatát, ezáltal nem értékelhető.
+
+***Megvalósítható elemek (Webshop)***
+- Termékek és árak kezelése az adatbázisban
+- Árukategóriák megadása
+- Felhasználók regisztrálása, beléptetése
+- Vásárlói egyenleg beállítása felhasználóknál
+- Vásárolt termékek állapota (nincs fizetve, fizetve, kiszállítva) (a kiszállítást csak az adminisztrátori felületen lehet beállítani, lehetőleg minden szállítást akkorra ütemezzünk, amikor más termékeket is szállítunk az adott városba)
+- Adminisztrátori felületen figyelmeztetés a kiszállított, de a fizetési idő leteltét követően nem kifizetett termékekről (T)
+- Új termékek ajánlása a kezdőoldalon (5-5 kategóriánként)
+- Felhasználók lapján a vásárolt termékek listája
+- Kiszállítandó termékek listázása adminisztrátori felületen a kiszállítási határidő szerint csoportosítva. (Feltételezzük, hogy 5 nap áll rendelkezésre a kiszállításra.)
+- Legnépszerűbb termékek listázása a vásárlás alapján, kategóriákban csoportosítva
+- Termékek ajánlása az alapján, hogy mások mit vásároltak még, akik megvették a terméket
+- Vásárlás menete, egyenlegfeltöltés
+- Számla kiállítása a vásárlásról, számlák tárolása a rendszerben
+- Vásárlói vélemények hozzáfűzése a termékekhez
+- Hasonló termékek összehasonlítása (felhasználói kiválasztás alapján)
+- Kedvezmények adása azoknak a felhasználóknak, akik egy adott összeg felett tartanak a vásárlásban. Új ár megállapítása a most kiválasztott termékeknél
+- Törzsvásárlóvá válás (T)
+- Termékek ajánlása a bejelentkezett felhasználóknak a korábbi vásárlások alapján
+- Éves statisztika készítése a havi bevételekről
+
+*Jelmagyarázat*
+- A triggerrel (is) megvalósítható követelmények után szerepel a T betű.
+- A tárolt eljárással/függvénnyel megvalósításra ajánlott követelmények után a PF felirat áll.
