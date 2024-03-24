@@ -1,54 +1,55 @@
 PK - Primary Key
 FK- Foreign Key
 
+
+Felhasználók tábla (Users):
 UserID (PK)
 Név
 Email
 Telszám
 IsAdmin
 PasswordHash
+
+
 Kategória tábla (Categories):
-
-
 KategóriaID (PK)
 Név
+
+
 Termékek tábla (Products):
-
-
 TermékID (PK)
 Ár
 Leírás
 Név
 KategóriaID (FK a Kategória táblára)
+
+
 Kosár tábla (ShoppingCart):
-
-
 KosárID (PK)
 UserID (FK a Felhasználók táblára)
+
+
 Kosár elemek tábla (ShoppingCartItems):
-
-
 ShoppingCartItemID (PK)
 KosárID (FK a Kosár táblára)
 TermékID (FK a Termékek táblára)
+
+
 Rendelés tábla (Orders):
-
-
 RendelésID (PK)
 UserID (FK a Felhasználók táblára)
 Összeg
 FizetésiMetódus
+
+
 Vélemények tábla (Opinions):
-
-
 VéleményID (PK)
 UserID (FK a Felhasználók táblára)
 TermékID (FK a Termékek táblára)
 Pontozás
 Szöveg
+
 Kuponkód tábla (Coupons):
-
-
 KuponID (PK)
 Kód
 Leárazás
