@@ -1,49 +1,55 @@
-Felhasználó (Users)
+PK - Primary Key
+FK- Foreign Key
+
 UserID (PK)
 Név
 Email
 Telszám
 IsAdmin
 PasswordHash
+Kategória tábla (Categories):
 
 
-Rendelés (Orders)
-RendelésID (PK)
-UserID (FK a Felhasználók táblára)
-KosárID (FK a Kosár táblára)
-Összeg
-FizetésiMetódus
+KategóriaID (PK)
+Név
+Termékek tábla (Products):
 
 
-Kosár (ShoppingCart)
+TermékID (PK)
+Ár
+Leírás
+Név
+KategóriaID (FK a Kategória táblára)
+Kosár tábla (ShoppingCart):
+
+
 KosárID (PK)
 UserID (FK a Felhasználók táblára)
+Kosár elemek tábla (ShoppingCartItems):
+
+
+ShoppingCartItemID (PK)
+KosárID (FK a Kosár táblára)
 TermékID (FK a Termékek táblára)
+Rendelés tábla (Orders):
 
 
-Vélemény (Opinions)
+RendelésID (PK)
+UserID (FK a Felhasználók táblára)
+Összeg
+FizetésiMetódus
+Vélemények tábla (Opinions):
+
+
 VéleményID (PK)
 UserID (FK a Felhasználók táblára)
 TermékID (FK a Termékek táblára)
 Pontozás
 Szöveg
+Kuponkód tábla (Coupons):
 
 
-Termék (Products)
-TermékID (PK)
-Ár
-KategóriaID (FK a Kategória táblára)
-Leírás
-Név
-
-
-Kuponkód (Coupons)
 KuponID (PK)
 Kód
 Leárazás
-Felhasználó (FK a Felhasználók táblára)
-
-
-Kategória (Categories)
-KategóriaID (PK)
-Név
+UserID (FK a Felhasználók táblára)
