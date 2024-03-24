@@ -42,7 +42,7 @@ UserID (FK a Felhasználók táblára)
 FizetésiMetódus
 
 
-Vélemények tábla (Opinions):
+Vélemények tábla (Reviews):
 VéleményID (PK)
 UserID (FK a Felhasználók táblára)
 TermékID (FK a Termékek táblára)
