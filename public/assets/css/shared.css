@@ -1,12 +1,133 @@
-table {
-    border-collapse: collapse;
-    width: 100%;
+/* Basic Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+
+body {
+  font-family: 'Arial', sans-serif;
+  color: #f4f4f4;
+  line-height: 1.6;
+  background-color: #121212;
 }
-th {
-    background-color: #f2f2f2;
+
+a {
+  color: #1e90ff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #63b8ff;
+}
+
+/* Utility Classes */
+.container {
+  margin: 0 auto;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  margin: 0 20px;
+}
+
+.search-input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  flex-grow: 1;
+}
+
+.search-button {
+  padding: 10px 20px;
+  margin-left: 5px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #1e90ff;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #63b8ff;
+}
+
+.btn-primary {
+  background-color: #1e90ff;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #545b62;
+}
+
+/* Header */
+.header {
+  background-color: #1e90ff;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header .container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.header-logo {
+  width: auto;
+  max-width: 160px;
+  height: auto;
+  object-fit: contain;
+}
+
+.navbar {
+  list-style-type: none;
+  display: flex;
+}
+
+.nav-item {
+  margin-left: 20px;
+}
+
+/* Footer */
+.footer {
+  background-color: #1a1a1a;
+  color: #f4f4f4;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 20px;
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
 }
