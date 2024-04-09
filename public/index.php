@@ -8,6 +8,20 @@
 </head>
 <body>
 
+<?php
+require_once __DIR__ . '/../src/Helpers/security.php';
+require_once __DIR__ . '/../src/Controllers/LoginController.php';
+require_once __DIR__ . '/../src/Controllers/RegistrationController.php';
+require_once __DIR__ . '/../src/Router/Router.php';
+
+$router = require_once __DIR__ . '/../src/Router/routes.php';
+
+$method = $_SERVER['REQUEST_METHOD'];
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+$router->dispatch($method, $path);
+?>
+
 <!-- Navigation Bar -->
 <nav class="header">
     <div class="container">
@@ -17,8 +31,8 @@
             <button type="submit" class="search-button">Search</button>
         </div>
         <div class="header-right">
-            <a href="register.html" class="btn btn-secondary">Register</a>
-            <a href="login.html" class="btn btn-primary">Login</a>
+            <a href="/login" class="btn btn-secondary">Login</a>
+            <a href="/register" class="btn btn-primary">Register</a>
         </div>
     </div>
 </nav>
