@@ -24,7 +24,6 @@ document.addEventListener('click', function(event) {
 
 // Check if the connection to the database is successful
 document.addEventListener('DOMContentLoaded', function() {
-    const showModalAgainAfterSeconds = 5;
     const lastCheckedTimestamp = localStorage.getItem('lastDbCheckTimestamp');
     const currentTime = new Date().getTime();
 
@@ -73,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
         xhr.send();
     }
 
-    if (!lastCheckedTimestamp || currentTime - lastCheckedTimestamp > showModalAgainAfterSeconds * 1000) {
+    if (!lastCheckedTimestamp || currentTime - lastCheckedTimestamp > showModalAfterSeconds * 1000) {
         showModal();
         checkDatabaseConnection();
     } else {

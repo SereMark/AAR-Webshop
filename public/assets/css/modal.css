@@ -65,6 +65,11 @@
   opacity: 0.8;
 }
 
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+
 @media (max-width: 768px) {
   .modal-content {
       width: 90%;
