@@ -25,7 +25,7 @@ $router->dispatch($method, $path);
 <!-- Navigation Bar -->
 <nav class="header">
     <div class="container">
-        <img src="assets/images/Isten.png" alt="Webshop Logo" class="header-logo">
+        <img src="assets/images/logo.png" alt="Webshop Logo" class="header-logo">
         <div class="search-container">
             <input type="text" placeholder="Search products..." class="search-input">
             <button type="submit" class="search-button">Search</button>
@@ -72,7 +72,7 @@ $router->dispatch($method, $path);
             $description = $product['DESCRIPTION'] ?? 'No description provided.';
         ?>
             <div class="product-card">
-                <img src="path_to_product_image.jpg" alt="<?php echo htmlspecialchars($name); ?>" class="product-image">
+                <img src="assets/images/placeholder.jpg" alt="<?php echo htmlspecialchars($name); ?>" class="product-image">
                 <h4 class="product-name"><?php echo htmlspecialchars($name); ?></h4>
                 <p class="product-price">$<?php echo htmlspecialchars($price); ?></p>
                 <p class="product-description"><?php echo htmlspecialchars($description); ?></p>
