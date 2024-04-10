@@ -1,6 +1,4 @@
 <?php
-include __DIR__ . '/../Config/config.php';
-
 function getDatabaseConnection() {
     putenv('NLS_LANG=.AL32UTF8');
 

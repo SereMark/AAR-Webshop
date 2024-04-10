@@ -2,8 +2,12 @@
 
 $router = new Router();
 
-$router->get('/login', function () {
-    require __DIR__ . '/../Views/login.php';
+$router->get('/', function ($router) {
+    require __DIR__ . '/Views/home.php';
+});
+
+$router->get('/login', function ($router) {
+    require __DIR__ . '/Views/login.php';
 });
 
 $router->post('/login', function () {
@@ -22,9 +26,9 @@ $router->post('/register', function () {
 
 // Define more routes here
 
-$router->setNotFoundHandler(function () {
+$router->setNotFoundHandler(function ($router) {
     header('HTTP/1.0 404 Not Found');
-    echo '404 Not Found';
+    require __DIR__ . '/../../Views/404.php';
 });
 
 return $router;

@@ -13,23 +13,26 @@ class Router {
     }
 
     private function addHandler($method, $path, $handler) {
-        $this->handlers[$method.$path] = $handler;
+        $this->handlers[$method][$path] = $handler;
     }
 
     public function setNotFoundHandler($handler) {
         $this->notFoundHandler = $handler;
     }
 
-    public function dispatch($method, $path) {
-        $handlerKey = $method.$path;
+    public function dispatch() {
+        $method = $_SERVER['REQUEST_METHOD'];
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-        if (isset($this->handlers[$handlerKey])) {
-            call_user_func($this->handlers[$handlerKey]);
+        $handler = $this->handlers[$method][$path] ?? null;
+
+        if ($handler) {
+            call_user_func($handler, $this);
         } elseif ($this->notFoundHandler) {
-            call_user_func($this->notFoundHandler);
+            call_user_func($this->notFoundHandler, $this);
         } else {
             header("HTTP/1.0 404 Not Found");
-            echo "404 Not Found";
+            require __DIR__ . '/../views/404.php';
         }
     }
 }

@@ -1,91 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Product List</title>
-    <link rel="stylesheet" href="assets/css/shared.css">
-    <link rel="stylesheet" href="assets/css/landing-page.css">
-</head>
-<body>
-
 <?php
-require_once __DIR__ . '/../src/Helpers/security.php';
-require_once __DIR__ . '/../src/Controllers/LoginController.php';
-require_once __DIR__ . '/../src/Controllers/RegistrationController.php';
+require_once __DIR__ . '/../src/Config/config.php';
+
+if (DEBUG) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
+
 require_once __DIR__ . '/../src/Router/Router.php';
+require_once __DIR__ . '/../src/Helpers/db.php';
+require_once __DIR__ . '/../src/Helpers/security.php';
 
-$router = require_once __DIR__ . '/../src/Router/routes.php';
+spl_autoload_register(function ($class_name) {
+    $basePath = __DIR__ . '/../src/';
+    if (file_exists($basePath . 'Models/' . $class_name . '.php')) {
+        require_once $basePath . 'Models/' . $class_name . '.php';
+    } elseif (file_exists($basePath . 'Controllers/' . $class_name . '.php')) {
+        require_once $basePath . 'Controllers/' . $class_name . '.php';
+    }
+});
 
-$method = $_SERVER['REQUEST_METHOD'];
-$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$router = new Router();
 
-$router->dispatch($method, $path);
-?>
+// Define routes
+$router->get('/', function () {
+    $content = __DIR__ . '/../src/Views/products.php';
+    require __DIR__ . '/../src/Views/layout.php';
+});
 
-<!-- Navigation Bar -->
-<nav class="header">
-    <div class="container">
-        <img src="assets/images/logo.png" alt="Webshop Logo" class="header-logo">
-        <div class="search-container">
-            <input type="text" placeholder="Search products..." class="search-input">
-            <button type="submit" class="search-button">Search</button>
-        </div>
-        <div class="header-right">
-            <a href="/login" class="btn btn-secondary">Login</a>
-            <a href="/register" class="btn btn-primary">Register</a>
-        </div>
-    </div>
-</nav>
+$router->get('/login', function () {
+    $content = __DIR__ . '/../src/Views/login.php';
+    require __DIR__ . '/../src/Views/layout.php';
+});
 
-<!-- Main Content Area -->
-<div class="main">
+$router->get('/register', function () {
+    $content = __DIR__ . '/../src/Views/register.php';
+    require __DIR__ . '/../src/Views/layout.php';
+});
 
-    <!-- Sidebar/Aside -->
-    <aside class="sidebar">
-        <h3>Categories</h3>
-        <ul>
-            <?php
-            require_once __DIR__ . '/../src/Models/CategoriesModel.php';
+// More routes...
 
-            $categoriesModel = new CategoriesModel();
-            $categories = $categoriesModel->fetchCategories();
-
-            foreach ($categories as $category):
-                $categoryName = $category['NAME'];
-            ?>
-                <li><a href="#"><?php echo htmlspecialchars($categoryName); ?></a></li>
-            <?php endforeach; ?>
-        </ul>
-    </aside>
-
-    <!-- Product Grid -->
-    <section class="product-grid">
-        <?php
-        require_once __DIR__ . '/../src/Models/ProductsModel.php';
-
-        $productsModel = new ProductsModel();
-        $products = $productsModel->fetchProducts();
-
-        foreach ($products as $product):
-            $name = $product['NAME'] ?? 'Name not set';
-            $price = number_format((float)($product['PRICE'] ?? 0), 2, '.', '');
-            $description = $product['DESCRIPTION'] ?? 'No description provided.';
-        ?>
-            <div class="product-card">
-                <img src="assets/images/placeholder.jpg" alt="<?php echo htmlspecialchars($name); ?>" class="product-image">
-                <h4 class="product-name"><?php echo htmlspecialchars($name); ?></h4>
-                <p class="product-price">$<?php echo htmlspecialchars($price); ?></p>
-                <p class="product-description"><?php echo htmlspecialchars($description); ?></p>
-            </div>
-        <?php endforeach; ?>
-    </section>
-
-</div>
-
-<!-- Footer -->
-<footer class="footer">
-    <p>© 2024 Webshop. All rights reserved.</p>
-</footer>
-
-</body>
-</html>
+$router->dispatch();
