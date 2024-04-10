@@ -18,3 +18,13 @@ function getDatabaseConnection() {
     }
     return $conn;
 }
+
+function isDatabaseConnected() {
+    try {
+        $conn = getDatabaseConnection();
+        $conn = null;
+        return true;
+    } catch (Exception $e) {
+        return false;
+    }
+}

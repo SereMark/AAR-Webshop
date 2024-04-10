@@ -12,19 +12,28 @@ if (DEBUG) {
     <meta charset="UTF-8">
     <title>Webshop</title>
     <link rel="stylesheet" href="assets/css/shared.css">
-    <link rel="stylesheet" href="assets/css/footer.css">
     <link rel="stylesheet" href="assets/css/navbar.css">
-    <script src="assets/js/modal.js"></script>
+    <link rel="stylesheet" href="assets/css/modal.css">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico" />
 </head>
 <body>
 
+<!-- Navbar -->
 <?php include __DIR__ . '/navbar.php'; ?>
 
+<!-- Main Content -->
 <div class="main">
+    <?php include __DIR__ . '/connection.php'; ?>
     <?php if (isset($content)) include $content; ?>
 </div>
 
+<!-- Footer -->
 <?php include __DIR__ . '/footer.php'; ?>
+
+<!-- Scripts -->
+<script> var showModalAfterSeconds = <?php echo SHOW_MODAL_AFTER_SECONDS; ?>; </script>
+<script src="assets/js/modal.js"></script>
 
 </body>
 </html>

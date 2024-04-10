@@ -1,34 +1,30 @@
 <?php
-
 $router = new Router();
 
-$router->get('/', function ($router) {
-    require __DIR__ . '/Views/home.php';
+$router->get('/', function () {
+    $content = __DIR__ . '/../Views/products.php';
+    require __DIR__ . '/../Views/layout.php';
 });
 
-$router->get('/login', function ($router) {
-    require __DIR__ . '/Views/login.php';
+$router->get('/api/login', function () {
+    $content = __DIR__ . '/../Views/login.php';
+    require __DIR__ . '/../Views/layout.php';
 });
 
-$router->post('/login', function () {
-    $controller = new LoginController();
-    $controller->login();
+$router->get('/api/register', function () {
+    $content = __DIR__ . '/../Views/register.php';
+    require __DIR__ . '/../Views/layout.php';
 });
 
-$router->get('/register', function () {
-    require __DIR__ . '/../Views/register.php';
+$router->get('/api/check-db-connection', function () {
+    header('Content-Type: application/json');
+    echo json_encode(['connected' => isDatabaseConnected()]);
+    exit;
 });
-
-$router->post('/register', function () {
-    $controller = new RegistrationController();
-    $controller->register();
-});
-
-// Define more routes here
 
 $router->setNotFoundHandler(function ($router) {
     header('HTTP/1.0 error Not Found');
-    require __DIR__ . '/../../Views/error.php';
+    require __DIR__ . '/../Views/error.php';
 });
 
 return $router;

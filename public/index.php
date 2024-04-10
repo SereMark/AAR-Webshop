@@ -20,24 +20,8 @@ spl_autoload_register(function ($class_name) {
     }
 });
 
-$router = new Router();
+// Include the routes
+$router = require __DIR__ . '/../src/Router/routes.php';
 
-// Define routes
-$router->get('/', function () {
-    $content = __DIR__ . '/../src/Views/products.php';
-    require __DIR__ . '/../src/Views/layout.php';
-});
-
-$router->get('/login', function () {
-    $content = __DIR__ . '/../src/Views/login.php';
-    require __DIR__ . '/../src/Views/layout.php';
-});
-
-$router->get('/register', function () {
-    $content = __DIR__ . '/../src/Views/register.php';
-    require __DIR__ . '/../src/Views/layout.php';
-});
-
-// More routes...
-
+// Dispatch the router
 $router->dispatch();
