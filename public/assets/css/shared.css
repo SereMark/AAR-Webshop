@@ -25,8 +25,8 @@ a:hover {
 
 .btn {
   display: inline-block;
-  background-color: #0056b3;
-  color: #ffffff;
+  background-color: #FFCB05;
+  color: #000000;
   padding: 10px 20px;
   font-size: 16px;
   border: none;
@@ -37,7 +37,7 @@ a:hover {
 }
 
 .btn:hover {
-  background-color: #0069d9;
+  background-color: #ffda48;
   box-shadow: 0 5px 8px rgba(0,0,0,0.15);
   transform: translateY(-2px);
 }
