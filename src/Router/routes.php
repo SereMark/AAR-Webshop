@@ -27,8 +27,8 @@ $router->post('/register', function () {
 // Define more routes here
 
 $router->setNotFoundHandler(function ($router) {
-    header('HTTP/1.0 404 Not Found');
-    require __DIR__ . '/../../Views/404.php';
+    header('HTTP/1.0 error Not Found');
+    require __DIR__ . '/../../Views/error.php';
 });
 
 return $router;

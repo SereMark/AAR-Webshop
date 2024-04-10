@@ -31,8 +31,8 @@ class Router {
         } elseif ($this->notFoundHandler) {
             call_user_func($this->notFoundHandler, $this);
         } else {
-            header("HTTP/1.0 404 Not Found");
-            require __DIR__ . '/../views/404.php';
+            header("HTTP/1.0 error Not Found");
+            require __DIR__ . '/../views/error.php';
         }
     }
 }
