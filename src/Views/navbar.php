@@ -1,3 +1,6 @@
+<?php include __DIR__ . '/login.php'; ?>
+<?php include __DIR__ . '/register.php'; ?>
+
 <nav class="header">
     <div class="container">
         <a href="/" class="logo-container">
@@ -26,19 +29,3 @@
         </div>
     </div>
 </nav>
-
-<!-- Login Modal -->
-<div id="loginModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <?php include __DIR__ . '/login.php'; ?>
-  </div>
-</div>
-
-<!-- Register Modal -->
-<div id="registerModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <?php include __DIR__ . '/register.php'; ?>
-  </div>
-</div>
