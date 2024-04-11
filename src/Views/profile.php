@@ -12,8 +12,8 @@
                     <li><a href="/edit-profile">Edit Profile</a></li>
                     <li><a href="/change-password">Change Password</a></li>
                     <li><a href="/privacy-settings">Privacy Settings</a></li>
-                    <li><a href="/logout">Logout</a></li>
-                    <li><a href="/delete-profile" class="danger-link">Delete Profile</a></li>
+                    <li><a href="/api/logout">Logout</a></li>
+                    <li><a href="/api/delete-profile" class="danger-link">Delete Profile</a></li>
                 </ul>
             </div>
         </aside>
@@ -31,7 +31,6 @@
                 <a href="/order-history" class="action-link">Order History</a>
                 <a href="/my-products" class="action-link">My Products</a>
                 <a href="/favorites" class="action-link">Favorites</a>
-                <!-- More links can be added here -->
             </section>
         </main>
     </div>

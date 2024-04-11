@@ -5,16 +5,18 @@ const messages = {
     'update': 'Update successful!',
     'delete': 'Deletion successful!',
     'logout': 'Logout successful!',
-    'upload': 'Upload successful!'
+    'upload': 'Upload successful!',
+    'error': 'An error has occurred!',
 };
 
+// Info modal
 document.addEventListener('DOMContentLoaded', function() {
     var urlParams = new URLSearchParams(window.location.search);
 
-    // Check if the success parameter is present
-    if (urlParams.has('success')) {
-        var successKey = urlParams.get('success');
-        var message = messages[successKey] || 'Operation successful!';
+    // Check if the info parameter is present
+    if (urlParams.has('info')) {
+        var infoKey = urlParams.get('info');
+        var message = messages[infoKey] || 'Invalid message.';
         displayModal('infoModal', message);
     }
 
@@ -26,6 +28,19 @@ document.addEventListener('DOMContentLoaded', function() {
             // Remove the query parameter from the URL without refreshing the page
             history.pushState(null, '', location.pathname);
         });
+    }
+});
+
+// Database connection modal
+document.addEventListener('DOMContentLoaded', function() {
+    const lastCheckedTimestamp = localStorage.getItem('lastDbCheckTimestamp');
+    const currentTime = new Date().getTime();
+
+    if (!lastCheckedTimestamp || currentTime - lastCheckedTimestamp > showModalAfterSeconds * 1000) {
+        showModal('dbConnectionModal');
+        checkDatabaseConnection();
+    } else {
+        hideModal('dbConnectionModal');
     }
 });
 
@@ -73,19 +88,6 @@ document.addEventListener('click', function(event) {
         checkDatabaseConnection();
     }
     else if (event.target.id === 'continueBtn') {
-        hideModal('dbConnectionModal');
-    }
-});
-
-// Initial checks on document load
-document.addEventListener('DOMContentLoaded', function() {
-    const lastCheckedTimestamp = localStorage.getItem('lastDbCheckTimestamp');
-    const currentTime = new Date().getTime();
-
-    if (!lastCheckedTimestamp || currentTime - lastCheckedTimestamp > showModalAfterSeconds * 1000) {
-        showModal('dbConnectionModal');
-        checkDatabaseConnection();
-    } else {
         hideModal('dbConnectionModal');
     }
 });

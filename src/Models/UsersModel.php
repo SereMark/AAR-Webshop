@@ -81,4 +81,23 @@ class UsersModel {
         oci_close($conn);
         return true;
     }
+
+    public function getUserDetailsById($userId) {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT * FROM USERS WHERE USERID = :USERID';
+        $stid = oci_parse($conn, $sql);
+        
+        oci_bind_by_name($stid, ':USERID', $userId);
+        
+        if (!oci_execute($stid)) {
+            return false;
+        }
+        
+        $row = oci_fetch_array($stid, OCI_ASSOC);
+        
+        oci_free_statement($stid);
+        oci_close($conn);
+        
+        return $row ?: false;
+    }    
 }

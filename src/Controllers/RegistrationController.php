@@ -45,7 +45,7 @@ class RegistrationController {
             $_SESSION['email'] = $user['EMAIL'];
             $_SESSION['isadmin'] = $user['ISADMIN'];
 
-            header('Location: /?success=register');
+            header('Location: /?info=register');
             exit;
         } else {
             echo "An error occurred during the login process.";
