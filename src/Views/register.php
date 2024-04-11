@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register</title>
     <link rel="stylesheet" href="/assets/css/auth.css">
 </head>
 <body>

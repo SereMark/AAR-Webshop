@@ -13,7 +13,8 @@ class LoginController {
         if (is_array($user) && isset($user['PASSWORDHASH']) && password_verify($password, $user['PASSWORDHASH'])) {
             session_start();
             $_SESSION['userid'] = $user['USERID'];
-            $_SESSION['username'] = $user['NAME'];
+            $_SESSION['name'] = $user['NAME'];
+            $_SESSION['email'] = $user['EMAIL'];
             $_SESSION['isadmin'] = $user['ISADMIN'];
 
             header('Location: /');

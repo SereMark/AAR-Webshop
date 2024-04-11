@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>404 - Page Not Found</title>
     <link rel="stylesheet" href="/assets/css/notfound.css">
 </head>
 <body class="notfound">

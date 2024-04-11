@@ -62,5 +62,23 @@ class UsersModel {
         oci_close($conn);
         
         return $row ?: false;
-    }    
+    }
+
+    public function deleteUserByEmail($email) {
+        $conn = getDatabaseConnection();
+        $sql = 'DELETE FROM USERS WHERE EMAIL = :EMAIL';
+        $stid = oci_parse($conn, $sql);
+        
+        oci_bind_by_name($stid, ':EMAIL', $email);
+        
+        if (!oci_execute($stid)) {
+            oci_free_statement($stid);
+            oci_close($conn);
+            return false;
+        }
+        
+        oci_free_statement($stid);
+        oci_close($conn);
+        return true;
+    }
 }

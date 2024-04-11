@@ -10,12 +10,12 @@ if (DEBUG) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Webshop</title>
     <link rel="stylesheet" href="/assets/css/shared.css">
     <link rel="stylesheet" href="/assets/css/navbar.css">
     <link rel="stylesheet" href="/assets/css/modal.css">
     <link rel="stylesheet" href="/assets/css/footer.css">
     <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico" />
+    <title><?php echo isset($pageTitle) ? $pageTitle : "Webshop"; ?></title>
 </head>
 <body>
 
