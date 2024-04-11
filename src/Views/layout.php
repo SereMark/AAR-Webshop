@@ -24,6 +24,7 @@ if (DEBUG) {
 
 <!-- Main Content with connection check -->
 <div class="main">
+    <?php include __DIR__ . '/infoModal.php'; ?>
     <?php include __DIR__ . '/connection.php'; ?>
     <?php if (isset($content)) include $content; ?>
 </div>

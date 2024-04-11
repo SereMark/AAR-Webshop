@@ -54,8 +54,8 @@ $router->get('/logout', function () {
     // Finally, destroy the session.
     session_destroy();
 
-    // Redirect to the home page or home page
-    header('Location: /');
+    // Redirect to the home page with a success message
+    header('Location: /?success=logout');
     exit;
 });
 

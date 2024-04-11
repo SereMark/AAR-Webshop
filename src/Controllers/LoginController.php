@@ -17,7 +17,7 @@ class LoginController {
             $_SESSION['email'] = $user['EMAIL'];
             $_SESSION['isadmin'] = $user['ISADMIN'];
 
-            header('Location: /');
+            header('Location: /?success=login');
             exit;
         } else {
             echo "Login failed. Please check your email and password.";
