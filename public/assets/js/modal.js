@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var infoKey = urlParams.get('info');
         var message = messages[infoKey] || 'Invalid message.';
         displayModal('infoModal', message);
+        // Remove the query parameter from the URL without refreshing the page
+        history.pushState(null, '', location.pathname); // Ez a kereső implemetálásakor még gondot okozhat :P
     }
 
     // Event listener for closing the modal
@@ -25,8 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (closeButton) {
         closeButton.addEventListener('click', function() {
             hideModal('infoModal');
-            // Remove the query parameter from the URL without refreshing the page
-            history.pushState(null, '', location.pathname);
         });
     }
 });
