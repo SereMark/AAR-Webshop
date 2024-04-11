@@ -20,8 +20,8 @@
               </a>
             <?php else: ?>
                 <!-- Login and Register Buttons -->
-                <button onclick="showLoginModal()" class="btn btn-secondary">Login</button>
-                <button onclick="showRegisterModal()" class="btn btn-primary">Register</button>
+                <button onclick="showModal('loginModal')" class="btn btn-secondary">Login</button>
+                <button onclick="showModal('registerModal')" class="btn btn-primary">Register</button>
             <?php endif; ?>
         </div>
     </div>

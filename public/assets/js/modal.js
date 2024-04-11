@@ -1,11 +1,9 @@
-// Function to open the login modal
-function showLoginModal() {
-    document.getElementById('loginModal').style.display = 'block';
-}
-
-// Function to open the register modal
-function showRegisterModal() {
-    document.getElementById('registerModal').style.display = 'block';
+// Function to open a specified modal
+function showModal(modalId) {
+    var modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'block';
+    }
 }
 
 // Close the modal when the user clicks anywhere outside of the modal
