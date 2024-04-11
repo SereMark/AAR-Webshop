@@ -8,7 +8,6 @@ class RegistrationController {
         $email = sanitizeInput($_POST['email']);
         $phone = sanitizeInput($_POST['phone']);
         $password = $_POST['password'];
-        $isAdmin = 0;
 
         $userModel = new UsersModel();
 
