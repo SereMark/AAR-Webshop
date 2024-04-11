@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="auth-form">
-    <form method="post" action="/register">
+    <form method="post" action="/api/register">
         <input type="text" name="name" placeholder="Full Name" required>
         <input type="email" name="email" placeholder="Email" required>
         <input type="tel" name="phone" placeholder="Phone Number" required>

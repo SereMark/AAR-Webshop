@@ -2,37 +2,64 @@
 require_once __DIR__ . '/../Helpers/db.php';
 
 class UsersModel {
-    public function createUser($name, $email, $phonenumber, $passwordHash) {
+    public function createUser(string $name, string $email, string $phonenumber, string $passwordHash): bool {
         $conn = getDatabaseConnection();
-        $sql = 'INSERT INTO users (name, email, phonenumber, isadmin, passwordhash) VALUES (:name, :email, :phonenumber, \'N\', :passwordhash)';
-        $stid = oci_parse($conn, $sql);
-        
-        oci_bind_by_name($stid, ':name', $name);
-        oci_bind_by_name($stid, ':email', $email);
-        oci_bind_by_name($stid, ':phonenumber', $phonenumber);
-        oci_bind_by_name($stid, ':passwordhash', $passwordHash);
-        
-        $result = oci_execute($stid);
-        
-        oci_free_statement($stid);
+        $sql = 'INSERT INTO USERS (NAME, EMAIL, PHONENUMBER, ISADMIN, PASSWORDHASH) VALUES (:NAME, :EMAIL, :PHONENUMBER, :ISADMIN, :PASSWORDHASH)';
+        $stmt = oci_parse($conn, $sql);
+
+        oci_bind_by_name($stmt, ':NAME', $name);
+        oci_bind_by_name($stmt, ':EMAIL', $email);
+        oci_bind_by_name($stmt, ':PHONENUMBER', $phonenumber);
+        oci_bind_by_name($stmt, ':ISADMIN', 'N'); // Default to non-admin
+        oci_bind_by_name($stmt, ':PASSWORDHASH', $passwordHash);
+
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            return false;
+        }
+
+        oci_free_statement($stmt);
         oci_close($conn);
-        
-        return $result;
-    }    
-    
-    public function getUserByEmail($email) {
-        $conn = getDatabaseConnection();
-        $sql = 'SELECT * FROM users WHERE email = :email';
-        $stid = oci_parse($conn, $sql);
-        
-        oci_bind_by_name($stid, ':email', $email);
-        
-        oci_execute($stid);
-        $user = oci_fetch_assoc($stid);
-        
-        oci_free_statement($stid);
-        oci_close($conn);
-        
-        return $user;
+
+        return true;
     }
+    
+    public function doesUserExistByEmail($email) {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT COUNT(*) AS num FROM USERS WHERE EMAIL = :EMAIL';
+        $stid = oci_parse($conn, $sql);
+        
+        oci_bind_by_name($stid, ':EMAIL', $email);
+        
+        if (!oci_execute($stid)) {
+            return false;
+        }
+        
+        $row = oci_fetch_array($stid, OCI_ASSOC);
+            
+        oci_free_statement($stid);
+        oci_close($conn);
+        
+        return $row && $row['NUM'] > 0;
+    }
+
+    public function getUserDetailsByEmail($email) {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT * FROM USERS WHERE EMAIL = :EMAIL';
+        $stid = oci_parse($conn, $sql);
+        
+        oci_bind_by_name($stid, ':EMAIL', $email);
+        
+        if (!oci_execute($stid)) {
+            return false;
+        }
+        
+        $row = oci_fetch_array($stid, OCI_ASSOC);
+        
+        oci_free_statement($stid);
+        oci_close($conn);
+        
+        return $row ?: false;
+    }    
 }

@@ -1,6 +1,7 @@
+<?php session_start(); ?>
 <nav class="header">
     <div class="container">
-        <a href="/">
+        <a href="/" class="logo-container">
           <img src="assets/images/logo.png" alt="Webshop Logo" class="header-logo">
         </a>
         <div class="search-container">
@@ -8,8 +9,12 @@
             <button type="submit" class="search-button">Search</button>
         </div>
         <div class="header-right">
-            <button onclick="showLoginModal()" class="btn btn-secondary">Login</button>
-            <button onclick="showRegisterModal()" class="btn btn-primary">Register</button>
+            <?php if(isset($_SESSION['userid'])): ?>
+                <a href="/profile.php" class="profile-link"><img src="assets/images/profile.png" alt="Profile Icon" class="profile-icon"></a>
+            <?php else: ?>
+                <button onclick="showLoginModal()" class="btn btn-secondary">Login</button>
+                <button onclick="showRegisterModal()" class="btn btn-primary">Register</button>
+            <?php endif; ?>
         </div>
     </div>
 </nav>

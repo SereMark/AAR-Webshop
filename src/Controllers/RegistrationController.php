@@ -7,28 +7,26 @@ class RegistrationController {
         $name = sanitizeInput($_POST['name']);
         $email = sanitizeInput($_POST['email']);
         $phone = sanitizeInput($_POST['phone']);
-        $password = $_POST['password']; // TODO: Validate properly.
+        $password = $_POST['password'];
         $isAdmin = 0;
 
-        // Check if the user already exists
         $userModel = new UsersModel();
-        if ($userModel->getUserByEmail($email)) {
-            // User already exists
-            return "User with this email already exists.";
+
+        if ($userModel->doesUserExistByEmail($email)) {
+            echo "User with this email already exists.";
+            exit;
         }
 
-        // Hash the password
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-        // Create the user
-        $result = $userModel->createUser($name, $email, $phone, $isAdmin, $passwordHash);
+        $result = $userModel->createUser($name, $email, $phone, $passwordHash);
 
         if ($result) {
-            // Registration successful
-            header('Location: /login');
+            header('Location: /');
+            exit;
         } else {
-            // Registration failed
-            return "An error occurred during registration.";
+            echo "An error occurred during registration.";
+            exit;
         }
     }
 }

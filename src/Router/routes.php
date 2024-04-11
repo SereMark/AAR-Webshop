@@ -11,9 +11,19 @@ $router->get('/api/login', function () {
     require __DIR__ . '/../Views/layout.php';
 });
 
+$router->post('/api/login', function () {
+    $controller = new LoginController();
+    $controller->login();
+});
+
 $router->get('/api/register', function () {
     $content = __DIR__ . '/../Views/register.php';
     require __DIR__ . '/../Views/layout.php';
+});
+
+$router->post('/api/register', function () {
+    $controller = new RegistrationController();
+    $controller->register();
 });
 
 $router->get('/api/check-db-connection', function () {
