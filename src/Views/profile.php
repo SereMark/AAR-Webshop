@@ -24,10 +24,7 @@
             </section>
             <section class="profile-information">
                 <h2>Profile Information</h2>
-                <p><strong>Email:</strong> user@example.com</p>
-                <p><strong>Member Since:</strong> January 1, 2020</p>
-                <p><strong>Last Login:</strong> April 10, 2024</p>
-                <!-- Additional profile information here -->
+                <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email'] ?? 'N/A'); ?></p>
             </section>
             <section class="profile-actions">
                 <h2>Quick Links</h2>
