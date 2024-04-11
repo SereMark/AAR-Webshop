@@ -21,10 +21,28 @@ class RegistrationController {
         $result = $userModel->createUser($name, $email, $phone, $passwordHash);
 
         if ($result) {
+            $this->loginAfterRegistration($email, $password);
+        } else {
+            echo "An error occurred during registration.";
+            exit;
+        }
+    }
+
+    private function loginAfterRegistration($email, $password) {
+        $userModel = new UsersModel();
+        $user = $userModel->getUserDetailsByEmail($email);
+
+        if (is_array($user) && isset($user['PASSWORDHASH']) && password_verify($password, $user['PASSWORDHASH'])) {
+            session_start();
+            $_SESSION['userid'] = $user['USERID'];
+            $_SESSION['name'] = $user['NAME'];
+            $_SESSION['email'] = $user['EMAIL'];
+            $_SESSION['isadmin'] = $user['ISADMIN'];
+
             header('Location: /');
             exit;
         } else {
-            echo "An error occurred during registration.";
+            echo "An error occurred during the login process.";
             exit;
         }
     }
