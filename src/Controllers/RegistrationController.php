@@ -8,6 +8,12 @@ class RegistrationController {
         $email = sanitizeInput($_POST['email']);
         $phone = sanitizeInput($_POST['phone']);
         $password = $_POST['password'];
+        $confirm_password = $_POST['confirm_password'];
+
+        if ($password !== $confirm_password) {
+            echo "Passwords do not match.";
+            exit;
+        }
 
         $userModel = new UsersModel();
 
