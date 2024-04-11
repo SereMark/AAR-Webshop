@@ -20,6 +20,11 @@ spl_autoload_register(function ($class_name) {
     }
 });
 
+// Start the session if it's not already started
+if(session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
 // Include the routes
 $router = require __DIR__ . '/../src/Router/routes.php';
 

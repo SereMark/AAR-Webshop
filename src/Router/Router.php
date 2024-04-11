@@ -32,7 +32,7 @@ class Router {
             call_user_func($this->notFoundHandler, $this);
         } else {
             header("HTTP/1.0 error Not Found");
-            require __DIR__ . '/../views/error.php';
+            require __DIR__ . '/../views/notfound.php';
         }
     }
 }

@@ -26,6 +26,11 @@ $router->post('/api/register', function () {
     $controller->register();
 });
 
+$router->get('/api/profile', function () {
+    $content = __DIR__ . '/../Views/profile.php';
+    require __DIR__ . '/../Views/layout.php';
+});
+
 $router->get('/api/check-db-connection', function () {
     header('Content-Type: application/json');
     echo json_encode(['connected' => isDatabaseConnected()]);
@@ -34,7 +39,7 @@ $router->get('/api/check-db-connection', function () {
 
 $router->setNotFoundHandler(function ($router) {
     header('HTTP/1.0 error Not Found');
-    require __DIR__ . '/../Views/error.php';
+    require __DIR__ . '/../Views/notfound.php';
 });
 
 return $router;

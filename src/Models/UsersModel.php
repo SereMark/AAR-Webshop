@@ -9,8 +9,9 @@ class UsersModel {
 
         oci_bind_by_name($stmt, ':NAME', $name);
         oci_bind_by_name($stmt, ':EMAIL', $email);
+        $isadmin = 'N'; // Default to non-admin
+        oci_bind_by_name($stmt, ':ISADMIN', $isadmin);    
         oci_bind_by_name($stmt, ':PHONENUMBER', $phonenumber);
-        oci_bind_by_name($stmt, ':ISADMIN', 'N'); // Default to non-admin
         oci_bind_by_name($stmt, ':PASSWORDHASH', $passwordHash);
 
         if (!oci_execute($stmt)) {
