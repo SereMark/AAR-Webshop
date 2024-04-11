@@ -9,7 +9,7 @@
         <span class="close">&times;</span>
         <div class="auth-form">
             <form method="post" action="/api/register">
-                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="text" name="name" placeholder="Username" required>
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="tel" name="phone" placeholder="Phone Number" required>
                 <input type="password" name="password" placeholder="Password" required>
