@@ -8,9 +8,10 @@
   <div class="modal-content">
     <span class="close">&times;</span>
         <div class="auth-form">
-        <form method="post" action="/api/login">
+        <form method="post" action="/api/login" class="ajax-form">
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
+            <div class="error" style="display: none;"></div>
             <button type="submit">Login</button>
         </form>
         </div>

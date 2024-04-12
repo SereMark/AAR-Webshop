@@ -39,3 +39,14 @@
     background-color: rgba(60, 60, 60, 0.7);
     padding: 20px;
 }
+
+.error {
+    display: none;
+    color: #ffdddd;
+    background-color: #562e2e;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ffaaaa;
+    text-align: center;
+}

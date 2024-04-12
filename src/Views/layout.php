@@ -33,8 +33,11 @@ if (DEBUG) {
 <?php include __DIR__ . '/footer.php'; ?>
 
 <!-- Scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="assets/js/ajax-handler.js?v=1.0"></script>
+
 <script> var showModalAfterSeconds = <?php echo SHOW_MODAL_AFTER_SECONDS; ?>; </script>
-<script src="assets/js/modal.js"></script>
+<script src="assets/js/modal.js?v=1.0"></script>
 
 </body>
 </html>
