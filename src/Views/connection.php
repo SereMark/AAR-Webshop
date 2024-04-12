@@ -1,12 +1,16 @@
 <!-- Database Connection Check Modal -->
 <div id="dbConnectionModal" class="modal" style="display:none;">
+    <!-- Modal content container -->
     <div class="modal-content">
+        <!-- Close button for the modal -->
         <span class="close">&times;</span>
+        <!-- Paragraph to display the database connection status -->
         <p id="dbConnectionStatus">Checking database connection...</p>
         <!-- Placeholder for status icon  -->
         <div id="connectionStatusIcon"></div>
-        <!-- Buttons (hidden by default, shown based on connection outcome) -->
+        <!-- Continue button (hidden by default, shown when the database connection is successful) -->
         <button id="continueBtn" style="display:none;" class="button confirm">Continue</button>
+        <!-- Retry button (hidden by default, shown when the database connection fails) -->
         <button id="retryBtn" style="display:none;" class="button cancel">Retry</button>
     </div>
 </div>

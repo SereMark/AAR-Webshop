@@ -1,17 +1,20 @@
 <?php
+// Include the UsersModel class
 require_once __DIR__ . '/../Models/UsersModel.php';
 
+// Define the UserController class
 class UserController {
+    // Define a method to log out the user
     public function logout() {
-        // Start session if not already started
+        // Start a new session only if one hasn't been started already
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
 
-        // Unset all of the session variables.
+        // Unset all of the session variables
         $_SESSION = array();
 
-        // If it's desired to kill the session, also delete the session cookie.
+        // If it's desired to kill the session, also delete the session cookie
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 42000,
@@ -20,7 +23,7 @@ class UserController {
             );
         }
 
-        // Finally, destroy the session.
+        // Finally, destroy the session
         session_destroy();
 
         // Redirect to the home page with a success message
@@ -28,44 +31,47 @@ class UserController {
         exit;
     }
 
+    // Define a method to delete the user's profile
     public function deleteProfile() {
-        // Start session if not already started
+        // Start a new session only if one hasn't been started already
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
         
+        // Get the user ID from the session
         $userId = $_SESSION['userid'] ?? null;
     
+        // If no user is logged in, redirect to the home page
         if ($userId === null) {
-            // No user is logged in, redirect to the home page
             header('Location: /?info=error');
             exit;
         }
     
-        // Instance of UsersModel to access the database
+        // Create an instance of UsersModel to access the database
         $userModel = new UsersModel();
+        // Get the user's details from the database
         $userDetails = $userModel->getUserDetailsById($userId);
     
+        // If the user's details could not be retrieved, display an error message
         if ($userDetails === false) {
-            // Handle the case where user details could not be retrieved
             echo "Unable to retrieve user details.";
             exit;
         }
     
+        // Get the user's email
         $email = $userDetails['EMAIL'];
         
-        // Proceed to delete user by email
+        // Delete the user from the database
         $deleteSuccess = $userModel->deleteUserByEmail($email);
         
+        // If the user was deleted successfully, log out the user and redirect to the home page
         if ($deleteSuccess) {
-            // User was deleted successfully, logout the user
             session_destroy();
             header('Location: /?info=delete');
         } else {
-            // Handle the case where the delete operation fails
+            // If the delete operation failed, display an error message
             echo "An error occurred while deleting the account.";
         }
         exit;
     }
-    
 }

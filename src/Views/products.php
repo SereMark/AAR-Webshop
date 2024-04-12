@@ -1,42 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Link to the products CSS file -->
     <link rel="stylesheet" href="/assets/css/products.css">
 </head>
 <body>
 <div class="main">
 
-    <!-- Sidebar/Aside -->
+    <!-- Start of the Sidebar/Aside -->
     <aside class="sidebar">
+        <!-- Title for the categories -->
         <h3>Categories</h3>
+        <!-- List of categories -->
         <ul>
             <?php
+            // Include the CategoriesModel
             require_once __DIR__ . '/../Models/CategoriesModel.php';
 
+            // Create a new CategoriesModel
             $categoriesModel = new CategoriesModel();
+            // Fetch the categories
             $categories = $categoriesModel->fetchCategories();
 
+            // Loop through each category
             foreach ($categories as $category):
+                // Get the name of the category
                 $categoryName = $category['NAME'];
             ?>
+                <!-- Display the category name -->
                 <li><a href="#"><?php echo htmlspecialchars($categoryName); ?></a></li>
             <?php endforeach; ?>
         </ul>
     </aside>
+    <!-- End of the Sidebar/Aside -->
 
-    <!-- Product Grid -->
+    <!-- Start of the Product Grid -->
     <section class="product-grid">
         <?php
+        // Include the ProductsModel
         require_once __DIR__ . '/../Models/ProductsModel.php';
 
+        // Create a new ProductsModel
         $productsModel = new ProductsModel();
+        // Fetch the products
         $products = $productsModel->fetchProducts();
 
+        // Loop through each product
         foreach ($products as $product):
+            // Get the name, price, and description of the product
             $name = $product['NAME'] ?? 'Name not set';
             $price = number_format((float)($product['PRICE'] ?? 0), 2, '.', '');
             $description = $product['DESCRIPTION'] ?? 'No description provided.';
         ?>
+            <!-- Display the product information -->
             <div class="product-card">
                 <img src="assets/images/placeholder.jpg" alt="<?php echo htmlspecialchars($name); ?>" class="product-image">
                 <h4 class="product-name"><?php echo htmlspecialchars($name); ?></h4>
@@ -45,6 +61,8 @@
             </div>
         <?php endforeach; ?>
     </section>
+    <!-- End of the Product Grid -->
 
 </div>
 </body>
+</html>
