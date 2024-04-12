@@ -43,8 +43,8 @@ if (DEBUG) {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="/assets/js/ajax-handler.js?v=1.0"></script>
 
-<!-- Set the showModalAfterSeconds variable to the value of the SHOW_MODAL_AFTER_SECONDS constant -->
-<script> var showModalAfterSeconds = <?php echo SHOW_MODAL_AFTER_SECONDS; ?>; </script>
+<!-- Set the showModalAfterSeconds variable to the value of the CheckFrequency constant -->
+<script> var showModalAfterSeconds = <?php echo CheckFrequency; ?>; </script>
 <!-- Include the modal script -->
 <script src="/assets/js/modal.js?v=1.0"></script>
 

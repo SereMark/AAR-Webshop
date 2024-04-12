@@ -10,5 +10,5 @@ define('DB_SID', 'xe');
 define('DEBUG', true);
 
 // Connection check frequency in seconds
-define('SHOW_MODAL_AFTER_SECONDS', 99999);
+define('CheckFrequency', 99999);
 ?>
