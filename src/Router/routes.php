@@ -33,6 +33,12 @@ $router->get('/api/profile', function () {
     require __DIR__ . '/../Views/layout.php';
 });
 
+$router->get('/api/cart', function () {
+    $pageTitle = "Cart";
+    $content = __DIR__ . '/../Views/cart.php';
+    require __DIR__ . '/../Views/layout.php';
+});
+
 $router->get('/api/logout', function() {
     $controller = new UserController();
     $controller->logout();
