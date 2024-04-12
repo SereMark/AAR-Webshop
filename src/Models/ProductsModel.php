@@ -1,26 +1,44 @@
 <?php
-// Include the database helper file
 require_once __DIR__ . '/../Helpers/db.php';
 
-// Define the ProductsModel class
+/**
+ * Class ProductsModel
+ * Handles product-related database operations
+ */
 class ProductsModel {
-    // Define a method to fetch all products from the database
+    /**
+     * Fetch all products from the database
+     * @return array - Array of products
+     */
     public function fetchProducts() {
-        // Get a connection to the database
         $conn = getDatabaseConnection();
-        // Prepare a SQL statement to select all records from the products table
         $stid = oci_parse($conn, 'SELECT * FROM products');
-        // Execute the SQL statement
         oci_execute($stid);
-        // Initialize an empty array to hold the products
         $products = [];
-        // Fetch all rows from the result of the SQL statement into the products array
         oci_fetch_all($stid, $products, 0, -1, OCI_FETCHSTATEMENT_BY_ROW);
-        // Free the resources associated with the SQL statement
         oci_free_statement($stid);
-        // Close the connection to the database
         oci_close($conn);
-        // Return the products
         return $products;
+    }
+
+    /**
+     * Fetch a single product by its ID
+     * @return array - Product details
+     */
+    public function fetchProductById($productId) {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT * FROM products WHERE productid = :id';
+        $stid = oci_parse($conn, $sql);
+        oci_bind_by_name($stid, ':id', $productId, -1, SQLT_INT);
+        oci_execute($stid);
+        $product = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_LOBS);
+
+        if (is_object($product['DESCRIPTION'])) {
+            $product['DESCRIPTION'] = $product['DESCRIPTION']->load();
+        }
+
+        oci_free_statement($stid);
+        oci_close($conn);
+        return $product;
     }
 }

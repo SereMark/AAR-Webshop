@@ -7,6 +7,7 @@ const messages = {
     'logout': 'Logout successful!',
     'upload': 'Upload successful!',
     'error': 'An error has occurred!',
+    'cart': 'Item added to cart!',
 };
 
 // Add event listeners when the document is ready

@@ -8,7 +8,7 @@ if (session_status() == PHP_SESSION_NONE) {
  * Function to check if the user is authenticated
  *
  * If the user is authenticated (i.e., the 'userid' session variable is set),
- * the user is redirected to the profile page.
+ * the user is redirected to the home page.
  */
 function checkIfAuthenticated() {
     // Check if the 'userid' session variable is set

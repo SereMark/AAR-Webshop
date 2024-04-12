@@ -47,18 +47,21 @@
 
         // Loop through each product
         foreach ($products as $product):
-            // Get the name, price, and description of the product
+            // Get the product ID, name, price, and description
+            $productId = $product['PRODUCTID'] ?? 0; // Ensure there is a unique ID for each product
             $name = $product['NAME'] ?? 'Name not set';
             $price = number_format((float)($product['PRICE'] ?? 0), 2, '.', '');
             $description = $product['DESCRIPTION'] ?? 'No description provided.';
         ?>
-            <!-- Display the product information -->
-            <div class="product-card">
-                <img src="assets/images/placeholder.jpg" alt="<?php echo htmlspecialchars($name); ?>" class="product-image">
-                <h4 class="product-name"><?php echo htmlspecialchars($name); ?></h4>
-                <p class="product-price">$<?php echo htmlspecialchars($price); ?></p>
-                <p class="product-description"><?php echo htmlspecialchars($description); ?></p>
-            </div>
+            <!-- Anchor tag added around the product card -->
+            <a href="/api/product?id=<?php echo htmlspecialchars($productId); ?>" class="product-link">
+                <div class="product-card">
+                    <img src="assets/images/placeholder.jpg" alt="<?php echo htmlspecialchars($name); ?>" class="product-image">
+                    <h4 class="product-name"><?php echo htmlspecialchars($name); ?></h4>
+                    <p class="product-price">$<?php echo htmlspecialchars($price); ?></p>
+                    <p class="product-description"><?php echo htmlspecialchars($description); ?></p>
+                </div>
+            </a>
         <?php endforeach; ?>
     </section>
     <!-- End of the Product Grid -->

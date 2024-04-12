@@ -1,77 +1,75 @@
 <?php
-// Include the UsersModel class
-require_once __DIR__ . '/../Models/UsersModel.php';
-
-// Define the UserController class
 class UserController {
-    // Define a method to log out the user
-    public function logout() {
-        // Start a new session only if one hasn't been started already
+    private $usersModel;
+
+    /**
+     * Constructor initializes the UsersModel.
+     */
+    public function __construct() {
+        require_once __DIR__ . '/../Models/UsersModel.php';
+        $this->usersModel = new UsersModel();
+    }
+
+    /**
+     * Displays the user's profile or redirects if not logged in.
+     */
+    public function showProfile() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
+        }        $userId = $_SESSION['userid'] ?? null;
+        if (!$userId) {
+            header('Location: /api/login');
+            exit;
         }
 
-        // Unset all of the session variables
-        $_SESSION = array();
-
-        // If it's desired to kill the session, also delete the session cookie
-        if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(session_name(), '', time() - 42000,
-                $params["path"], $params["domain"],
-                $params["secure"], $params["httponly"]
-            );
+        $user = $this->usersModel->getUserDetailsById($userId);
+        if (!$user) {
+            header('Location: /');
+            exit;
         }
 
-        // Finally, destroy the session
+        $content = __DIR__ . '/../Views/profile.php';
+        require __DIR__ . '/../Views/layout.php';
+    }
+
+    /**
+     * Logs out the user and redirects to the homepage.
+     */
+    public function logout() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }        $_SESSION = array();
         session_destroy();
-
-        // Redirect to the home page with a success message
         header('Location: /?info=logout');
         exit;
     }
 
-    // Define a method to delete the user's profile
+    /**
+     * Deletes the user's profile based on their session ID and redirects or displays an error.
+     */
     public function deleteProfile() {
-        // Start a new session only if one hasn't been started already
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
-        }
-        
-        // Get the user ID from the session
-        $userId = $_SESSION['userid'] ?? null;
-    
-        // If no user is logged in, redirect to the home page
-        if ($userId === null) {
-            header('Location: /?info=error');
+        }        $userId = $_SESSION['userid'] ?? null;
+
+        if (!$userId) {
+            header('Location: /api/login');
             exit;
         }
-    
-        // Create an instance of UsersModel to access the database
-        $userModel = new UsersModel();
-        // Get the user's details from the database
-        $userDetails = $userModel->getUserDetailsById($userId);
-    
-        // If the user's details could not be retrieved, display an error message
-        if ($userDetails === false) {
-            echo "Unable to retrieve user details.";
+
+        $userDetails = $this->usersModel->getUserDetailsById($userId);
+        if (!$userDetails) {
+            echo "Failed to retrieve user details.";
             exit;
         }
-    
-        // Get the user's email
-        $email = $userDetails['EMAIL'];
-        
-        // Delete the user from the database
-        $deleteSuccess = $userModel->deleteUserByEmail($email);
-        
-        // If the user was deleted successfully, log out the user and redirect to the home page
-        if ($deleteSuccess) {
-            session_destroy();
+
+        if ($this->usersModel->deleteUserByEmail($userDetails['EMAIL'])) {
+            $this->logout();
             header('Location: /?info=delete');
+            exit;
         } else {
-            // If the delete operation failed, display an error message
-            echo "An error occurred while deleting the account.";
+            echo "Failed to delete the profile.";
+            exit;
         }
-        exit;
-    }
+    }    
 }

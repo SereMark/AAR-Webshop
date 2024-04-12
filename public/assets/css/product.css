@@ -1,0 +1,155 @@
+.product-header {
+    background-color: #222;
+    color: #fff;
+    padding: 20px 20px;
+    text-align: center;
+    font-size: 2em;
+    border-bottom: 1px solid #444;
+}
+
+.product-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.product-image-gallery {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.product-image {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-details {
+    flex: 2;
+    padding: 0 20px;
+    font-size: 18px;
+}
+
+.price {
+    font-size: 24px;
+    color: #4CAF50;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.favorite-button {
+    background-color: #ff5252;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    display: block;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+.favorite-button:hover {
+    background-color: #ff1744;
+}
+
+.add-to-cart-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+.add-to-cart-button:hover {
+    background-color: #43A047;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reviews-section {
+    background: #252525;
+    padding: 20px;
+    margin: 20px auto;
+    width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 5px 7px rgba(0,0,0,0.2);
+}
+
+.review {
+    padding: 15px;
+    border-bottom: 1px solid #333;
+    transition: background-color 0.2s;
+}
+
+.review:hover {
+    background-color: #2a2a2a;
+}
+
+.review:last-child {
+    border-bottom: none;
+}
+
+.review-text {
+    font-size: 16px;
+    color: #ccc;
+}
+
+.review-rating {
+    color: #ffd740;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.review-form {
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    background: #222;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.3);
+}
+
+.review-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-form label {
+    margin: 10px 0 5px;
+    color: #bbb;
+    font-size: 16px;
+}
+
+.review-form textarea,
+.review-form select,
+.review-form button {
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #333;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.review-form button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.review-form button:hover {
+    background-color: #43A047;
+}
