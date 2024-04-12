@@ -10,9 +10,9 @@
             <div class="sidebar-content">
                 <h3>My Profile</h3>
                 <ul class="sidebar-nav">
-                    <li><a href="/edit-profile">Edit Profile</a></li>
-                    <li><a href="/change-password">Change Password</a></li>
-                    <li><a href="/privacy-settings">Privacy Settings</a></li>
+                    <li><a href="/edit-profile">Edit Profile [WIP]</a></li>
+                    <li><a href="/change-password">Change Password [WIP]</a></li>
+                    <li><a href="/privacy-settings">Privacy Settings [WIP]</a></li>
                     <li><a href="/api/logout">Logout</a></li>
                     <li><a href="/api/delete-profile" class="danger-link">Delete Profile</a></li>
                 </ul>
@@ -29,9 +29,9 @@
             </section>
             <section class="profile-actions">
                 <h2>Quick Links</h2>
-                <a href="/order-history" class="action-link">Order History</a>
-                <a href="/my-products" class="action-link">My Products</a>
-                <a href="/favorites" class="action-link">Favorites</a>
+                <a href="/order-history" class="action-link">Order History [WIP]</a>
+                <a href="/my-products" class="action-link">My Products [WIP]</a>
+                <a href="/favorites" class="action-link">Favorites [WIP]</a>
             </section>
         </main>
     </div>
