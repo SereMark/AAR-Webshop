@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="/assets/css/profile.css">
+    <script src="/assets/js/profile.js"></script>
 </head>
 <body>
     <div class="profile-wrapper">

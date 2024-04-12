@@ -7,35 +7,34 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0,0,0,0.7);
 }
 
 .modal-content {
   position: relative;
-  background-color: #333;
-  margin: 5% auto;
+  background-color: #222;
+  margin: 10% auto;
   padding: 20px;
-  border-radius: 10px;
-  border: none;
-  width: 80%; 
-  max-width: 500px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  border-radius: 12px;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.7);
   animation-name: animatetop;
   animation-duration: 0.4s;
-  color: #fff;
+  color: #eee;
 }
 
 .close {
-  color: #aaa;
+  color: #ccc;
   position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 24px;
+  top: 12px;
+  right: 23px;
+  font-size: 28px;
+  cursor: pointer;
 }
 
-.close:hover, .close:focus {
-  color: #f44336;
-  text-decoration: none;
+.close:hover, .close:focus{
+  color: #ff4444;
   cursor: pointer;
 }
 
@@ -44,25 +43,39 @@
   text-align: center;
 }
 
-#continueBtn, #retryBtn {
+.button {
   padding: 10px 20px;
-  margin: 10px 5px;
+  margin-top: 20px;
   border-radius: 5px;
   border: none;
+  font-size: 16px;
   font-weight: bold;
-  transition: opacity 0.3s;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  box-sizing: border-box;
+  max-width: calc(100% - 40px);
 }
 
-#continueBtn {
+.confirm {
   background-color: #4CAF50;
+  color: white;
+  display: block;
 }
 
-#retryBtn {
+.confirm:hover {
+  background-color: #45a049;
+}
+
+.cancel {
   background-color: #f44336;
+  color: white;
+  display: block;
+  margin-top: -38px;
+  float: right;
 }
 
-#continueBtn:hover, #retryBtn:hover {
-  opacity: 0.8;
+.cancel:hover {
+  background-color: #d7382a;
 }
 
 @keyframes animatetop {
@@ -73,5 +86,12 @@
 @media (max-width: 768px) {
   .modal-content {
       width: 90%;
+      padding: 20px;
+  }
+
+  .button {
+    padding: 10px;
+    margin-top: 10px;
+    max-width: calc(100% - 20px);
   }
 }

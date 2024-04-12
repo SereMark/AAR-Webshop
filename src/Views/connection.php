@@ -6,7 +6,7 @@
         <!-- Placeholder for status icon  -->
         <div id="connectionStatusIcon"></div>
         <!-- Buttons (hidden by default, shown based on connection outcome) -->
-        <button id="continueBtn" style="display:none;">Continue</button>
-        <button id="retryBtn" style="display:none;">Retry</button>
+        <button id="continueBtn" style="display:none;" class="button confirm">Continue</button>
+        <button id="retryBtn" style="display:none;" class="button cancel">Retry</button>
     </div>
 </div>
