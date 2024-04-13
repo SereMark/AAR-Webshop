@@ -74,9 +74,22 @@
 }
 
 .review {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 15px;
     border-bottom: 1px solid #333;
     transition: background-color 0.2s;
+}
+
+.review-content {
+    flex-grow: 1;
+}
+
+.review-controls {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .review:hover {
@@ -189,4 +202,19 @@
 
 .sort-dropdown:focus option {
     font-size: 18px;
+}
+
+.delete-review-button {
+    background-color: #ff4c4c;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.delete-review-button:hover {
+    background-color: #e04343;
 }

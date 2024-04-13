@@ -80,6 +80,12 @@ $router->post('/api/submit-review', function () {
     $controller->submitReview();
 });
 
+// Define a POST route for deleting a review
+$router->post('/api/delete-review', function () {
+    $controller = new ReviewsController();
+    $controller->deleteReview();
+});
+
 // Define a GET route for checking the database connection
 $router->get('/api/check-db-connection', function () {
     $controller = new SystemController();

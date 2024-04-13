@@ -71,11 +71,22 @@ if ($product) {
         foreach ($reviews as $review) {
             $user = $usersModel->getUserDetailsById($review['USERID']);
             $username = htmlspecialchars($user['NAME'] ?? 'Anonymous');
-        ?>
+            $canDelete = isset($_SESSION['userid']) && $_SESSION['userid'] == $review['USERID'];
+            ?>
             <div class="review">
-                <strong><?= $username ?></strong>
-                <p class="review-text"><?= htmlspecialchars($review['TEXT']) ?></p>
-                <p class="review-rating">Rating: <?= htmlspecialchars($review['RATING']) ?> stars</p>
+                <div class="review-content">
+                    <strong><?= $username ?></strong>
+                    <p class="review-text"><?= htmlspecialchars($review['TEXT']) ?></p>
+                    <p class="review-rating">Rating: <?= htmlspecialchars($review['RATING']) ?> stars</p>
+                </div>
+                <?php if ($canDelete): ?>
+                    <div class="review-controls">
+                        <form action="/api/delete-review" method="post">
+                            <input type="hidden" name="reviewid" value="<?= $review['REVIEWID'] ?>">
+                            <button type="submit" class="delete-review-button">Delete Review</button>
+                        </form>
+                    </div>
+                <?php endif; ?>
             </div>
         <?php } ?>
         <div class="review-form">

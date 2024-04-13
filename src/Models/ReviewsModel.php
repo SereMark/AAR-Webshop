@@ -30,6 +30,30 @@ class ReviewsModel {
     }
 
     /**
+     * Fetch a review by its ID
+     * @param int $reviewId
+     * @return mixed - Review data or false if not found
+     */
+    public function getReviewById($reviewId) {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT * FROM reviews WHERE reviewid = :reviewid';
+        $stmt = oci_parse($conn, $sql);
+
+        oci_bind_by_name($stmt, ':reviewid', $reviewId, -1, SQLT_INT);
+
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            return false;
+        }
+
+        $review = oci_fetch_array($stmt, OCI_ASSOC + OCI_RETURN_NULLS);
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $review;
+    }
+
+    /**
      * Add a new review
      * @return bool - Success status
      */
@@ -53,5 +77,28 @@ class ReviewsModel {
         oci_free_statement($stmt);
         oci_close($conn);
         return true;
-    }    
+    }
+
+    /**
+     * Deletes a review by its ID
+     * @param int $reviewId - ID of the review
+     * @return bool - True if the review was deleted successfully, false otherwise
+     */
+    public function deleteReview($reviewId) {
+        $conn = getDatabaseConnection();
+        $sql = 'DELETE FROM reviews WHERE reviewid = :reviewid';
+        $stmt = oci_parse($conn, $sql);
+
+        oci_bind_by_name($stmt, ':reviewid', $reviewId, -1, SQLT_INT);
+
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            return false;
+        }
+
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return true;
+    }
 }
