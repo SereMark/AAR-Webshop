@@ -50,6 +50,12 @@ $router->post('/api/cart', function () {
     $controller->addItemToCart();
 });
 
+// Define a POST route for deleting an item from the cart
+$router->post('/api/cart/delete', function() {
+    $controller = new CartController();
+    $controller->deleteItemFromCart();
+});
+
 // Define a GET route for the logout action
 $router->get('/api/logout', function() {
     $controller = new UserController();

@@ -12,10 +12,14 @@
                 <ul class="cart-items">
                     <?php foreach ($cartItems as $item): ?>
                         <li class="cart-item">
-                            <article class="item-details">
+                            <div class="item-details">
                                 <h2 class="item-name"><?= htmlspecialchars($item['productname']) ?></h2>
-                                <p class="item-price">Price: <?= htmlspecialchars($item['price']) ?></p>
-                            </article>
+                                <p class="item-price">Price: <?= htmlspecialchars($item['price']) ?>$</p>
+                            </div>
+                            <form class="delete-form" action="/api/cart/delete" method="post">
+                                <input type="hidden" name="cartitemid" value="<?= $item['cartitemid'] ?>">
+                                <button type="submit" class="delete-btn">Remove</button>
+                            </form>
                         </li>
                     <?php endforeach; ?>
                 </ul>

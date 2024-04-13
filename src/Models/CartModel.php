@@ -74,4 +74,17 @@ class CartModel {
 
         return oci_execute($stmt);
     }
+
+    /**
+     * Removes an item from the cart
+     * @param int $cartItemId - ID of the cart item
+     * @return bool - True if the item was removed successfully, false otherwise
+     */
+    public function removeItemFromCart($cartItemId) {
+        $sql = "DELETE FROM cartitems WHERE cartitemid = :cartitemid";
+        $stmt = oci_parse($this->db, $sql);
+        oci_bind_by_name($stmt, ':cartitemid', $cartItemId);
+
+        return oci_execute($stmt);
+    }
 }

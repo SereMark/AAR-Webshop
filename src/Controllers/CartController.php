@@ -59,7 +59,39 @@ class CartController {
         $success = $this->cartModel->addItemToCart($userId, $productId);
 
         // Redirect to the cart page after adding the item
-        header("Location: /api/cart");
+        header("Location: /api/cart?info=cartAdd");
+        exit;
+    }
+
+    /**
+     * Deletes an item from the cart for the logged-in user.
+     */
+    public function deleteItemFromCart() {
+        // Start the session to ensure access to session variables
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Get the user ID from the session
+        $userId = $_SESSION['userid'] ?? null;
+
+        // Redirect to the home page if the user is not logged in
+        if (!$userId) {
+            header("Location: /");
+            exit;
+        }
+
+        // Get the cart item ID from the POST data
+        $cartItemId = $_POST['cartitemid'] ?? null;
+
+        // If the cart item ID is set and the item is successfully removed from the cart
+        if ($cartItemId && $this->cartModel->removeItemFromCart($cartItemId)) {
+            // Redirect to the cart page with a success message
+            header("Location: /api/cart?info=cartRemove");
+        } else {
+            // Redirect to the cart page with an error message
+            header("Location: /api/cart?info=error");
+        }
         exit;
     }
 }
