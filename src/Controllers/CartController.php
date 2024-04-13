@@ -30,6 +30,9 @@ class CartController {
         // Retrieve the cart items for the user from the model
         $cartItems = $this->cartModel->getCartItemsByUserId($userId);
 
+        // Set the page title for the cart view
+        $pageTitle = 'Cart';
+
         // Pass the cart items to the cart view for rendering
         $content = __DIR__ . '/../Views/cart.php';
         require __DIR__ . '/../Views/layout.php';

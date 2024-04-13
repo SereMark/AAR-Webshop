@@ -27,7 +27,8 @@ class UserController {
             header('Location: /');
             exit;
         }
-
+        
+        $pageTitle = 'Profile';
         $content = __DIR__ . '/../Views/profile.php';
         require __DIR__ . '/../Views/layout.php';
     }

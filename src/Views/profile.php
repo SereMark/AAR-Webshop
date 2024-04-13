@@ -18,7 +18,6 @@
                     <!-- Each list item is a link to a profile action -->
                     <li><a href="/edit-profile">Edit Profile [WIP]</a></li>
                     <li><a href="/change-password">Change Password [WIP]</a></li>
-                    <li><a href="/privacy-settings">Privacy Settings [WIP]</a></li>
                     <li><a href="/api/logout">Logout</a></li>
                     <li><a href="/api/delete-profile" class="danger-link">Delete Profile</a></li>
                 </ul>

@@ -20,6 +20,8 @@ class ProductsController {
      */
     public function index() {
         $products = $this->productsModel->fetchProducts();
+        
+        $pageTitle = 'Products';
         $content = __DIR__ . '/../Views/products.php';
         require __DIR__ . '/../Views/layout.php';
     }
@@ -42,7 +44,8 @@ class ProductsController {
             $this->productNotFound();
             return;
         }
-    
+
+        $pageTitle = $product['NAME'];
         $content = __DIR__ . '/../Views/product.php';
         require __DIR__ . '/../Views/layout.php';
     }
