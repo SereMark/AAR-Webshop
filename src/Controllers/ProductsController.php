@@ -33,14 +33,16 @@ class ProductsController {
             $this->productNotFound();
             return;
         }
-
+        
         $productId = (int)$_GET['id'];
+        $sortOrder = $_GET['sort'] ?? 'desc';
+    
         $product = $this->productsModel->fetchProductById($productId);
         if (!$product) {
             $this->productNotFound();
             return;
         }
-
+    
         $content = __DIR__ . '/../Views/product.php';
         require __DIR__ . '/../Views/layout.php';
     }

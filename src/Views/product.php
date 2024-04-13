@@ -2,10 +2,12 @@
 // Include the necessary models
 require_once __DIR__ . '/../Models/ProductsModel.php';
 require_once __DIR__ . '/../Models/ReviewsModel.php';
+require_once __DIR__ . '/../Models/UsersModel.php';
 
 // Create instances of the models
 $productsModel = new ProductsModel();
 $reviewsModel = new ReviewsModel();
+$usersModel = new UsersModel();
 
 // Get the product ID from the URL
 $productId = $_GET['id'] ?? null;
@@ -51,8 +53,27 @@ if ($product) {
 
     <div class="reviews-section">
         <h2>Customer Reviews</h2>
-        <?php foreach ($reviews as $review) { ?>
+        <div class="sort-container">
+            <label for="sort">Sort by:</label>
+            <form method="GET">
+                <input type="hidden" name="id" value="<?= $productId ?>">
+                <input type="hidden" name="nocache" value="<?= time() ?>">
+                <select name="sort" id="sort" onchange="this.form.submit()" class="sort-dropdown">
+                    <option value="desc" <?= isset($_GET['sort']) && $_GET['sort'] === 'desc' ? 'selected' : '' ?>>Highest Rated</option>
+                    <option value="asc" <?= isset($_GET['sort']) && $_GET['sort'] === 'asc' ? 'selected' : '' ?>>Lowest Rated</option>
+                </select>
+            </form>
+        </div>
+
+        <?php
+        $sortOrder = $_GET['sort'] ?? 'desc';
+        $reviews = $reviewsModel->getReviewsByProductId($productId, $sortOrder);
+        foreach ($reviews as $review) {
+            $user = $usersModel->getUserDetailsById($review['USERID']);
+            $username = htmlspecialchars($user['NAME'] ?? 'Anonymous');
+        ?>
             <div class="review">
+                <strong><?= $username ?></strong>
                 <p class="review-text"><?= htmlspecialchars($review['TEXT']) ?></p>
                 <p class="review-rating">Rating: <?= htmlspecialchars($review['RATING']) ?> stars</p>
             </div>

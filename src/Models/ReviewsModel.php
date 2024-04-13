@@ -7,21 +7,20 @@ require_once __DIR__ . '/../Helpers/db.php';
  */
 class ReviewsModel {
     /**
-     * Fetch all reviews for a specific product by its ID
+     * Fetch all reviews for a specific product by its ID and sort by rating
+     * @param int $productId
+     * @param string $order ('asc' for ascending, 'desc' for descending)
      * @return array - Array of reviews
      */
-    public function getReviewsByProductId($productId) {
+    public function getReviewsByProductId($productId, $order = 'desc') {
         $conn = getDatabaseConnection();
-        $sql = 'SELECT * FROM reviews WHERE productid = :id ORDER BY reviewid DESC';
+        $sql = 'SELECT * FROM reviews WHERE productid = :id ORDER BY rating ' . ($order === 'asc' ? 'ASC' : 'DESC') . ', reviewid DESC';
         $stid = oci_parse($conn, $sql);
         oci_bind_by_name($stid, ':id', $productId, -1, SQLT_INT);
         oci_execute($stid);
 
         $reviews = [];
-        while (($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_LOBS)) != false) {
-            if (is_object($row['TEXT'])) {
-                $row['TEXT'] = $row['TEXT']->load();
-            }
+        while (($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_LOBS)) !== false) {
             $reviews[] = $row;
         }
 
