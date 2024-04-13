@@ -38,7 +38,9 @@ class UserController {
     public function logout() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
-        }        $_SESSION = array();
+        }        
+        
+        $_SESSION = array();
         session_destroy();
         header('Location: /?info=logout');
         exit;
@@ -53,7 +55,7 @@ class UserController {
         }        $userId = $_SESSION['userid'] ?? null;
 
         if (!$userId) {
-            header('Location: /api/login');
+            header('Location: /');
             exit;
         }
 
@@ -64,7 +66,12 @@ class UserController {
         }
 
         if ($this->usersModel->deleteUserByEmail($userDetails['EMAIL'])) {
-            $this->logout();
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }        
+            
+            $_SESSION = array();
+            session_destroy();
             header('Location: /?info=delete');
             exit;
         } else {
