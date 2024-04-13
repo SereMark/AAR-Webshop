@@ -44,7 +44,6 @@
                 <!-- Each link is a quick action for the user -->
                 <a href="/order-history" class="action-link">Order History [WIP]</a>
                 <a href="/my-products" class="action-link">My Products [WIP]</a>
-                <a href="/favorites" class="action-link">Favorites [WIP]</a>
             </section>
         </main>
     </div>

@@ -42,23 +42,6 @@
     margin-top: 10px;
 }
 
-.favorite-button {
-    background-color: #ff5252;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-    display: block;
-    margin-top: 15px;
-    transition: background-color 0.3s;
-}
-
-.favorite-button:hover {
-    background-color: #ff1744;
-}
-
 .add-to-cart-button {
     background-color: #4CAF50;
     color: white;

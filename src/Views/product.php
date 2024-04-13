@@ -41,7 +41,6 @@ if ($product) {
             <p><?= $productDescription ?></p>
             <p class="price">Price: $<?= $productPrice ?></p>
             <div class="button-container">
-                <button class="favorite-button">♥ Add to Favorites</button>
                 <form action="/api/cart" method="post">
                     <input type="hidden" name="productid" value="<?= $productId ?>">
                     <button type="submit" class="add-to-cart-button">Add to Cart</button>
