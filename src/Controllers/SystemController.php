@@ -7,12 +7,9 @@ class SystemController {
         require_once __DIR__ . '/../Helpers/db.php';
 
         header('Content-Type: application/json');  // Ensure the content type is set to JSON
-
-        // Get a database connection using a helper function
-        $connection = getDatabaseConnection();
-
+        
         // Check if the connection is successful
-        if ($connection) {
+        if (isDatabaseConnected()) {
             echo json_encode(['connected' => true]);
         } else {
             echo json_encode(['connected' => false]);
