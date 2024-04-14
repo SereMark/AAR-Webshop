@@ -67,3 +67,22 @@
     background-color: #f03e3e;
     transform: scale(1.05);
 }
+
+.checkout-container {
+    text-align: right;
+    padding: 20px 0;
+}
+
+.checkout-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.checkout-btn:hover {
+    background-color: #218838;
+}

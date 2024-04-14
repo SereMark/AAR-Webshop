@@ -56,6 +56,12 @@ $router->post('/api/cart/delete', function() {
     $controller->deleteItemFromCart();
 });
 
+// Define a POST route for the checkout action
+$router->post('/api/checkout', function () {
+    $controller = new CheckoutController();
+    $controller->processCheckout();
+});
+
 // Define a GET route for the logout action
 $router->get('/api/logout', function() {
     $controller = new UserController();

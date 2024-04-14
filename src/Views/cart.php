@@ -23,6 +23,9 @@
                         </li>
                     <?php endforeach; ?>
                 </ul>
+                <form action="/api/checkout" method="post", class="checkout-container">
+                    <button type="submit" class="checkout-btn">Checkout</button>
+                </form>
             <?php endif; ?>
         </section>
     </main>
