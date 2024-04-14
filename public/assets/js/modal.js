@@ -9,6 +9,7 @@ const messages = {
     'error': 'An error has occurred!',
     'cartAdd': 'Item added to cart!',
     'cartRemove': 'Item removed from cart!',
+    'productAdd': 'Product added successfully!'
 };
 
 // Add event listeners when the document is ready

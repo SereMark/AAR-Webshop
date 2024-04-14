@@ -47,7 +47,7 @@
         ?>
             <button onclick="showModal('productAddModal')" class="btn btn-primary">Add a New Product!</button>
         <?php else: ?>
-            <button disabled class="btn btn-primary">Login to Add a New Product</button>
+            <button disabled class="btn btn-primary">Login to Add a New Product!</button>
         <?php endif; ?>
     </div>
 

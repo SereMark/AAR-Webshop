@@ -61,7 +61,7 @@ class ProductsController {
         ];
 
         if ($this->productsModel->addProduct($productData)) {
-            header('Location: /');
+            header("Location: /?info=productAdd");
         } else {
             header("HTTP/1.0 404 Not Found");
             require __DIR__ . '/../Views/notfound.php';
