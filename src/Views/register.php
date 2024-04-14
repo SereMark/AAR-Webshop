@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Link to the authentication CSS file -->
-    <link rel="stylesheet" href="/assets/css/auth.css">
+    <!-- Link to the form CSS file -->
+    <link rel="stylesheet" href="/assets/css/form.css">
 </head>
 <body>
 <div id="registerModal" class="modal">
@@ -11,7 +11,7 @@
         <!-- Close button for the modal -->
         <span class="close">&times;</span>
         <!-- Start of the registration form -->
-        <div class="auth-form">
+        <div class="form">
             <!-- Form for registration with method POST -->
             <form method="post" action="/api/register" class="ajax-form">
                 <!-- Input fields for username, email, phone number, password, and password confirmation -->

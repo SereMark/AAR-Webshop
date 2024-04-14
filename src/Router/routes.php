@@ -8,22 +8,10 @@ $router->get('/', function () {
     $controller->index();
 });
 
-// Define a GET route for the login page
-$router->get('/api/login', function () {
-    $controller = new LoginController();
-    $controller->showLoginForm();
-});
-
 // Define a POST route for the login action
 $router->post('/api/login', function () {
     $controller = new LoginController();
     $controller->login();
-});
-
-// Define a GET route for the registration page
-$router->get('/api/register', function () {
-    $controller = new RegistrationController();
-    $controller->showRegistrationForm();
 });
 
 // Define a POST route for the registration action
@@ -78,6 +66,12 @@ $router->get('/api/delete-profile', function() {
 $router->get('/api/product', function () {
     $controller = new ProductsController();
     $controller->showProductById();
+});
+
+// Handle adding new product
+$router->post('/api/add-product', function () {
+    $controller = new ProductsController();
+    $controller->addProduct();
 });
 
 // Define a POST route for submitting a review

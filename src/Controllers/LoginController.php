@@ -14,15 +14,7 @@ class LoginController {
         require_once __DIR__ . '/../Models/UsersModel.php';
         $this->usersModel = new UsersModel();
     }
-
-    /**
-     * Show the login form
-     */
-    public function showLoginForm() {
-        $content = __DIR__ . '/../Views/login.php'; 
-        require __DIR__ . '/../Views/layout.php';
-    }
-
+    
     /**
      * Handle login request
      * Validates input and starts user session if credentials are valid

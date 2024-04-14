@@ -1,13 +1,15 @@
-.auth-form form {
+.form form {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.auth-form input[type="email"], 
-.auth-form input[type="password"], 
-.auth-form input[type="text"], 
-.auth-form input[type="tel"] {
+.form input[type="email"], 
+.form input[type="password"], 
+.form input[type="text"], 
+.form input[type="tel"],
+.form input[type="number"],
+.form textarea  {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
@@ -19,7 +21,12 @@
     box-sizing: border-box;
 }
 
-.auth-form button[type="submit"] {
+.form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.form button[type="submit"] {
     width: 100%;
     background-color: #282;
     color: white;
@@ -30,11 +37,11 @@
     cursor: pointer;
 }
 
-.auth-form button[type="submit"]:hover {
+.form button[type="submit"]:hover {
     background-color: #393;
 }
 
-.auth-form form {
+.form form {
     border-radius: 5px;
     background-color: rgba(60, 60, 60, 0.7);
     padding: 20px;

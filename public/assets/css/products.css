@@ -90,6 +90,19 @@
     margin-bottom: 10px;
   }
     
+  .product-container {
+    position: relative;
+    padding-top: 50px;
+    width: 100%;
+}
+
+.add-product-button {
+    position: absolute;
+    top: -7px;
+    right: 0;
+    z-index: 10;
+}
+
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .main {

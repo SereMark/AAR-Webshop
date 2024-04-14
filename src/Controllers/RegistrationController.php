@@ -16,14 +16,6 @@ class RegistrationController {
     }
 
     /**
-     * Show the registration form
-     */
-    public function showRegistrationForm() {
-        $content = __DIR__ . '/../Views/register.php'; 
-        require __DIR__ . '/../Views/layout.php';
-    }
-
-    /**
      * Handle registration request
      * Validates input and creates a new user if input is valid
      */

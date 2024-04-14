@@ -41,4 +41,23 @@ class ProductsModel {
         oci_close($conn);
         return $product;
     }
+
+    /**
+     * Add a new product to the database
+     * @param array $productData - Data of the product to add
+     * @return bool - True if successful, false otherwise
+     */
+    public function addProduct($productData) {
+        $conn = getDatabaseConnection();
+        $sql = 'INSERT INTO products (name, price, description) VALUES (:name, :price, :description)';
+        $stid = oci_parse($conn, $sql);
+        oci_bind_by_name($stid, ':name', $productData['name']);
+        oci_bind_by_name($stid, ':price', $productData['price']);
+        oci_bind_by_name($stid, ':description', $productData['description']);
+
+        $result = oci_execute($stid);
+        oci_free_statement($stid);
+        oci_close($conn);
+        return $result;
+    }
 }

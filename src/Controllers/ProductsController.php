@@ -51,6 +51,24 @@ class ProductsController {
     }
 
     /**
+     * Handle the new product form submission
+     */
+    public function addProduct() {
+        $productData = [
+            'name' => $_POST['name'],
+            'price' => $_POST['price'],
+            'description' => $_POST['description']
+        ];
+
+        if ($this->productsModel->addProduct($productData)) {
+            header('Location: /');
+        } else {
+            header("HTTP/1.0 404 Not Found");
+            require __DIR__ . '/../Views/notfound.php';
+        }
+    }
+
+    /**
      * Show a 404 error page when a product is not found
      */
     private function productNotFound() {

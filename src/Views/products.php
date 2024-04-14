@@ -1,3 +1,6 @@
+<!-- Include the addProduct modal -->
+<?php include __DIR__ . '/addProduct.php'; ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,6 +37,20 @@
     </aside>
     <!-- End of the Sidebar/Aside -->
 
+    <!-- Start of the Product Container -->
+    <div class="product-container">
+    <!-- Button to add new product -->
+    <div class="add-product-button">
+        <?php
+        // Check if the user is logged in
+        if (isset($_SESSION['userid'])):
+        ?>
+            <button onclick="showModal('productAddModal')" class="btn btn-primary">Add a New Product!</button>
+        <?php else: ?>
+            <button disabled class="btn btn-primary">Login to Add a New Product</button>
+        <?php endif; ?>
+    </div>
+
     <!-- Start of the Product Grid -->
     <section class="product-grid">
         <?php
@@ -65,7 +82,7 @@
         <?php endforeach; ?>
     </section>
     <!-- End of the Product Grid -->
-
+    </div>
 </div>
 </body>
 </html>

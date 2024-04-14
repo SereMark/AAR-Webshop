@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Link to the authentication CSS file -->
-    <link rel="stylesheet" href="/assets/css/auth.css">
+    <!-- Link to the form CSS file -->
+    <link rel="stylesheet" href="/assets/css/form.css">
 </head>
 <body>
 <div id="loginModal" class="modal">
@@ -10,7 +10,7 @@
   <div class="modal-content">
     <!-- Close button for the modal -->
     <span class="close">&times;</span>
-    <div class="auth-form">
+    <div class="form">
         <!-- Form for login with method POST -->
         <form method="post" action="/api/login" class="ajax-form">
             <!-- Input field for email -->
