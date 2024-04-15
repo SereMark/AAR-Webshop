@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="/assets/css/profile.css">
     <!-- Link to the profile page's JavaScript file -->
     <script src="/assets/js/profile.js"></script>
+    <!-- Link to the Font Awesome CSS file for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <!-- Wrapper for the profile page -->
@@ -16,8 +18,8 @@
                 <!-- Navigation list for profile actions -->
                 <ul class="sidebar-nav">
                     <!-- Each list item is a link to a profile action -->
-                    <li><a href="/edit-profile">Edit Profile [WIP]</a></li>
-                    <li><a href="/change-password">Change Password [WIP]</a></li>
+                    <li><a href="/api/edit-profile">Edit Profile [WIP]</a></li>
+                    <li><a href="/api/change-password">Change Password [WIP]</a></li>
                     <li><a href="/api/logout">Logout</a></li>
                     <li><a href="/api/delete-profile" class="danger-link">Delete Profile</a></li>
                 </ul>
@@ -31,7 +33,24 @@
                 <!-- Welcome message, displaying the user's name if available, otherwise 'Guest' -->
                 <h1>Welcome, <?php echo htmlspecialchars($_SESSION['name'] ?? 'Guest'); ?>!</h1>
             </section>
-            <!-- Section displaying profile information -->
+            <!-- Mini dashboard for quick stats -->
+            <section class="profile-dashboard">
+                <div class="dashboard-item">
+                    <i class="fa fa-shopping-cart dashboard-icon"></i>
+                    <span class="dashboard-value"><?php echo count($_SESSION['orders'] ?? []); ?></span>
+                    <span class="dashboard-label">Orders</span>
+                </div>
+                <div class="dashboard-item">
+                    <i class="fa fa-box dashboard-icon"></i>
+                    <span class="dashboard-value"><?php echo count($_SESSION['products'] ?? []); ?></span>
+                    <span class="dashboard-label">Products</span>
+                </div>
+                <div class="dashboard-item">
+                    <i class="fa fa-star dashboard-icon"></i>
+                    <span class="dashboard-value"><?php echo count($_SESSION['reviews'] ?? []); ?></span>
+                    <span class="dashboard-label">Reviews</span>
+                </div>
+            </section>
             <section class="profile-information">
                 <h2>Profile Information</h2>
                 <!-- Display the user's email if available, otherwise 'N/A' -->
@@ -41,8 +60,8 @@
             <section class="profile-actions">
                 <h2>Quick Links</h2>
                 <!-- Each link is a quick action for the user -->
-                <a href="/order-history" class="action-link">Order History [WIP]</a>
-                <a href="/my-products" class="action-link">My Products [WIP]</a>
+                <a href="/api/order-history" class="action-link">Order History [WIP]</a>
+                <a href="/api/my-products" class="action-link">My Products [WIP]</a>
             </section>
         </main>
     </div>
