@@ -10,20 +10,25 @@
                 <p class="empty-cart">Your cart is empty.</p>
             <?php else: ?>
                 <ul class="cart-items">
-                    <?php foreach ($cartItems as $item): ?>
-                        <li class="cart-item">
-                            <div class="item-details">
-                                <h2 class="item-name"><?= htmlspecialchars($item['productname']) ?></h2>
-                                <p class="item-price">Price: <?= htmlspecialchars($item['price']) ?>$</p>
-                            </div>
-                            <form class="delete-form" action="/cart/delete" method="post">
-                                <input type="hidden" name="cartitemid" value="<?= $item['cartitemid'] ?>">
-                                <button type="submit" class="delete-btn">Remove</button>
-                            </form>
-                        </li>
+                    <?php 
+                    $totalPrice = 0;
+                    foreach ($cartItems as $item): 
+                        $totalPrice += $item['price'];
+                    ?>
+                    <li class="cart-item">
+                        <div class="item-details">
+                            <h2 class="item-name"><?= htmlspecialchars($item['productname']) ?></h2>
+                            <p class="item-price">Price: <?= htmlspecialchars($item['price']) ?>$</p>
+                        </div>
+                        <form class="delete-form" action="/cart/delete" method="post">
+                            <input type="hidden" name="cartitemid" value="<?= $item['cartitemid'] ?>">
+                            <button type="submit" class="delete-btn">Remove</button>
+                        </form>
+                    </li>
                     <?php endforeach; ?>
                 </ul>
                 <form action="/checkout" method="post", class="checkout-container">
+                    <p class="item-price">Total Price: <?= $totalPrice ?>$</p>
                     <button type="submit" class="checkout-btn">Checkout</button>
                 </form>
             <?php endif; ?>
