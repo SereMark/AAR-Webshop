@@ -9,7 +9,9 @@ const messages = {
     'error': 'An error has occurred!',
     'cartAdd': 'Item added to cart!',
     'cartRemove': 'Item removed from cart!',
-    'productAdd': 'Product added successfully!'
+    'productAdd': 'Product added successfully!',
+    'reviewAdd': 'Review added successfully!',
+    'reviewDelete': 'Review deleted successfully!',
 };
 
 // Add event listeners when the document is ready
@@ -134,7 +136,7 @@ function handleModalClicks() {
 // Check the database connection
 function checkDatabaseConnection() {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/api/check-db-connection", true);
+    xhr.open("GET", "/check-db-connection", true);
     xhr.onload = function() {
         handleDbConnectionResponse(JSON.parse(xhr.responseText).connected);
     };

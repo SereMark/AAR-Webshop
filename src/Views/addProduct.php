@@ -12,7 +12,7 @@
     <!-- Close button for the modal -->
     <span class="close">&times;</span>
     <div class="form">
-        <form method="post" action="/api/add-product">
+        <form method="post" action="/add-product">
             <label for="name">Product Name:</label>
             <input type="text" id="name" name="name" required>
 

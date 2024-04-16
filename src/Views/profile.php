@@ -18,10 +18,10 @@
                 <!-- Navigation list for profile actions -->
                 <ul class="sidebar-nav">
                     <!-- Each list item is a link to a profile action -->
-                    <li><a href="/api/edit-profile">Edit Profile [WIP]</a></li>
-                    <li><a href="/api/change-password">Change Password [WIP]</a></li>
-                    <li><a href="/api/logout">Logout</a></li>
-                    <li><a href="/api/delete-profile" class="danger-link">Delete Profile</a></li>
+                    <li><a href="/edit-profile">Edit Profile [WIP]</a></li>
+                    <li><a href="/change-password">Change Password [WIP]</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                    <li><a href="/delete-profile" class="danger-link">Delete Profile</a></li>
                 </ul>
             </div>
         </aside>
@@ -55,13 +55,6 @@
                 <h2>Profile Information</h2>
                 <!-- Display the user's email if available, otherwise 'N/A' -->
                 <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email'] ?? 'N/A'); ?></p>
-            </section>
-            <!-- Section for quick links -->
-            <section class="profile-actions">
-                <h2>Quick Links</h2>
-                <!-- Each link is a quick action for the user -->
-                <a href="/api/order-history" class="action-link">Order History [WIP]</a>
-                <a href="/api/my-products" class="action-link">My Products [WIP]</a>
             </section>
         </main>
     </div>

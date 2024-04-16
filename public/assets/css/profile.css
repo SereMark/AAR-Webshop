@@ -63,7 +63,7 @@
     object-fit: cover;
 }
 
-.profile-dashboard, .profile-information, .profile-actions {
+.profile-dashboard, .profile-information {
     background: #262626;
     border-radius: 8px;
     padding: 20px;
@@ -75,7 +75,6 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .dashboard-item {
@@ -97,19 +96,4 @@
 
 .dashboard-label {
     color: #AAA;
-}
-
-.action-link {
-    background-color: #FFCB05;
-    color: #000000;
-    padding: 12px 18px;
-    border-radius: 8px;
-    display: inline-block;
-    margin-bottom: 10px;
-    transition: background-color 0.3s ease;
-}
-
-.action-link:hover {
-    background-color: #ffda48;
-    color: #000000b7;
 }

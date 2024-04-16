@@ -62,7 +62,7 @@ class CartController {
         $success = $this->cartModel->addItemToCart($userId, $productId);
 
         // Redirect to the cart page after adding the item
-        header("Location: /api/cart?info=cartAdd");
+        header("Location: /cart?info=cartAdd");
         exit;
     }
 
@@ -90,10 +90,10 @@ class CartController {
         // If the cart item ID is set and the item is successfully removed from the cart
         if ($cartItemId && $this->cartModel->removeItemFromCart($cartItemId)) {
             // Redirect to the cart page with a success message
-            header("Location: /api/cart?info=cartRemove");
+            header("Location: /cart?info=cartRemove");
         } else {
             // Redirect to the cart page with an error message
-            header("Location: /api/cart?info=error");
+            header("Location: /cart?info=error");
         }
         exit;
     }

@@ -43,7 +43,7 @@ if ($product) {
             <p><?= $productDescription ?></p>
             <p class="price">Price: $<?= $productPrice ?></p>
             <div class="button-container">
-                <form action="/api/cart" method="post">
+                <form action="/cart" method="post">
                     <input type="hidden" name="productid" value="<?= $productId ?>">
                     <button type="submit" class="add-to-cart-button">Add to Cart</button>
                 </form>
@@ -81,7 +81,7 @@ if ($product) {
                 </div>
                 <?php if ($canDelete): ?>
                     <div class="review-controls">
-                        <form action="/api/delete-review" method="post">
+                        <form action="/delete-review" method="post">
                             <input type="hidden" name="reviewid" value="<?= $review['REVIEWID'] ?>">
                             <button type="submit" class="delete-review-button">Delete Review</button>
                         </form>
@@ -91,7 +91,7 @@ if ($product) {
         <?php } ?>
         <div class="review-form">
         <h3>Leave a Review</h3>
-        <form action="/api/submit-review" method="post">
+        <form action="/submit-review" method="post">
             <input type="hidden" name="productid" value="<?= $productId ?>">
             <label for="rating">Rating:</label>
             <select name="rating" id="rating">

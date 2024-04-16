@@ -34,8 +34,8 @@ class ReviewsController {
         $success = $this->reviewsModel->addReview($userId, $productId, $rating, $text);
 
         if ($success) {
-            // Redirect to the product page if the review submission was successful
-            header("Location: /api/product?id=" . $productId);
+            // Redirect to the product page with a success message if the review submission was successful
+            header("Location: /product?id=" . $productId . "&info=reviewAdd");
             exit();
         } else {
             // Respond with error if review submission fails
@@ -81,8 +81,8 @@ class ReviewsController {
         // Attempt to delete the review
         $success = $this->reviewsModel->deleteReview($reviewId);
         if ($success) {
-            // Redirect to the product page if the review deletion was successful
-            header("Location: /api/product?id=" . $review['PRODUCTID']);
+            // Redirect to the product page with a success message if the review deletion was successful
+            header("Location: /product?id=" . $review['PRODUCTID'] . "&info=reviewDelete");
             exit();
         } else {
             // Respond with error if review deletion fails

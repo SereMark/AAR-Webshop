@@ -18,7 +18,7 @@ class UserController {
             session_start();
         }        $userId = $_SESSION['userid'] ?? null;
         if (!$userId) {
-            header('Location: /api/login');
+            header('Location: /login');
             exit;
         }
 

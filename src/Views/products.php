@@ -71,7 +71,7 @@
             $description = $product['DESCRIPTION'] ?? 'No description provided.';
         ?>
             <!-- Anchor tag added around the product card -->
-            <a href="/api/product?id=<?php echo htmlspecialchars($productId); ?>" class="product-link">
+            <a href="/product?id=<?php echo htmlspecialchars($productId); ?>" class="product-link">
                 <div class="product-card">
                     <img src="assets/images/placeholder.jpg" alt="<?php echo htmlspecialchars($name); ?>" class="product-image">
                     <h4 class="product-name"><?php echo htmlspecialchars($name); ?></h4>

@@ -12,7 +12,7 @@
     <span class="close">&times;</span>
     <div class="form">
         <!-- Form for login with method POST -->
-        <form method="post" action="/api/login" class="ajax-form">
+        <form method="post" action="/login" class="ajax-form">
             <!-- Input field for email -->
             <input type="email" name="email" placeholder="Email" required>
             <!-- Input field for password -->
