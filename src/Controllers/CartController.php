@@ -4,11 +4,17 @@ require_once 'BaseController.php';
 class CartController extends BaseController {
     private $cartModel;
 
+    /**
+     * Constructor: Initializes Cart model
+     */
     public function __construct() {
         parent::__construct();
         $this->cartModel = $this->loadModel('Cart');
     }
 
+    /**
+     * Displays cart
+     */
     public function showCart() {
         $this->ensureLoggedIn();
         $userId = $_SESSION['userid'];
@@ -18,6 +24,9 @@ class CartController extends BaseController {
         require __DIR__ . '/../Views/layout.php';
     }
 
+    /**
+     * Adds item to cart
+     */
     public function addItemToCart() {
         $this->ensureLoggedIn();
         $userId = $_SESSION['userid'];
@@ -26,6 +35,9 @@ class CartController extends BaseController {
         $this->redirect('/cart?info=cartAdd');
     }
 
+    /**
+     * Deletes item from cart
+     */
     public function deleteItemFromCart() {
         $this->ensureLoggedIn();
         $cartItemId = $_POST['cartitemid'] ?? null;

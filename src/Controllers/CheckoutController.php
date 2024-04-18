@@ -2,13 +2,13 @@
 require_once 'BaseController.php';
 
 class CheckoutController extends BaseController {
-    /**
-     * Processes the checkout action for the logged-in user.
-     */
-    public function processCheckout() {
-        // TODO: Implement actual checkout logic
+    private $checkoutModel;
 
-        header("HTTP/1.0 404 Not Found");
-        require __DIR__ . '/../Views/notfound.php';
+    /**
+     * Constructor: Initializes Checkout model
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->checkoutModel = $this->loadModel('Checkout');
     }
 }
