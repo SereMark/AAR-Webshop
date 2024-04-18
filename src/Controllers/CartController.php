@@ -1,100 +1,38 @@
 <?php
-class CartController {
+require_once 'BaseController.php';
+
+class CartController extends BaseController {
     private $cartModel;
 
-    /**
-     * Constructs the CartController and initializes the CartModel.
-     */
     public function __construct() {
-        require_once __DIR__ . '/../Models/CartModel.php';
-        $this->cartModel = new CartModel();
+        parent::__construct();
+        $this->cartModel = $this->loadModel('Cart');
     }
 
-    /**
-     * Displays the cart page for the logged-in user.
-     */
     public function showCart() {
-        // Start the session to ensure access to session variables
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        $userId = $_SESSION['userid'] ?? null;
-
-        // Redirect to the home page if the user is not logged in
-        if (!$userId) {
-            header("Location: /");
-            exit;
-        }
-
-        // Retrieve the cart items for the user from the model
+        $this->ensureLoggedIn();
+        $userId = $_SESSION['userid'];
         $cartItems = $this->cartModel->getCartItemsByUserId($userId);
-
-        // Set the page title for the cart view
-        $pageTitle = 'Cart';
-
-        // Pass the cart items to the cart view for rendering
         $content = __DIR__ . '/../Views/cart.php';
+        $pageTitle = 'Cart';
         require __DIR__ . '/../Views/layout.php';
     }
 
-    /**
-     * Adds an item to the cart for the logged-in user.
-     */
     public function addItemToCart() {
-        // Start the session to ensure access to session variables
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        $userId = $_SESSION['userid'] ?? null;
-
-        // Redirect to the home page if the user is not logged in
-        if (!$userId) {
-            header("Location: /");
-            exit;
-        }
-
-        // Get the product ID from the POST data
+        $this->ensureLoggedIn();
+        $userId = $_SESSION['userid'];
         $productId = $_POST['productid'] ?? null;
-
-        // Add the item to the cart using the model
-        $success = $this->cartModel->addItemToCart($userId, $productId);
-
-        // Redirect to the cart page after adding the item
-        header("Location: /cart?info=cartAdd");
-        exit;
+        $this->cartModel->addItemToCart($userId, $productId);
+        $this->redirect('/cart?info=cartAdd');
     }
 
-    /**
-     * Deletes an item from the cart for the logged-in user.
-     */
     public function deleteItemFromCart() {
-        // Start the session to ensure access to session variables
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        // Get the user ID from the session
-        $userId = $_SESSION['userid'] ?? null;
-
-        // Redirect to the home page if the user is not logged in
-        if (!$userId) {
-            header("Location: /");
-            exit;
-        }
-
-        // Get the cart item ID from the POST data
+        $this->ensureLoggedIn();
         $cartItemId = $_POST['cartitemid'] ?? null;
-
-        // If the cart item ID is set and the item is successfully removed from the cart
         if ($cartItemId && $this->cartModel->removeItemFromCart($cartItemId)) {
-            // Redirect to the cart page with a success message
-            header("Location: /cart?info=cartRemove");
+            $this->redirect('/cart?info=cartRemove');
         } else {
-            // Redirect to the cart page with an error message
-            header("Location: /cart?info=error");
+            $this->redirect('/cart?info=error');
         }
-        exit;
     }
 }

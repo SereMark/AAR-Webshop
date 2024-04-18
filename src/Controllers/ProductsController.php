@@ -1,9 +1,7 @@
 <?php
-/**
- * Class ProductsController
- * Handles product-related operations
- */
-class ProductsController {
+require_once 'BaseController.php';
+
+class ProductsController extends BaseController {
     private $productsModel;
 
     /**
@@ -11,8 +9,8 @@ class ProductsController {
      * Initializes ProductsModel
      */
     public function __construct() {
-        require_once __DIR__ . '/../Models/ProductsModel.php';
-        $this->productsModel = new ProductsModel();
+        parent::__construct();
+        $this->productsModel = $this->loadModel('Products');
     }
 
     /**
@@ -37,8 +35,6 @@ class ProductsController {
         }
         
         $productId = (int)$_GET['id'];
-        $sortOrder = $_GET['sort'] ?? 'desc';
-    
         $product = $this->productsModel->fetchProductById($productId);
         if (!$product) {
             $this->productNotFound();
@@ -61,10 +57,9 @@ class ProductsController {
         ];
 
         if ($this->productsModel->addProduct($productData)) {
-            header("Location: /?info=productAdd");
+            $this->redirect('/?info=productAdd');
         } else {
-            header("HTTP/1.0 404 Not Found");
-            require __DIR__ . '/../Views/notfound.php';
+            $this->renderNotFound();
         }
     }
 
@@ -72,6 +67,13 @@ class ProductsController {
      * Show a 404 error page when a product is not found
      */
     private function productNotFound() {
+        $this->renderNotFound();
+    }
+
+    /**
+     * Helper method to render a 404 Not Found page.
+     */
+    private function renderNotFound() {
         header("HTTP/1.0 404 Not Found");
         require __DIR__ . '/../Views/notfound.php';
     }

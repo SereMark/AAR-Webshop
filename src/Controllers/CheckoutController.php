@@ -1,12 +1,13 @@
 <?php
-class CheckoutController {   
+require_once 'BaseController.php';
+
+class CheckoutController extends BaseController {
     /**
      * Processes the checkout action for the logged-in user.
-     *
-     * @todo Implement this method.
      */
     public function processCheckout() {
-        // Not implemented error!!!!
+        // TODO: Implement actual checkout logic
+
         header("HTTP/1.0 404 Not Found");
         require __DIR__ . '/../Views/notfound.php';
     }

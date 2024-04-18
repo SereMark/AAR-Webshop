@@ -1,31 +1,29 @@
 <?php
-class UserController {
+require_once 'BaseController.php';
+
+class UserController extends BaseController {
     private $usersModel;
 
     /**
      * Constructor initializes the UsersModel.
      */
     public function __construct() {
-        require_once __DIR__ . '/../Models/UsersModel.php';
-        $this->usersModel = new UsersModel();
+        parent::__construct();  // Initialize the BaseController which handles session start
+        $this->usersModel = $this->loadModel('Users');
     }
 
     /**
      * Displays the user's profile or redirects if not logged in.
      */
     public function showProfile() {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }        $userId = $_SESSION['userid'] ?? null;
+        $userId = $_SESSION['userid'] ?? null;
         if (!$userId) {
-            header('Location: /login');
-            exit;
+            $this->redirect('/login');
         }
 
         $user = $this->usersModel->getUserDetailsById($userId);
         if (!$user) {
-            header('Location: /');
-            exit;
+            $this->redirect('/');
         }
         
         $pageTitle = 'Profile';
@@ -37,27 +35,20 @@ class UserController {
      * Logs out the user and redirects to the homepage.
      */
     public function logout() {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }        
-        
         $_SESSION = array();
-        session_destroy();
-        header('Location: /?info=logout');
-        exit;
+        if (session_id()) { // Check if a session is active before destroying
+            session_destroy();
+        }
+        $this->redirect('/?info=logout');
     }
 
     /**
      * Deletes the user's profile based on their session ID and redirects or displays an error.
      */
     public function deleteProfile() {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }        $userId = $_SESSION['userid'] ?? null;
-
+        $userId = $_SESSION['userid'] ?? null;
         if (!$userId) {
-            header('Location: /');
-            exit;
+            $this->redirect('/');
         }
 
         $userDetails = $this->usersModel->getUserDetailsById($userId);
@@ -67,14 +58,11 @@ class UserController {
         }
 
         if ($this->usersModel->deleteUserByEmail($userDetails['EMAIL'])) {
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }        
-            
             $_SESSION = array();
-            session_destroy();
-            header('Location: /?info=delete');
-            exit;
+            if (session_id()) { // Check if a session is active before destroying
+                session_destroy();
+            }        
+            $this->redirect('/?info=delete');
         } else {
             echo "Failed to delete the profile.";
             exit;

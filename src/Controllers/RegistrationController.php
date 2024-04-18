@@ -1,25 +1,18 @@
 <?php
-/**
- * Class RegistrationController
- * Handles user registration operations
- */
-class RegistrationController {
+require_once 'BaseController.php';
+require_once __DIR__ . '/../Middleware/AuthMiddleware.php';
+
+class RegistrationController extends BaseController {
     private $usersModel;
 
-    /**
-     * RegistrationController constructor
-     * Initializes UsersModel
-     */
     public function __construct() {
-        require_once __DIR__ . '/../Models/UsersModel.php';
-        $this->usersModel = new UsersModel();
+        parent::__construct();
+        $this->usersModel = $this->loadModel('Users');
     }
 
-    /**
-     * Handle registration request
-     * Validates input and creates a new user if input is valid
-     */
     public function register() {
+        checkIfAuthenticated();
+
         $name = sanitizeInput($_POST['name']);
         $email = sanitizeInput($_POST['email']);
         $phone = sanitizeInput($_POST['phone']);
@@ -46,11 +39,6 @@ class RegistrationController {
         }
     }
 
-    /**
-     * Log in user after successful registration
-     * @param string $email - user's email
-     * @param string $password - user's password
-     */
     private function loginAfterRegistration($email, $password) {
         $user = $this->usersModel->getUserDetailsByEmail($email);
         if ($user && password_verify($password, $user['PASSWORDHASH'])) {
@@ -59,30 +47,5 @@ class RegistrationController {
         } else {
             return $this->jsonResponse(['error' => 'Login after registration failed. Please log in manually.']);
         }
-    }
-
-    /**
-     * Send JSON response
-     * @param array $data - data to be sent in the response
-     */
-    private function jsonResponse($data) {
-        header('Content-Type: application/json');
-        echo json_encode($data);
-        exit;
-    }
-
-    /**
-     * Start user session
-     * @param array $user - user data
-     */
-    private function startSession($user) {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        session_regenerate_id(true);
-        $_SESSION['userid'] = $user['USERID'];
-        $_SESSION['name'] = $user['NAME'];
-        $_SESSION['email'] = $user['EMAIL'];
-        $_SESSION['isadmin'] = $user['ISADMIN'];
     }
 }

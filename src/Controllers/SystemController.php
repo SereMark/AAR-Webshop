@@ -1,20 +1,17 @@
 <?php
-class SystemController {
+require_once 'BaseController.php';
+
+class SystemController extends BaseController {
     /**
      * Checks the database connection and outputs the status as a JSON response.
      */
     public function checkDatabaseConnection() {
         require_once __DIR__ . '/../Helpers/db.php';
 
-        header('Content-Type: application/json');  // Ensure the content type is set to JSON
-        
-        // Check if the connection is successful
         if (isDatabaseConnected()) {
-            echo json_encode(['connected' => true]);
+            $this->jsonResponse(['connected' => true]);
         } else {
-            echo json_encode(['connected' => false]);
+            $this->jsonResponse(['connected' => false]);
         }
-        
-        exit;  // Ensure no further processing occurs
     }
 }

@@ -1,25 +1,18 @@
 <?php
-/**
- * Class LoginController
- * Handles user login operations
- */
-class LoginController {
+require_once 'BaseController.php';
+require_once __DIR__ . '/../Middleware/AuthMiddleware.php';
+
+class LoginController extends BaseController {
     private $usersModel;
 
-    /**
-     * LoginController constructor
-     * Initializes UsersModel
-     */
     public function __construct() {
-        require_once __DIR__ . '/../Models/UsersModel.php';
-        $this->usersModel = new UsersModel();
+        parent::__construct();
+        $this->usersModel = $this->loadModel('Users');
     }
-    
-    /**
-     * Handle login request
-     * Validates input and starts user session if credentials are valid
-     */
+
     public function login() {
+        checkIfAuthenticated();
+
         $email = sanitizeInput($_POST['email']);
         $password = $_POST['password'];
 
@@ -34,26 +27,5 @@ class LoginController {
 
         $this->startSession($user);
         return $this->jsonResponse(['redirect' => '/?info=login']);
-    }
-
-    /**
-     * Send JSON response
-     * @param array $data - data to be sent in the response
-     */
-    private function jsonResponse($data) {
-        header('Content-Type: application/json');
-        echo json_encode($data);
-        exit;
-    }    
-
-    /**
-     * Start user session
-     * @param array $user - user data
-     */
-    private function startSession($user) {
-        $_SESSION['userid'] = $user['USERID'];
-        $_SESSION['name'] = $user['NAME'];
-        $_SESSION['email'] = $user['EMAIL'];
-        $_SESSION['isadmin'] = $user['ISADMIN'];
     }
 }

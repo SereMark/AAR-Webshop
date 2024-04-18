@@ -1,13 +1,15 @@
 <?php
-class ReviewsController {
+require_once 'BaseController.php';
+
+class ReviewsController extends BaseController {
     private $reviewsModel;
 
     /**
      * Constructor that loads the ReviewsModel.
      */
     public function __construct() {
-        require_once __DIR__ . '/../Models/ReviewsModel.php';
-        $this->reviewsModel = new ReviewsModel();
+        parent::__construct();
+        $this->reviewsModel = $this->loadModel('Reviews');
     }
 
     /**
@@ -15,11 +17,6 @@ class ReviewsController {
      * and submits the review. Responds with JSON or redirects based on the operation result.
      */
     public function submitReview() {
-        // Start session to ensure access to $_SESSION
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $userId = $_SESSION['userid'] ?? null;
         $productId = $_POST['productid'];
         $rating = $_POST['rating'];
@@ -35,8 +32,7 @@ class ReviewsController {
 
         if ($success) {
             // Redirect to the product page with a success message if the review submission was successful
-            header("Location: /product?id=" . $productId . "&info=reviewAdd");
-            exit();
+            $this->redirect("/product?id=$productId&info=reviewAdd");
         } else {
             // Respond with error if review submission fails
             return $this->jsonResponse(['error' => 'Error submitting review.']);
@@ -48,56 +44,28 @@ class ReviewsController {
      * and deletes the review. Responds with JSON or redirects based on the operation result.
      */
     public function deleteReview() {
-        // Start session to ensure access to $_SESSION
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        // Get the review ID from the POST data and the user ID from the session
         $reviewId = $_POST['reviewid'] ?? null;
         $userId = $_SESSION['userid'] ?? null;
 
-        // Ensure the user is logged in
-        if (!$userId) {
-            return $this->jsonResponse(['error' => 'User not logged in.']);
-        }
-
-        // Ensure the review ID is provided
-        if (!$reviewId) {
-            return $this->jsonResponse(['error' => 'Review ID is missing.']);
+        // Ensure the user is logged in and the review ID is provided
+        if (!$userId || !$reviewId) {
+            return $this->jsonResponse(['error' => 'User not logged in or review ID is missing.']);
         }
 
         // Fetch the review
         $review = $this->reviewsModel->getReviewById($reviewId);
-        if (!$review) {
-            return $this->jsonResponse(['error' => 'Review not found.']);
-        }
-
-        // Check if the review belongs to the user
-        if ($review['USERID'] != $userId) {
-            return $this->jsonResponse(['error' => 'Unauthorized access.']);
+        if (!$review || $review['USERID'] != $userId) {
+            return $this->jsonResponse(['error' => 'Review not found or unauthorized access.']);
         }
 
         // Attempt to delete the review
         $success = $this->reviewsModel->deleteReview($reviewId);
         if ($success) {
             // Redirect to the product page with a success message if the review deletion was successful
-            header("Location: /product?id=" . $review['PRODUCTID'] . "&info=reviewDelete");
-            exit();
+            $this->redirect("/product?id=" . $review['PRODUCTID'] . "&info=reviewDelete");
         } else {
             // Respond with error if review deletion fails
             return $this->jsonResponse(['error' => 'Error deleting review.']);
         }
-    }
-
-    /**
-     * Sends a JSON response to the client.
-     *
-     * @param array $data The data to be encoded into JSON and sent to the client.
-     */
-    private function jsonResponse($data) {
-        header('Content-Type: application/json');
-        echo json_encode($data);
-        exit;
     }
 }

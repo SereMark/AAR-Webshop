@@ -55,6 +55,7 @@
                 <h2>Profile Information</h2>
                 <!-- Display the user's email if available, otherwise 'N/A' -->
                 <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email'] ?? 'N/A'); ?></p>
+                <p><strong>Phone Number:</strong> <?php echo htmlspecialchars($_SESSION['phonenumber'] ?? 'N/A'); ?></p>
             </section>
         </main>
     </div>
