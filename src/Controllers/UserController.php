@@ -8,7 +8,7 @@ class UserController extends BaseController {
      * Constructor initializes the UsersModel.
      */
     public function __construct() {
-        parent::__construct();  // Initialize the BaseController which handles session start
+        parent::__construct();
         $this->usersModel = $this->loadModel('Users');
     }
 
@@ -36,7 +36,7 @@ class UserController extends BaseController {
      */
     public function logout() {
         $_SESSION = array();
-        if (session_id()) { // Check if a session is active before destroying
+        if (session_id()) {
             session_destroy();
         }
         $this->redirect('/?info=logout');
@@ -59,7 +59,7 @@ class UserController extends BaseController {
 
         if ($this->usersModel->deleteUserByEmail($userDetails['EMAIL'])) {
             $_SESSION = array();
-            if (session_id()) { // Check if a session is active before destroying
+            if (session_id()) {
                 session_destroy();
             }        
             $this->redirect('/?info=delete');

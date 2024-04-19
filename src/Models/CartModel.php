@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../Helpers/db.php';
+
 /**
  * Class CartModel
  * Handles cart-related database operations

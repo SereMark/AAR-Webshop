@@ -36,17 +36,6 @@ class BaseController {
     }
 
     /**
-     * Starts a session for the user.
-     */
-    protected function startSession($user) {
-        $_SESSION['userid'] = $user['USERID'];
-        $_SESSION['name'] = $user['NAME'];
-        $_SESSION['email'] = $user['EMAIL'];
-        $_SESSION['phonenumber'] = $user['PHONENUMBER'];
-        $_SESSION['isadmin'] = $user['ISADMIN'];
-    }
-
-    /**
      * Loads a model.
      */
     protected function loadModel($model) {

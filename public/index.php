@@ -9,11 +9,6 @@ if (DEBUG) {
     error_reporting(E_ALL);
 }
 
-// Include the router, database helper, and security helper
-require_once __DIR__ . '/../src/Router/Router.php';
-require_once __DIR__ . '/../src/Helpers/db.php';
-require_once __DIR__ . '/../src/Helpers/security.php';
-
 // Register an autoloader for classes in the Models and Controllers directories
 spl_autoload_register(function ($class_name) {
     $basePath = __DIR__ . '/../src/';
@@ -29,7 +24,8 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-// Include the routes
+// Include the Router and the routes
+require_once __DIR__ . '/../src/Router/Router.php';
 $router = require __DIR__ . '/../src/Router/routes.php';
 
 // Dispatch the router

@@ -1,6 +1,7 @@
 <?php
 require_once 'BaseController.php';
 require_once __DIR__ . '/../Middleware/AuthMiddleware.php';
+require_once __DIR__ . '/../Helpers/Auth.php';
 
 class LoginController extends BaseController {
     private $usersModel;
@@ -25,7 +26,7 @@ class LoginController extends BaseController {
             return $this->jsonResponse(['error' => 'Invalid email or password.']);
         }
 
-        $this->startSession($user);
+        startSession($user);
         return $this->jsonResponse(['redirect' => '/?info=login']);
     }
 }

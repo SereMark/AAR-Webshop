@@ -54,7 +54,7 @@ $router->post('/cart/delete', function() {
 });
 $router->post('/checkout', function () {
     $controller = new CheckoutController();
-    $controller->processCheckout();
+    $controller->showCheckout();
 });
 
 // Review related routes

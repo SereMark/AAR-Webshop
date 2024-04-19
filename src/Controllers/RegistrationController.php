@@ -1,6 +1,7 @@
 <?php
 require_once 'BaseController.php';
 require_once __DIR__ . '/../Middleware/AuthMiddleware.php';
+require_once __DIR__ . '/../Helpers/Auth.php';
 
 class RegistrationController extends BaseController {
     private $usersModel;
@@ -42,7 +43,7 @@ class RegistrationController extends BaseController {
     private function loginAfterRegistration($email, $password) {
         $user = $this->usersModel->getUserDetailsByEmail($email);
         if ($user && password_verify($password, $user['PASSWORDHASH'])) {
-            $this->startSession($user);
+            startSession($user);
             return $this->jsonResponse(['redirect' => '/?info=register']);
         } else {
             return $this->jsonResponse(['error' => 'Login after registration failed. Please log in manually.']);
