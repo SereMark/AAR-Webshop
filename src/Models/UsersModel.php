@@ -117,5 +117,35 @@ class UsersModel {
         oci_close($conn);
         
         return $row ?: false;
-    }    
+    }
+
+    public function updateUser($userId, $name, $email, $phoneNumber) {
+        $conn = getDatabaseConnection();
+        $sql = 'UPDATE USERS SET NAME = :NAME, EMAIL = :EMAIL, PHONENUMBER = :PHONENUMBER WHERE USERID = :USERID';
+        $stmt = oci_parse($conn, $sql);
+
+        oci_bind_by_name($stmt, ':USERID', $userId);
+        oci_bind_by_name($stmt, ':NAME', $name);
+        oci_bind_by_name($stmt, ':EMAIL', $email);
+        oci_bind_by_name($stmt, ':PHONENUMBER', $phoneNumber);
+
+        $result = oci_execute($stmt);
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $result;
+    }
+
+    public function updatePassword($userId, $passwordHash) {
+        $conn = getDatabaseConnection();
+        $sql = 'UPDATE USERS SET PASSWORDHASH = :PASSWORDHASH WHERE USERID = :USERID';
+        $stmt = oci_parse($conn, $sql);
+
+        oci_bind_by_name($stmt, ':PASSWORDHASH', $passwordHash);
+        oci_bind_by_name($stmt, ':USERID', $userId);
+
+        $result = oci_execute($stmt);
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $result;
+    }
 }

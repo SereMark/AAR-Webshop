@@ -18,7 +18,7 @@ class UserController extends BaseController {
     public function showProfile() {
         $userId = $_SESSION['userid'] ?? null;
         if (!$userId) {
-            $this->redirect('/login');
+            $this->redirect('/');
         }
 
         $user = $this->usersModel->getUserDetailsById($userId);
@@ -41,6 +41,49 @@ class UserController extends BaseController {
         }
         $this->redirect('/?info=logout');
     }
+
+    public function updateProfile() {
+        $userId = $_SESSION['userid'] ?? null;
+        if (!$userId) {
+            $this->redirect('/');
+        }
+        $name = $_POST['name'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $phoneNumber = $_POST['phoneNumber'] ?? '';
+    
+        if ($this->usersModel->updateUser($userId, $name, $email, $phoneNumber)) {
+            $_SESSION['name'] = $name;
+            $_SESSION['email'] = $email;
+            $_SESSION['phonenumber'] = $phoneNumber;
+    
+            $this->redirect('/profile?info=profileUpdated');
+        } else {
+            echo "Update failed.";
+        }
+    }    
+
+    public function updatePassword() {
+        $userId = $_SESSION['userid'] ?? null;
+        if (!$userId) {
+            $this->redirect('/');
+        }
+        $currentPassword = $_POST['currentPassword'] ?? '';
+        $newPassword = $_POST['newPassword'] ?? '';
+    
+        $userDetails = $this->usersModel->getUserDetailsById($userId);
+        if (password_verify($currentPassword, $userDetails['PASSWORDHASH'])) {
+            $newPasswordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+            if ($this->usersModel->updatePassword($userId, $newPasswordHash)) {
+                $_SESSION = array();
+                session_destroy();
+                $this->redirect('/?info=passwordChangedPleaseLoginAgain');
+            } else {
+                echo "Password update failed.";
+            }
+        } else {
+            echo "Incorrect current password.";
+        }
+    }    
 
     /**
      * Deletes the user's profile based on their session ID and redirects or displays an error.

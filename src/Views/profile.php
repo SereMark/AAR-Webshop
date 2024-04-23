@@ -1,3 +1,7 @@
+<!-- Include the editProfileModal and the changePasswordModal -->
+<?php include __DIR__ . '/edit_profile.php'; ?>
+<?php include __DIR__ . '/change_password.php'; ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,8 +22,8 @@
                 <!-- Navigation list for profile actions -->
                 <ul class="sidebar-nav">
                     <!-- Each list item is a link to a profile action -->
-                    <li><a href="/edit-profile">Edit Profile [WIP]</a></li>
-                    <li><a href="/change-password">Change Password [WIP]</a></li>
+                    <li><a href="#" onclick="showModal('editProfileModal'); return false;">Edit Profile</a></li>
+                    <li><a href="#" onclick="showModal('changePasswordModal'); return false;">Change Password</a></li>
                     <li><a href="/logout">Logout</a></li>
                     <li><a href="/delete-profile" class="danger-link">Delete Profile</a></li>
                 </ul>

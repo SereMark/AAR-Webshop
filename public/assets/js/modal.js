@@ -12,6 +12,8 @@ const messages = {
     'productAdd': 'Product added successfully!',
     'reviewAdd': 'Review added successfully!',
     'reviewDelete': 'Review deleted successfully!',
+    'profileUpdated': 'Profile info updated successfully!',
+    'passwordChangedPleaseLoginAgain': 'Password changed successfully! Please login again.',
 };
 
 // Add event listeners when the document is ready

@@ -28,6 +28,15 @@ $router->get('/delete-profile', function() {
     $controller = new UserController();
     $controller->deleteProfile();
 });
+$router->post('/edit-profile', function() {
+    $controller = new UserController();
+    $controller->updateProfile();
+});
+
+$router->post('/change-password', function() {
+    $controller = new UserController();
+    $controller->updatePassword();
+});
 
 // Authentication related routes
 $router->post('/login', function () {
