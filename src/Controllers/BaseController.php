@@ -31,7 +31,7 @@ class BaseController {
      */
     protected function ensureLoggedIn() {
         if (!isset($_SESSION['userid'])) {
-            $this->redirect('/');
+            $this->redirect('/?info=LoginRequired');
         }
     }
 

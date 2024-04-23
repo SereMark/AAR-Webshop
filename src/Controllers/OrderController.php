@@ -19,7 +19,7 @@ class OrderController extends BaseController {
     public function showUserOrders() {
         $userId = $_SESSION['userid'] ?? null;
         if (!$userId) {
-            $this->redirect('/');
+            $this->redirect('/?info=LoginRequired');
         }
     
         $orderItems = $this->OrderModel->fetchOrdersByUserId($userId);

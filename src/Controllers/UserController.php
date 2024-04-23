@@ -24,12 +24,12 @@ class UserController extends BaseController {
     public function showProfile() {
         $userId = $_SESSION['userid'] ?? null;
         if (!$userId) {
-            $this->redirect('/');
+            $this->redirect('/?info=LoginRequired');
         }
 
         $user = $this->usersModel->getUserDetailsById($userId);
         if (!$user) {
-            $this->redirect('/');
+            $this->redirect('/?info=error');
         }
         
         $orderCount = $this->orderModel->getOrderCountByUserId($userId);
@@ -56,7 +56,7 @@ class UserController extends BaseController {
     public function updateProfile() {
         $userId = $_SESSION['userid'] ?? null;
         if (!$userId) {
-            $this->redirect('/');
+            $this->redirect('/?info=LoginRequired');
         }
         $name = $_POST['name'] ?? '';
         $email = $_POST['email'] ?? '';
@@ -76,7 +76,7 @@ class UserController extends BaseController {
     public function updatePassword() {
         $userId = $_SESSION['userid'] ?? null;
         if (!$userId) {
-            $this->redirect('/');
+            $this->redirect('/?info=LoginRequired');
         }
         $currentPassword = $_POST['currentPassword'] ?? '';
         $newPassword = $_POST['newPassword'] ?? '';
@@ -102,7 +102,7 @@ class UserController extends BaseController {
     public function deleteProfile() {
         $userId = $_SESSION['userid'] ?? null;
         if (!$userId) {
-            $this->redirect('/');
+            $this->redirect('/?info=LoginRequired');
         }
 
         $userDetails = $this->usersModel->getUserDetailsById($userId);

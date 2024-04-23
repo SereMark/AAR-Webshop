@@ -1,6 +1,7 @@
 // Define messages for different actions
 const messages = {
     'login': 'Login successful!',
+    'LoginRequired': 'You must be logged in to access this page!',
     'register': 'Registration successful!',
     'update': 'Update successful!',
     'delete': 'Deletion successful!',

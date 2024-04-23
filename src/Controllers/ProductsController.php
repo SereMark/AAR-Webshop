@@ -69,7 +69,7 @@ class ProductsController extends BaseController {
     public function showUserProducts() {
         // $userId = $_SESSION['userid'] ?? null;
         // if (!$userId) {
-        //     $this->redirect('/');
+        //     $this->redirect('/?info=LoginRequired');
         // }
 
         // $products = $this->productsModel->fetchProductsByUserId($userId);
