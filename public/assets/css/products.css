@@ -102,6 +102,17 @@
     right: 0;
 }
 
+.btn-disabled {
+    background-color: #333;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.btn-disabled:hover {
+    background-color: #333;
+    color: #666;
+}
+
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .main {
