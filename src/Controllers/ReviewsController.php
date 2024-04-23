@@ -54,9 +54,49 @@ class ReviewsController extends BaseController {
 
         $success = $this->reviewsModel->deleteReview($reviewId);
         if ($success) {
-            $this->redirect("/product?id=" . $review['PRODUCTID'] . "&info=reviewDelete");
+            $this->redirect("/reviews?info=reviewDelete");
         } else {
             return $this->jsonResponse(['error' => 'Error deleting review.']);
         }
     }
+
+    /**
+     * Displays all reviews for a specific user by their ID
+     */
+    public function showUserReviews() {
+        $userId = $_SESSION['userid'] ?? null;
+        if (!$userId) {
+            $this->redirect('/login');
+        }
+    
+        $reviews = $this->reviewsModel->getReviewsByUserId($userId);
+        foreach ($reviews as $key => $review) {
+            if (!isset($review['TEXT'])) {
+                $reviews[$key]['TEXT'] = 'No review text available';
+            }
+        }
+
+        $pageTitle = 'Reviews';
+        $content = __DIR__ . '/../Views/reviewList.php';
+        require __DIR__ . '/../Views/layout.php';
+    }
+
+    /**
+     * Handles the deletion of all reviews for a specific user.
+     */
+    public function deleteAllUserReviews() {
+        $userId = $_SESSION['userid'] ?? null;
+    
+        if (!$userId) {
+            return $this->jsonResponse(['error' => 'User not logged in.']);
+        }
+    
+        $success = $this->reviewsModel->deleteAllReviewsByUserId($userId);
+    
+        if ($success) {
+            $this->redirect("/reviews?info=delete");
+        } else {
+            return $this->jsonResponse(['error' => 'Error deleting reviews.']);
+        }
+    }    
 }

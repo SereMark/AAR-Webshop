@@ -60,4 +60,49 @@ class ProductsModel {
         oci_close($conn);
         return $result;
     }
+
+    /**
+     * Fetch all products for a specific user by their ID
+     * @param int $userId
+     * @return array - Array of products
+     */
+    public function fetchProductsByUserId($userId) {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT * FROM products WHERE userid = :userid';
+        $stid = oci_parse($conn, $sql);
+        oci_bind_by_name($stid, ':userid', $userId, -1, SQLT_INT);
+        oci_execute($stid);
+
+        $products = [];
+        oci_fetch_all($stid, $products, 0, -1, OCI_FETCHSTATEMENT_BY_ROW);
+        oci_free_statement($stid);
+        oci_close($conn);
+        return $products;
+    }
+
+    /**
+     * Fetch the count of products for a specific user by their ID
+     * @param int $userId
+     * @return int - Count of products
+     */
+    public function getProductCountByUserId($userId) {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT COUNT(*) AS product_count FROM products WHERE userid = :userid';
+        $stmt = oci_parse($conn, $sql);
+
+        oci_bind_by_name($stmt, ':userid', $userId, -1, SQLT_INT);
+
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            return 0;
+        }
+
+        $row = oci_fetch_array($stmt, OCI_ASSOC);
+        $count = $row['PRODUCT_COUNT'] ?? 0;
+
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $count;
+    }
 }

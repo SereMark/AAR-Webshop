@@ -3,6 +3,9 @@ require_once 'BaseController.php';
 
 class UserController extends BaseController {
     private $usersModel;
+    private $orderModel;
+    private $reviewsModel;
+    private $productsModel;
 
     /**
      * Constructor initializes the UsersModel.
@@ -10,6 +13,9 @@ class UserController extends BaseController {
     public function __construct() {
         parent::__construct();
         $this->usersModel = $this->loadModel('Users');
+        $this->orderModel = $this->loadModel('Order');
+        $this->reviewsModel = $this->loadModel('Reviews');
+        $this->productsModel = $this->loadModel('Products');
     }
 
     /**
@@ -26,8 +32,13 @@ class UserController extends BaseController {
             $this->redirect('/');
         }
         
+        $orderCount = $this->orderModel->getOrderCountByUserId($userId);
+        $reviewCount = $this->reviewsModel->getReviewCountByUserId($userId);
+        //$productCount = $this->productsModel->getProductCountByUserId($userId);
+
         $pageTitle = 'Profile';
         $content = __DIR__ . '/../Views/profile.php';
+        // Pass the counts to the view
         require __DIR__ . '/../Views/layout.php';
     }
 

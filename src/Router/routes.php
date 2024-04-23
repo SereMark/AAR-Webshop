@@ -14,6 +14,10 @@ $router->post('/add-product', function () {
     $controller = new ProductsController();
     $controller->addProduct();
 });
+$router->get('/products', function () {
+    $controller = new ProductsController();
+    $controller->showUserProducts();
+});
 
 // User related routes
 $router->get('/profile', function () {
@@ -74,6 +78,20 @@ $router->post('/submit-review', function () {
 $router->post('/delete-review', function () {
     $controller = new ReviewsController();
     $controller->deleteReview();
+});
+$router->get('/reviews', function () {
+    $controller = new ReviewsController();
+    $controller->showUserReviews();
+});
+$router->post('/delete-all-reviews', function () {
+    $controller = new ReviewsController();
+    $controller->deleteAllUserReviews();
+});
+
+// Order related routes
+$router->get('/orders', function () {
+    $controller = new OrderController();
+    $controller->showUserOrders();
 });
 
 // System related routes

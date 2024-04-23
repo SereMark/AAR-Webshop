@@ -101,4 +101,88 @@ class ReviewsModel {
         oci_close($conn);
         return true;
     }
+
+    /**
+     * Fetch all reviews for a specific user by their ID
+     * @param int $userId
+     * @return array - Array of reviews
+     */
+    public function getReviewsByUserId($userId) {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT r.reviewid, r.rating, r.text, p.name AS product_name 
+                FROM reviews r
+                INNER JOIN products p ON r.productid = p.productid
+                WHERE r.userid = :userid 
+                ORDER BY r.reviewid DESC';
+        $stmt = oci_parse($conn, $sql);
+    
+        oci_bind_by_name($stmt, ':userid', $userId, -1, SQLT_INT);
+    
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            return false;
+        }
+    
+        $reviews = [];
+        while (($row = oci_fetch_array($stmt, OCI_ASSOC + OCI_RETURN_NULLS)) !== false) {
+            if($row['TEXT'] instanceof OCILob) {
+                $row['TEXT'] = $row['TEXT']->load();
+            }
+            $reviews[] = $row;
+        }
+    
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $reviews;
+    }    
+
+    /**
+     * Deletes all reviews for a specific user by their ID
+     * @param int $userId
+     * @return bool - True if the reviews were deleted successfully, false otherwise
+     */
+    public function deleteAllReviewsByUserId($userId) {
+        $conn = getDatabaseConnection();
+        $sql = 'DELETE FROM reviews WHERE userid = :userid';
+        $stmt = oci_parse($conn, $sql);
+    
+        oci_bind_by_name($stmt, ':userid', $userId, -1, SQLT_INT);
+    
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            return false;
+        }
+    
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return true;
+    }
+
+    /**
+     * Fetch the count of reviews for a specific user by their ID
+     * @param int $userId
+     * @return int - Count of reviews
+     */
+    public function getReviewCountByUserId($userId) {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT COUNT(*) AS review_count FROM reviews WHERE userid = :userid';
+        $stmt = oci_parse($conn, $sql);
+
+        oci_bind_by_name($stmt, ':userid', $userId, -1, SQLT_INT);
+
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            return 0;
+        }
+
+        $row = oci_fetch_array($stmt, OCI_ASSOC);
+        $count = $row['REVIEW_COUNT'] ?? 0;
+
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $count;
+    }
 }

@@ -39,21 +39,27 @@
             </section>
             <!-- Mini dashboard for quick stats -->
             <section class="profile-dashboard">
-                <div class="dashboard-item">
-                    <i class="fa fa-shopping-cart dashboard-icon"></i>
-                    <span class="dashboard-value"><?php echo count($_SESSION['orders'] ?? []); ?></span>
-                    <span class="dashboard-label">Orders</span>
-                </div>
-                <div class="dashboard-item">
-                    <i class="fa fa-box dashboard-icon"></i>
-                    <span class="dashboard-value"><?php echo count($_SESSION['products'] ?? []); ?></span>
-                    <span class="dashboard-label">Products</span>
-                </div>
-                <div class="dashboard-item">
-                    <i class="fa fa-star dashboard-icon"></i>
-                    <span class="dashboard-value"><?php echo count($_SESSION['reviews'] ?? []); ?></span>
-                    <span class="dashboard-label">Reviews</span>
-                </div>
+                <a href="/orders" class="dashboard-item-link">
+                    <div class="dashboard-item">
+                        <i class="fa fa-shopping-cart dashboard-icon"></i>
+                        <span class="dashboard-value"><?php echo $orderCount ?? 0; ?></span>
+                        <span class="dashboard-label">Orders</span>
+                    </div>
+                </a>
+                <a href="/products" class="dashboard-item-link">
+                    <div class="dashboard-item">
+                        <i class="fa fa-box dashboard-icon"></i>
+                        <span class="dashboard-value"><?php echo $productCount ?? 0; ?></span>
+                        <span class="dashboard-label">Products</span>
+                    </div>
+                </a>
+                <a href="/reviews" class="dashboard-item-link">
+                    <div class="dashboard-item">
+                        <i class="fa fa-star dashboard-icon"></i>
+                        <span class="dashboard-value"><?php echo $reviewCount ?? 0; ?></span>
+                        <span class="dashboard-label">Reviews</span>
+                    </div>
+                </a>
             </section>
             <section class="profile-information">
                 <h2>Profile Information</h2>
