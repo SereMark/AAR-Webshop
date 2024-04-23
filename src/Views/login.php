@@ -13,6 +13,7 @@
     <div class="form">
         <!-- Form for login with method POST -->
         <form method="post" action="/login" class="ajax-form">
+            <h2>Login</h2>
             <!-- Input field for email -->
             <input type="email" name="email" placeholder="Email" required>
             <!-- Input field for password -->

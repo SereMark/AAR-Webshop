@@ -14,6 +14,7 @@
         <div class="form">
             <!-- Form for registration with method POST -->
             <form method="post" action="/register" class="ajax-form">
+                <h2>Register</h2>
                 <!-- Input fields for username, email, phone number, password, and password confirmation -->
                 <input type="text" name="name" placeholder="Username" required>
                 <input type="email" name="email" placeholder="Email" required>
