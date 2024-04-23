@@ -67,17 +67,17 @@ class ProductsController extends BaseController {
      * Display all products added by the current user
      */
     public function showUserProducts() {
-        // $userId = $_SESSION['userid'] ?? null;
-        // if (!$userId) {
-        //     $this->redirect('/?info=LoginRequired');
-        // }
+        $userId = $_SESSION['userid'] ?? null;
+        if (!$userId) {
+            $this->redirect('/?info=LoginRequired');
+        }
 
         // $products = $this->productsModel->fetchProductsByUserId($userId);
-        // $pageTitle = 'My Products';
-        // $content = __DIR__ . '/../Views/productList.php';
-        // require __DIR__ . '/../Views/layout.php';
-        header("HTTP/1.0 404 Not Found");
-        require __DIR__ . '/../Views/notfound.php';
+        $products = null;
+        
+        $pageTitle = 'My Products';
+        $content = __DIR__ . '/../Views/productList.php';
+        require __DIR__ . '/../Views/layout.php';
     }
 
     /**
