@@ -105,4 +105,28 @@ class ProductsModel {
         oci_close($conn);
         return $count;
     }
+
+    /**
+     * Delete a product by its ID
+     * @param int $productId
+     * @return bool - True if the product was deleted successfully, false otherwise
+     */
+    public function deleteProduct($productId) {
+        $conn = getDatabaseConnection();
+        $sql = 'DELETE FROM products WHERE productid = :productid';
+        $stmt = oci_parse($conn, $sql);
+        oci_bind_by_name($stmt, ':productid', $productId);
+    
+        if (!oci_execute($stmt)) {
+            $error = oci_error($stmt);
+            oci_free_statement($stmt);
+            oci_close($conn);
+            throw new Exception("Failed to delete product: " . $error['message']);
+            return false;
+        }
+    
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return true;
+    }
 }

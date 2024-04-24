@@ -3,14 +3,16 @@ require_once 'BaseController.php';
 
 class ProductsController extends BaseController {
     private $productsModel;
+    private $categoriesModel;
 
     /**
      * ProductsController constructor
-     * Initializes ProductsModel
+     * Initializes ProductsModel and CategoriesModel
      */
     public function __construct() {
         parent::__construct();
         $this->productsModel = $this->loadModel('Products');
+        $this->categoriesModel = $this->loadModel('Categories');
     }
 
     /**
@@ -18,7 +20,8 @@ class ProductsController extends BaseController {
      */
     public function index() {
         $products = $this->productsModel->fetchProducts();
-        
+        $categories = $this->categoriesModel->fetchCategories();
+
         $pageTitle = 'Products';
         $content = __DIR__ . '/../Views/products.php';
         require __DIR__ . '/../Views/layout.php';
@@ -56,8 +59,18 @@ class ProductsController extends BaseController {
             'description' => $_POST['description']
         ];
 
+        if (strlen($productData['name']) > 50) {
+            $this->jsonResponse(['error' => 'Product name exceeds the maximum length of 50 characters.']);
+            exit;
+        }
+
+        if (!preg_match('/^\d{1,8}(\.\d{1,2})?$/', $productData['price'])) {
+            $this->jsonResponse(['error' => 'Price must be a number with up to 8 digits before the decimal point and 2 digits after the decimal point.']);
+            exit;
+        }
+
         if ($this->productsModel->addProduct($productData)) {
-            $this->redirect('/?info=productAdd');
+            return $this->jsonResponse(['redirect' => '/?info=productAdd']);
         } else {
             $this->renderNotFound();
         }
@@ -78,6 +91,18 @@ class ProductsController extends BaseController {
         $pageTitle = 'My Products';
         $content = __DIR__ . '/../Views/productList.php';
         require __DIR__ . '/../Views/layout.php';
+    }
+
+    /**
+     * Handle the deletion of a product
+     */
+    public function deleteProduct() {
+        $productId = $_POST['productid'] ?? null;
+        if ($productId && $this->productsModel->deleteProduct($productId)) {
+            $this->redirect('/admin_dashboard?info=delete');
+        } else {
+            $this->redirect('/admin_dashboard?info=error');
+        }
     }
 
     /**

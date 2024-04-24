@@ -185,4 +185,31 @@ class ReviewsModel {
         oci_close($conn);
         return $count;
     }
+
+    /**
+     * Fetch all reviews from the database
+     * @return array - Array of reviews
+     */
+    public function fetchAllReviews() {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT r.reviewid, r.rating, r.text, p.name AS product_name, r.productid, r.userid 
+                FROM reviews r
+                INNER JOIN products p ON r.productid = p.productid
+                ORDER BY r.reviewid DESC';
+        $stmt = oci_parse($conn, $sql);
+        oci_execute($stmt);
+        
+        $reviews = [];
+        while ($row = oci_fetch_array($stmt, OCI_ASSOC + OCI_RETURN_LOBS)) {
+            // Checking if the TEXT column is a LOB and loading it appropriately
+            if ($row['TEXT'] instanceof OCILob) {
+                $row['TEXT'] = $row['TEXT']->load();
+            }
+            $reviews[] = $row;
+        }
+        
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $reviews;
+    }    
 }

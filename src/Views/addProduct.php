@@ -12,7 +12,7 @@
     <!-- Close button for the modal -->
     <span class="close">&times;</span>
     <div class="form">
-        <form method="post" action="/add-product">
+        <form method="post" action="/add-product" class="ajax-form">
             <label for="name">Product Name:</label>
             <input type="text" id="name" name="name" required>
 
@@ -22,6 +22,7 @@
             <label for="description">Description:</label>
             <textarea id="description" name="description"></textarea>
 
+            <div class="error" style="display: none;"></div>
             <button type="submit">Add Product</button>
         </form>
     </div>

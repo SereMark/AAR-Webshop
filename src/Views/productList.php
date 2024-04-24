@@ -7,7 +7,8 @@
     <main class="main-content">
         <section class="list">
             <?php if (empty($productItems)): ?>
-                <p class="empty-list">Your product list is empty.</p>
+                <!-- <p class="empty-list">Your product list is empty.</p> -->
+                <p class="empty-list">Elcsesztük a tervezést, nincs a termékekhez UserID csatolva.</p>
             <?php else: ?>
                 <ul class="list-items">
                     <?php foreach ($productItems as $item): ?>

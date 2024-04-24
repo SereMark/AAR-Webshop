@@ -47,6 +47,9 @@ if ($product) {
                     <input type="hidden" name="productid" value="<?= $productId ?>">
                     <button type="submit" class="add-to-cart-button">Add to Cart</button>
                 </form>
+                <div class="delete-product-button-container">
+                    <button type="button" class="delete-product-button" disabled>Delete [WIP]</button>
+                </div>
             </div>
         </div>
     </div>
@@ -83,6 +86,7 @@ if ($product) {
                     <div class="review-controls">
                         <form action="/delete-review" method="post">
                             <input type="hidden" name="reviewid" value="<?= $review['REVIEWID'] ?>">
+                            <input type="hidden" name="productid" value="<?= $productId ?>">
                             <button type="submit" class="delete-review-button">Delete Review</button>
                         </form>
                     </div>

@@ -204,7 +204,7 @@
     font-size: 18px;
 }
 
-.delete-review-button {
+.delete-review-button, .delete-product-button {
     background-color: #ff4c4c;
     color: white;
     padding: 8px 16px;
@@ -215,6 +215,22 @@
     transition: background-color 0.3s;
 }
 
-.delete-review-button:hover {
+.delete-review-button:hover, .delete-product-button:hover {
     background-color: #e04343;
+}
+
+.delete-review-button:disabled, .delete-product-button:disabled {
+    background-color: #ff4c4c;
+    color: white;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.product-details {
+    flex: 2;
+    padding: 0 20px;
+    font-size: 18px;
+    overflow: auto;
+    word-wrap: break-word;
+
 }

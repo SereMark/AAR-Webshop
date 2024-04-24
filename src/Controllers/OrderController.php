@@ -27,5 +27,17 @@ class OrderController extends BaseController {
         $pageTitle = 'Orders';
         $content = __DIR__ . '/../Views/ordersList.php';
         require __DIR__ . '/../Views/layout.php';
+    }
+
+    /**
+     * Handles the deletion of an order by its ID
+     */
+    public function deleteOrder() {
+        $orderId = $_POST['orderid'] ?? null;
+        if ($orderId && $this->OrderModel->deleteOrderById($orderId)) {
+            $this->redirect('/admin_dashboard?info=delete');
+        } else {
+            $this->redirect('/admin_dashboard?info=error');
+        }
     }    
 }

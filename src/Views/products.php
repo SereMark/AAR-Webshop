@@ -17,14 +17,6 @@
         <!-- List of categories -->
         <ul>
             <?php
-            // Include the CategoriesModel
-            require_once __DIR__ . '/../Models/CategoriesModel.php';
-
-            // Create a new CategoriesModel
-            $categoriesModel = new CategoriesModel();
-            // Fetch the categories
-            $categories = $categoriesModel->fetchCategories();
-
             // Loop through each category
             foreach ($categories as $category):
                 // Get the name of the category

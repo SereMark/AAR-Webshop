@@ -1,7 +1,7 @@
 // Define messages for different actions
 const messages = {
     'login': 'Login successful!',
-    'LoginRequired': 'You must be logged in to access this page!',
+    'LoginRequired': 'You must be logged in to continue!',
     'register': 'Registration successful!',
     'update': 'Update successful!',
     'delete': 'Deletion successful!',
@@ -16,6 +16,7 @@ const messages = {
     'profileUpdated': 'Profile info updated successfully!',
     'passwordChangedPleaseLoginAgain': 'Password changed successfully! Please login again.',
     'notAdmin': 'You must be an admin to access this page!',
+    'categoryAdded': 'Category added successfully!',
 };
 
 // Add event listeners when the document is ready

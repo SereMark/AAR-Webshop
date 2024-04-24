@@ -6,9 +6,10 @@ class UserController extends BaseController {
     private $orderModel;
     private $reviewsModel;
     private $productsModel;
+    private $categoriesModel;
 
     /**
-     * Constructor initializes the UsersModel.
+     * Constructor initializes the Models.
      */
     public function __construct() {
         parent::__construct();
@@ -16,6 +17,7 @@ class UserController extends BaseController {
         $this->orderModel = $this->loadModel('Order');
         $this->reviewsModel = $this->loadModel('Reviews');
         $this->productsModel = $this->loadModel('Products');
+        $this->categoriesModel = $this->loadModel('Categories');
     }
 
     /**
@@ -69,7 +71,7 @@ class UserController extends BaseController {
     
             $this->redirect('/profile?info=profileUpdated');
         } else {
-            echo "Update failed.";
+            $this->redirect('/profile/?info=error');
         }
     }    
 
@@ -89,10 +91,10 @@ class UserController extends BaseController {
                 session_destroy();
                 $this->redirect('/?info=passwordChangedPleaseLoginAgain');
             } else {
-                echo "Password update failed.";
+                $this->redirect('/profile/?info=error');
             }
         } else {
-            echo "Incorrect current password.";
+            $this->redirect('/profile/?info=error');
         }
     }    
 
@@ -107,7 +109,7 @@ class UserController extends BaseController {
 
         $userDetails = $this->usersModel->getUserDetailsById($userId);
         if (!$userDetails) {
-            echo "Failed to retrieve user details.";
+            $this->redirect('/profile/?info=error');
             exit;
         }
 
@@ -118,7 +120,7 @@ class UserController extends BaseController {
             }        
             $this->redirect('/?info=delete');
         } else {
-            echo "Failed to delete the profile.";
+            $this->redirect('/profile/?info=error');
             exit;
         }
     }
@@ -138,11 +140,29 @@ class UserController extends BaseController {
         }
 
         if ($user['ISADMIN']) {
+            $users = $this->usersModel->fetchAllUsers();
+            $orders = $this->orderModel->fetchAllOrders();
+            $reviews = $this->reviewsModel->fetchAllReviews();
+            $products = $this->productsModel->fetchProducts();
+            $categories = $this->categoriesModel->fetchCategories();    
+
             $pageTitle = 'Admin Dashboard';
             $content = __DIR__ . '/../Views/admin_dashboard.php';
             require __DIR__ . '/../Views/layout.php';
         } else {
             $this->redirect('/profile?info=notAdmin');
+        }
+    }
+
+    /**
+     * Deletes the user's profile based on their session ID and redirects or displays an error.
+     */
+    public function deleteOne() {
+        $userId = $_POST['userid'] ?? null;
+        if ($userId && $this->usersModel->deleteUserById($userId)) {
+            $this->redirect('/admin_dashboard?info=delete');
+        } else {
+            $this->redirect('/admin_dashboard/?info=error');
         }
     }
 }

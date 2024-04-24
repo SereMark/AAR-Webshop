@@ -99,6 +99,29 @@ class UsersModel {
     }
 
     /**
+     * Delete a user by ID
+     * @return bool - Success status
+     */
+    public function deleteUserById($userId) {
+        $conn = getDatabaseConnection();
+        $sql = 'DELETE FROM USERS WHERE USERID = :USERID';
+        $stid = oci_parse($conn, $sql);
+        oci_bind_by_name($stid, ':USERID', $userId);
+        
+        if (!oci_execute($stid)) {
+            $error = oci_error($stid);
+            oci_free_statement($stid);
+            oci_close($conn);
+            throw new Exception("Database error: " . $error['message']);
+            return false;
+        }
+        
+        oci_free_statement($stid);
+        oci_close($conn);
+        return true;
+    }
+
+    /**
      * Get a user's details by ID
      * @return array|bool - User details or false if not found
      */
@@ -147,5 +170,19 @@ class UsersModel {
         oci_free_statement($stmt);
         oci_close($conn);
         return $result;
+    }
+
+    public function fetchAllUsers() {
+        $conn = getDatabaseConnection();
+        $sql = "SELECT USERID, NAME, EMAIL FROM USERS";
+        $stmt = oci_parse($conn, $sql);
+        oci_execute($stmt);
+        $users = [];
+        while ($row = oci_fetch_assoc($stmt)) {
+            $users[] = $row;
+        }
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $users;
     }
 }

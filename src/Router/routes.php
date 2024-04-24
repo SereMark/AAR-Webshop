@@ -18,6 +18,20 @@ $router->get('/products', function () {
     $controller = new ProductsController();
     $controller->showUserProducts();
 });
+$router->post('/delete-product', function () {
+    $controller = new ProductsController();
+    $controller->deleteProduct();
+});
+
+// Category related routes
+$router->post('/add-category', function() {
+    $controller = new CategoriesController();
+    $controller->addCategory();
+});
+$router->post('/delete-category', function() {
+    $controller = new CategoriesController();
+    $controller->deleteCategory();
+});
 
 // User related routes
 $router->get('/profile', function () {
@@ -31,6 +45,10 @@ $router->get('/logout', function() {
 $router->get('/delete-profile', function() {
     $controller = new UserController();
     $controller->deleteProfile();
+});
+$router->post('/delete-profile', function() {
+    $controller = new UserController();
+    $controller->deleteOne();
 });
 $router->post('/edit-profile', function() {
     $controller = new UserController();
@@ -81,7 +99,11 @@ $router->post('/submit-review', function () {
 });
 $router->post('/delete-review', function () {
     $controller = new ReviewsController();
-    $controller->deleteReview();
+    $controller->deleteUserReview();
+});
+$router->post('/delete-specific-review', function() {
+    $controller = new ReviewsController();
+    $controller->deleteSpecificReview();
 });
 $router->get('/reviews', function () {
     $controller = new ReviewsController();
@@ -96,6 +118,10 @@ $router->post('/delete-all-reviews', function () {
 $router->get('/orders', function () {
     $controller = new OrderController();
     $controller->showUserOrders();
+});
+$router->post('/delete-order', function() {
+    $controller = new OrderController();
+    $controller->deleteOrder();
 });
 
 // System related routes

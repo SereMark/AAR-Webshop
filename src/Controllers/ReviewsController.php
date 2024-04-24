@@ -23,7 +23,7 @@ class ReviewsController extends BaseController {
         $text = $_POST['review_text'];
 
         if (!$userId) {
-            return $this->jsonResponse(['error' => 'User not logged in.']);
+            $this->redirect("/?info=LoginRequired");
         }
 
         $success = $this->reviewsModel->addReview($userId, $productId, $rating, $text);
@@ -39,26 +39,43 @@ class ReviewsController extends BaseController {
      * Handles the deletion of a review. Validates the user session, collects input data,
      * and deletes the review. Responds with JSON or redirects based on the operation result.
      */
-    public function deleteReview() {
+    public function deleteUserReview() {
         $reviewId = $_POST['reviewid'] ?? null;
         $userId = $_SESSION['userid'] ?? null;
+        $productId = $_POST['productid'] ?? null;
+        $adminDashboard = $_POST['adminDashboard'] ?? false;
 
         if (!$userId || !$reviewId) {
             return $this->jsonResponse(['error' => 'User not logged in or review ID is missing.']);
         }
 
         $review = $this->reviewsModel->getReviewById($reviewId);
-        if (!$review || $review['USERID'] != $userId) {
+        if (!$review || $review['USERID'] != $userId && !$adminDashboard) {
             return $this->jsonResponse(['error' => 'Review not found or unauthorized access.']);
         }
 
         $success = $this->reviewsModel->deleteReview($reviewId);
         if ($success) {
-            $this->redirect("/reviews?info=reviewDelete");
+             if ($adminDashboard) {
+                $this->redirect('/admin_dashboard?info=delete');
+            } elseif ($productId === null) {
+                $this->redirect("/reviews?info=delete");
+            } else {
+                $this->redirect("/product?id=$productId&info=delete");
+            }
         } else {
             return $this->jsonResponse(['error' => 'Error deleting review.']);
         }
     }
+
+    public function deleteSpecificReview() {
+        $reviewId = $_POST['reviewid'] ?? null;
+        if ($reviewId && $this->reviewsModel->deleteReview($reviewId)) {
+            $this->redirect('/admin_dashboard?info=delete');
+        } else {
+            $this->redirect('/admin_dashboard?info=error');
+        }
+    }    
 
     /**
      * Displays all reviews for a specific user by their ID
