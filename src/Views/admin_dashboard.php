@@ -26,12 +26,20 @@
                             <td><?= htmlspecialchars($user['EMAIL'] ?? '') ?></td>
                             <td>
                                 <?php if ($user['USERID'] != $_SESSION['userid']): ?>
-                                    <form action="/delete-profile" method="post">
-                                        <input type="hidden" name="userid" value="<?= $user['USERID'] ?>">
-                                        <button type="submit" class="btn-delete">Delete</button>
-                                    </form>
+                                    <div class="actions-group">
+                                        <form action="/delete-profile" method="post">
+                                            <input type="hidden" name="userid" value="<?= $user['USERID'] ?>">
+                                            <button type="submit" class="btn-delete">Delete</button>
+                                        </form>
+                                        <form action="/set-admin-status" method="post">
+                                            <input type="hidden" name="userid" value="<?= $user['USERID'] ?>">
+                                            <button type="submit" class="btn-admin"><?= $user['ISADMIN'] == 'Y' ? 'Revoke Admin' : 'Make Admin' ?></button>
+                                        </form>
+                                    </div>
                                 <?php else: ?>
-                                    <button disabled class="btn-delete" title="You cannot delete your own account">Delete</button>
+                                    <div class="actions-group">
+                                        <button disabled class="btn-delete" title="You cannot delete your own account">Delete</button>
+                                    </div>
                                 <?php endif; ?>
                             </td>
                         </tr>

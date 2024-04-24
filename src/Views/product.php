@@ -41,7 +41,7 @@ if ($product) {
         </div>
         <div class="product-details">
             <p><?= $productDescription ?></p>
-            <h3>Category: <?= $category['NAME'] ?></h3>
+            <h3>Category: <?= $category ? $category['NAME'] : 'Not available' ?></h3>
             <p class="price">Price: $<?= $productPrice ?></p>
             <div class="button-container">
                 <form action="/cart" method="post">

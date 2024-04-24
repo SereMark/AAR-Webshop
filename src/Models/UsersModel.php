@@ -174,7 +174,7 @@ class UsersModel {
 
     public function fetchAllUsers() {
         $conn = getDatabaseConnection();
-        $sql = "SELECT USERID, NAME, EMAIL FROM USERS";
+        $sql = "SELECT USERID, NAME, EMAIL, ISADMIN FROM USERS";
         $stmt = oci_parse($conn, $sql);
         oci_execute($stmt);
         $users = [];
@@ -185,4 +185,18 @@ class UsersModel {
         oci_close($conn);
         return $users;
     }
+
+    public function setAdminStatus($userId, $newStatus) {
+        $conn = getDatabaseConnection();
+        $sql = 'UPDATE USERS SET ISADMIN = :ISADMIN WHERE USERID = :USERID';
+        $stmt = oci_parse($conn, $sql);
+    
+        oci_bind_by_name($stmt, ':ISADMIN', $newStatus);
+        oci_bind_by_name($stmt, ':USERID', $userId);
+    
+        $result = oci_execute($stmt);
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $result;
+    }    
 }

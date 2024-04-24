@@ -44,8 +44,11 @@ class ProductsController extends BaseController {
             return;
         }
 
-        $category = $this->categoriesModel->fetchCategoryById($product['CATEGORYID']);
-
+        $category = null;
+        if (isset($product['CATEGORYID'])) {
+            $category = $this->categoriesModel->fetchCategoryById($product['CATEGORYID']);
+        }
+        
         $pageTitle = $product['NAME'];
         $content = __DIR__ . '/../Views/product.php';
         require __DIR__ . '/../Views/layout.php';

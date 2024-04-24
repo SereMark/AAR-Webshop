@@ -165,4 +165,22 @@ class UserController extends BaseController {
             $this->redirect('/admin_dashboard/?info=error');
         }
     }
+
+    /**
+     * Sets the admin status of a user based on their user ID.
+     */
+    public function setAdminStatus() {
+        $userId = $_POST['userid'] ?? null;
+        if (!$userId) {
+            $this->redirect('/admin_dashboard?info=error');
+        }
+    
+        $user = $this->usersModel->getUserDetailsById($userId);
+        $newStatus = ($user['ISADMIN'] === 'Y' ? 'N' : 'Y');
+        if ($this->usersModel->setAdminStatus($userId, $newStatus)) {
+            $this->redirect('/admin_dashboard?info=update');
+        } else {
+            $this->redirect('/admin_dashboard?info=error');
+        }
+    }    
 }

@@ -54,7 +54,6 @@ $router->post('/edit-profile', function() {
     $controller = new UserController();
     $controller->updateProfile();
 });
-
 $router->post('/change-password', function() {
     $controller = new UserController();
     $controller->updatePassword();
@@ -62,6 +61,10 @@ $router->post('/change-password', function() {
 $router->get('/admin_dashboard', function () {
     $controller = new UserController();
     $controller->showAdminDashboard();
+});
+$router->post('/set-admin-status', function () {
+    $controller = new UserController();
+    $controller->setAdminStatus();
 });
 
 // Authentication related routes
