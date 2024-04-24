@@ -22,6 +22,7 @@
             <label for="description">Description:</label>
             <textarea id="description" name="description"></textarea>
 
+            <label for="categories">Category:</label>
             <select id="categories" name="categoryID" required>
               <?php foreach($categories as $category): ?>
                 <option value="<?= $category['CATEGORYID'] ?>"><?= $category['NAME'] ?></option>
