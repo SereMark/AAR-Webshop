@@ -44,6 +44,8 @@ class ProductsController extends BaseController {
             return;
         }
 
+        $category = $this->categoriesModel->fetchCategoryById($product['CATEGORYID']);
+
         $pageTitle = $product['NAME'];
         $content = __DIR__ . '/../Views/product.php';
         require __DIR__ . '/../Views/layout.php';
@@ -56,7 +58,8 @@ class ProductsController extends BaseController {
         $productData = [
             'name' => $_POST['name'],
             'price' => $_POST['price'],
-            'description' => $_POST['description']
+            'description' => $_POST['description'],
+            'categoryID' => $_POST['categoryID']
         ];
 
         if (strlen($productData['name']) > 50) {

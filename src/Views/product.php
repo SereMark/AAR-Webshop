@@ -42,6 +42,7 @@ if ($product) {
         <div class="product-details">
             <p><?= $productDescription ?></p>
             <p class="price">Price: $<?= $productPrice ?></p>
+            <p>Category: <?= $category['NAME'] ?></p>
             <div class="button-container">
                 <form action="/cart" method="post">
                     <input type="hidden" name="productid" value="<?= $productId ?>">

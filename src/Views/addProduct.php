@@ -22,6 +22,12 @@
             <label for="description">Description:</label>
             <textarea id="description" name="description"></textarea>
 
+            <select id="categories" name="categoryID" required>
+              <?php foreach($categories as $category): ?>
+                <option value="<?= $category['CATEGORYID'] ?>"><?= $category['NAME'] ?></option>
+              <?php endforeach; ?>
+            </select>
+            
             <div class="error" style="display: none;"></div>
             <button type="submit">Add Product</button>
         </form>

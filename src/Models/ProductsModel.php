@@ -49,11 +49,12 @@ class ProductsModel {
      */
     public function addProduct($productData) {
         $conn = getDatabaseConnection();
-        $sql = 'INSERT INTO products (name, price, description) VALUES (:name, :price, :description)';
+        $sql = 'INSERT INTO products (name, price, description, categoryID) VALUES (:name, :price, :description, :categoryID)';
         $stid = oci_parse($conn, $sql);
         oci_bind_by_name($stid, ':name', $productData['name']);
         oci_bind_by_name($stid, ':price', $productData['price']);
         oci_bind_by_name($stid, ':description', $productData['description']);
+        oci_bind_by_name($stid, ':categoryID', $productData['categoryID']);
 
         $result = oci_execute($stid);
         oci_free_statement($stid);

@@ -24,6 +24,24 @@ class CategoriesModel {
     }
 
     /**
+     * Fetch a single category by its ID
+     * @param int $categoryId
+     * @return array - Category details
+     */
+    public function fetchCategoryById($categoryId) {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT * FROM categories WHERE categoryid = :id';
+        $stid = oci_parse($conn, $sql);
+        oci_bind_by_name($stid, ':id', $categoryId, -1, SQLT_INT);
+        oci_execute($stid);
+        $category = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_LOBS);
+
+        oci_free_statement($stid);
+        oci_close($conn);
+        return $category;
+    }
+
+    /**
      * Add a new category
      * @param string $categoryName
      * @return bool - Success status

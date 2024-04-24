@@ -16,14 +16,10 @@
         <h3>Categories</h3>
         <!-- List of categories -->
         <ul>
-            <?php
-            // Loop through each category
-            foreach ($categories as $category):
-                // Get the name of the category
-                $categoryName = $category['NAME'];
-            ?>
+            <!-- Loop through each category -->
+            <?php foreach ($categories as $category):?>
                 <!-- Display the category name -->
-                <li><a href="#"><?php echo htmlspecialchars($categoryName); ?></a></li>
+                <li><a href="#"><?php echo htmlspecialchars($category['NAME']); ?></a></li>
             <?php endforeach; ?>
         </ul>
     </aside>
