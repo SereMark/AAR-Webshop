@@ -1,8 +1,3 @@
-body {
-    background-color: #121212;
-    font-family: 'Arial', sans-serif;
-}
-
 .dashboard {
     max-width: 1100px;
     margin: 40px auto;
@@ -10,19 +5,19 @@ body {
 }
 
 .dashboard-section {
+    background-color: #1F1F1F;
+    border: 1px solid #333;
+    border-radius: 6px;
     margin-bottom: 50px;
     padding: 20px;
-    background-color: #1F1F1F;
-    border-radius: 6px;
-    border: 1px solid #333;
 }
 
 .dashboard-section h2 {
-    font-size: 24px;
+    border-bottom: 1px solid #333;
     color: #FFCB05;
+    font-size: 24px;
     margin-bottom: 20px;
     padding-bottom: 5px;
-    border-bottom: 1px solid #333;
 }
 
 .table-wrapper {
@@ -30,11 +25,11 @@ body {
 }
 
 .styled-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
     background-color: #222;
+    border-collapse: collapse;
     border-radius: 6px;
+    margin-top: 10px;
+    width: 100%;
 }
 
 .styled-table thead tr {
@@ -45,22 +40,23 @@ body {
 
 .styled-table th,
 .styled-table td {
-    padding: 12px 15px;
     border-bottom: 1px solid #333;
+    padding: 12px 15px;
 }
 
 .styled-table td {
+    color: #ddd;
     word-break: break-all;
 }
 
-.styled-table td:nth-child(4), .styled-table td:nth-child(5) {
-    word-break: normal;
+.styled-table td:nth-child(4),
+.styled-table td:nth-child(5) {
     min-width: 100px;
+    word-break: normal;
 }
 
 .styled-table tbody tr {
     background-color: #262626;
-    color: #ddd;
 }
 
 .styled-table tbody tr:nth-child(even) {
@@ -76,13 +72,43 @@ body {
 }
 
 .btn, .btn-delete, .btn-admin {
-    padding: 10px 20px;
-    font-size: 0.9rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    white-space: nowrap;
+    font-size: 0.9rem;
+    padding: 10px 20px;
     transition: background-color 0.2s, transform 0.2s;
+    white-space: nowrap;
+}
+
+.btn:not(:disabled):hover,
+.btn-delete:not(:disabled):hover,
+.btn-admin:not(:disabled):hover {
+    transform: scale(1.05);
+}
+
+.btn:disabled,
+.btn-delete:disabled,
+.btn-admin:disabled {
+    background-color: #757575;
+    color: #ffffff;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none;
+}
+
+.btn:disabled:hover, .btn-delete:disabled:hover, .btn-admin:disabled:hover {
+    background-color: #858585;
+}
+
+.btn {
+    background-color: #ffda48;
+}
+
+.btn:hover {
+    box-shadow: 0 5px 8px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
 }
 
 .btn-delete {
@@ -90,32 +116,8 @@ body {
     color: white;
 }
 
-.btn-delete:hover, .btn-admin:hover {
+.btn-delete:hover {
     background-color: #d32f2f;
-    transform: scale(1.05);
-}
-
-.btn:hover {
-    background-color: #ffda48;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 8px rgba(0,0,0,0.15);
-}
-
-.btn:disabled, 
-.btn-delete:disabled, 
-.btn-admin[disabled] {
-    background-color: #757575;
-    cursor: not-allowed;
-    opacity: 0.7;
-    transform: none;
-    box-shadow: none;
-}
-
-.actions-group {
-    display: inline-flex;
-    justify-content: flex-start;
-    gap: 10px;
-    max-width: 150px;
 }
 
 .btn-admin {
@@ -126,13 +128,20 @@ body {
     background-color: #45A049;
 }
 
-.add-category-form input[type="text"]{
-    width: auto;
-    padding: 10px;
-    display: inline-block;
+.actions-group {
+    display: inline-flex;
+    gap: 10px;
+    justify-content: flex-start;
+    max-width: 150px;
+}
+
+.add-category-form input[type="text"] {
     background-color: #333;
-    color: #fff;
     border: 1px solid #555;
     border-radius: 4px;
     box-sizing: border-box;
+    color: #fff;
+    display: inline-block;
+    padding: 10px;
+    width: auto;
 }

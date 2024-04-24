@@ -39,6 +39,7 @@
                                 <?php else: ?>
                                     <div class="actions-group">
                                         <button disabled class="btn-delete" title="You cannot delete your own account">Delete</button>
+                                        <button disabled class="btn-admin" title="You cannot change your own admin status"><?= $user['ISADMIN'] == 'Y' ? 'Revoke Admin' : 'Make Admin' ?></button>
                                     </div>
                                 <?php endif; ?>
                             </td>
