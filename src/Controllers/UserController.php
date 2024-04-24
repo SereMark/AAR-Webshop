@@ -121,5 +121,28 @@ class UserController extends BaseController {
             echo "Failed to delete the profile.";
             exit;
         }
-    }    
+    }
+
+    /**
+     * Displays the admin dashboard if the user is an admin, otherwise redirects to the profile page.
+     */
+    public function showAdminDashboard() {
+        $userId = $_SESSION['userid'] ?? null;
+        if (!$userId) {
+            $this->redirect('/?info=LoginRequired');
+        }
+
+        $user = $this->usersModel->getUserDetailsById($userId);
+        if (!$user) {
+            $this->redirect('/?info=error');
+        }
+
+        if ($user['ISADMIN']) {
+            $pageTitle = 'Admin Dashboard';
+            $content = __DIR__ . '/../Views/admin_dashboard.php';
+            require __DIR__ . '/../Views/layout.php';
+        } else {
+            $this->redirect('/profile?info=notAdmin');
+        }
+    }
 }

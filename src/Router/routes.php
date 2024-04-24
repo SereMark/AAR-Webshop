@@ -41,6 +41,10 @@ $router->post('/change-password', function() {
     $controller = new UserController();
     $controller->updatePassword();
 });
+$router->get('/admin_dashboard', function () {
+    $controller = new UserController();
+    $controller->showAdminDashboard();
+});
 
 // Authentication related routes
 $router->post('/login', function () {

@@ -67,6 +67,11 @@
                 <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email'] ?? 'N/A'); ?></p>
                 <p><strong>Phone Number:</strong> <?php echo htmlspecialchars($_SESSION['phonenumber'] ?? 'N/A'); ?></p>
             </section>
+            <?php if ($user['ISADMIN'] == 'Y'): ?>
+                <a href="/admin_dashboard" class="admin-dashboard-button">Admin Dashboard</a>
+            <?php else: ?>
+                <a href="#" class="admin-dashboard-button disabled" title="You must be an admin to access this page">Admin Dashboard</a>
+            <?php endif; ?>
         </main>
     </div>
 </body>

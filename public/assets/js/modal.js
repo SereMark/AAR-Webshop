@@ -15,6 +15,7 @@ const messages = {
     'reviewDelete': 'Review deleted successfully!',
     'profileUpdated': 'Profile info updated successfully!',
     'passwordChangedPleaseLoginAgain': 'Password changed successfully! Please login again.',
+    'notAdmin': 'You must be an admin to access this page!',
 };
 
 // Add event listeners when the document is ready

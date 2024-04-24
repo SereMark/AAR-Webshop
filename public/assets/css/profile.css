@@ -3,7 +3,7 @@
     grid-template-columns: 300px 1fr;
     gap: 30px;
     padding: 40px;
-    min-height: 100vh;
+    height: calc(100vh - 168px);
     background-color: #121212;
 }
 
@@ -11,6 +11,7 @@
     background-color: #242424;
     border-radius: 12px;
     padding: 25px;
+    height: calc(100vh - 220px);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -43,10 +44,12 @@
 }
 
 .profile-main {
-    background-color: #1E1E1E;
+    position: relative;
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+    background-color: #1E1E1E;
+    height: calc(100vh - 220px);
 }
 
 .profile-header h1 {
@@ -112,20 +115,41 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.dashboard-item-link:hover,
-.dashboard-item-link:focus {
+.dashboard-item-link:hover, .dashboard-item-link:focus {
     background-color: #333;
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     cursor: pointer;
 }
 
-.dashboard-icon,
-.dashboard-label {
-    transition: color 0.3s ease;
+.admin-dashboard-button {
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+    background-color: #dc3545;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-.dashboard-item-link:hover .dashboard-icon,
-.dashboard-item-link:hover .dashboard-label {
-    color: #FFD700;
+.admin-dashboard-button:hover {
+    background-color: #c82333;
+    color: white;
+    transform: translateY(-2px);
+    cursor: pointer;
+}
+
+.admin-dashboard-button.disabled {
+    background-color: #888;
+    color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.admin-dashboard-button.disabled:hover {
+    background-color: #888;
+    transform: none;
 }
