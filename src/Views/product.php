@@ -40,16 +40,22 @@ if ($product) {
             <img src="/assets/images/placeholder.jpg" alt="<?= $productName ?>" class="product-image">
         </div>
         <div class="product-details">
-            <p><?= $productDescription ?></p>
-            <h3>Category: <?= $category ? $category['NAME'] : 'Not available' ?></h3>
-            <p class="price">Price: $<?= $productPrice ?></p>
-            <div class="button-container">
-                <form action="/cart" method="post">
-                    <input type="hidden" name="productid" value="<?= $productId ?>">
-                    <button type="submit" class="add-to-cart-button">Add to Cart</button>
-                </form>
-                <div class="delete-product-button-container">
-                    <button type="button" class="delete-product-button" disabled>Delete [WIP]</button>
+            <div class="product-description">
+                <p><?= $productDescription ?></p>
+            </div>
+            <div class="product-meta">
+                <div class="product-info">
+                    <h3>Category: <?= $category ? $category['NAME'] : 'Not available' ?></h3>
+                    <p class="price">Price: $<?= $productPrice ?></p>
+                </div>
+                <div class="button-container">
+                    <form action="/cart" method="post">
+                        <input type="hidden" name="productid" value="<?= $productId ?>">
+                        <button type="submit" class="add-to-cart-button">Add to Cart</button>
+                    </form>
+                    <div class="delete-product-button-container">
+                        <button type="button" class="delete-product-button" disabled>Delete [WIP]</button>
+                    </div>
                 </div>
             </div>
         </div>
