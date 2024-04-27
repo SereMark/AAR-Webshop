@@ -33,7 +33,7 @@ class ProductsModel {
         oci_execute($stid);
         $product = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_LOBS);
 
-        if (is_object($product['DESCRIPTION'])) {
+        if (isset($product['DESCRIPTION']) && is_object($product['DESCRIPTION'])) {
             $product['DESCRIPTION'] = $product['DESCRIPTION']->load();
         }
 
@@ -124,6 +124,30 @@ class ProductsModel {
             oci_free_statement($stmt);
             oci_close($conn);
             throw new Exception("Failed to delete product: " . $error['message']);
+            return false;
+        }
+    
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return true;
+    }
+
+    /**
+     * Delete all products for a specific user by their ID
+     * @param int $userId
+     * @return bool - True if the products were deleted successfully, false otherwise
+     */
+    public function deleteAllProductsByUserId($userId) {
+        $conn = getDatabaseConnection();
+        $sql = 'DELETE FROM products WHERE userid = :userid';
+        $stmt = oci_parse($conn, $sql);
+        oci_bind_by_name($stmt, ':userid', $userId);
+    
+        if (!oci_execute($stmt)) {
+            $error = oci_error($stmt);
+            oci_free_statement($stmt);
+            oci_close($conn);
+            throw new Exception("Failed to delete products: " . $error['message']);
             return false;
         }
     

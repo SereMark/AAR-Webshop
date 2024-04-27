@@ -22,6 +22,10 @@ $router->post('/delete-product', function () {
     $controller = new ProductsController();
     $controller->deleteProduct();
 });
+$router->post('/delete-all-products', function () {
+    $controller = new ProductsController();
+    $controller->deleteAllUserProducts();
+});
 
 // Category related routes
 $router->post('/add-category', function() {

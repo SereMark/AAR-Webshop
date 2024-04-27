@@ -114,6 +114,24 @@ class ProductsController extends BaseController {
     }
 
     /**
+     * Handle the deletion of all products added by the current user
+     */
+    public function deleteAllUserProducts() {
+        $userId = $_SESSION['userid'] ?? null;
+        if (!$userId) {
+            $this->redirect('/?info=LoginRequired');
+        }
+
+        $success = $this->productsModel->deleteAllProductsByUserId($userId);
+
+        if ($success) {
+            $this->redirect('/products?info=delete');
+        } else {
+            $this->redirect('/products?info=error');
+        }
+    }
+
+    /**
      * Show a 404 error page when a product is not found
      */
     private function productNotFound() {
