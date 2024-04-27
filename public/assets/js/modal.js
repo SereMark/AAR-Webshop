@@ -1,23 +1,25 @@
 // Define messages for different actions
-const messages = {
-    'login': 'Login successful!',
-    'LoginRequired': 'You must be logged in to continue!',
-    'register': 'Registration successful!',
-    'update': 'Update successful!',
-    'delete': 'Deletion successful!',
-    'logout': 'Logout successful!',
-    'upload': 'Upload successful!',
-    'error': 'An error has occurred!',
-    'cartAdd': 'Item added to cart!',
-    'cartRemove': 'Item removed from cart!',
-    'productAdd': 'Product added successfully!',
-    'reviewAdd': 'Review added successfully!',
-    'reviewDelete': 'Review deleted successfully!',
-    'profileUpdated': 'Profile info updated successfully!',
-    'passwordChangedPleaseLoginAgain': 'Password changed successfully! Please login again.',
-    'notAdmin': 'You must be an admin to access this page!',
-    'categoryAdded': 'Category added successfully!',
-};
+if (typeof messages === 'undefined') {
+    var messages = {
+        'login': 'Login successful!',
+        'LoginRequired': 'You must be logged in to continue!',
+        'register': 'Registration successful!',
+        'update': 'Update successful!',
+        'delete': 'Deletion successful!',
+        'logout': 'Logout successful!',
+        'upload': 'Upload successful!',
+        'error': 'An error has occurred!',
+        'cartAdd': 'Item added to cart!',
+        'cartRemove': 'Item removed from cart!',
+        'productAdd': 'Product added successfully!',
+        'reviewAdd': 'Review added successfully!',
+        'reviewDelete': 'Review deleted successfully!',
+        'profileUpdated': 'Profile info updated successfully!',
+        'passwordChangedPleaseLoginAgain': 'Password changed successfully! Please login again.',
+        'notAdmin': 'You must be an admin to access this page!',
+        'categoryAdded': 'Category added successfully!',
+    };
+}
 
 // Add event listeners when the document is ready
 document.addEventListener('DOMContentLoaded', function() {
@@ -56,7 +58,7 @@ function handleDbConnectionModal() {
 
     // If the last checked timestamp is not set or it's been more than showModalAfterSeconds since the last check, show the modal and check the database connection
     if (!lastCheckedTimestamp || currentTime - lastCheckedTimestamp > showModalAfterSeconds * 1000) {
-        showModal('dbConnectionModal');
+        showModal('dbConnectionModal', true);
         checkDatabaseConnection();
     } else {
         hideModal('dbConnectionModal');
@@ -95,16 +97,15 @@ function configureButton(button, text, onClick) {
 }
 
 // Show a modal
-function showModal(modalId) {
+function showModal(modalId, preventCloseOnClickOutside = false) {
     const modal = document.getElementById(modalId);
     modal.style.display = 'block';
 
-    // Add a click event listener to the window to close the modal when clicking outside of it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            hideModal(modalId);
-        }
-    };
+    if (preventCloseOnClickOutside) {
+        modal.setAttribute('preventCloseOnClickOutside', '');
+    } else {
+        modal.removeAttribute('preventCloseOnClickOutside');
+    }
 }
 
 // Hide a modal
@@ -116,8 +117,8 @@ function hideModal(modalId) {
 // Handle clicks on the document
 function handleModalClicks() {
     document.addEventListener('click', function(event) {
-        // If the clicked element is a modal, hide it
-        if (event.target.className === 'modal') {
+        // If the clicked element is a modal, hide it only if it doesn't have the 'preventCloseOnClickOutside' attribute
+        if (event.target.className === 'modal' && !event.target.hasAttribute('preventCloseOnClickOutside')) {
             hideModal(event.target.id);
         } 
         // If the clicked element is a close button, hide the closest modal
@@ -129,11 +130,21 @@ function handleModalClicks() {
         } 
         // If the clicked element is the retry button, check the database connection
         else if (event.target.id === 'retryBtn') {
+            var btn = event.target;
+            btn.disabled = true; // Disable the button
+            btn.style.backgroundColor = 'grey'; // Change the background color to grey
+            btn.style.cursor = 'not-allowed'; // Change the cursor to 'not-allowed'
             checkDatabaseConnection();
-        } 
+            setTimeout(function() {
+                btn.disabled = false; // Enable the button after 1 second
+                btn.style.backgroundColor = ''; // Reset the background color
+                btn.style.cursor = ''; // Reset the cursor
+            }, 1000);
+        }
         // If the clicked element is the continue button, hide the database connection modal
         else if (event.target.id === 'continueBtn') {
             hideModal('dbConnectionModal');
+            this.location.reload();
         }
     });
 }

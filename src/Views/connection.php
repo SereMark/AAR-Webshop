@@ -2,8 +2,6 @@
 <div id="dbConnectionModal" class="modal" style="display:none;">
     <!-- Modal content container -->
     <div class="modal-content">
-        <!-- Close button for the modal -->
-        <span class="close">&times;</span>
         <!-- Paragraph to display the database connection status -->
         <p id="dbConnectionStatus">Checking database connection...</p>
         <!-- Placeholder for status icon  -->

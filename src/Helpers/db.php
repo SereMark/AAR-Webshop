@@ -15,7 +15,7 @@ function getDatabaseConnection() {
         )
     )";
     // Attempt to establish a connection with the Oracle database
-    $conn = oci_connect(DB_USER, DB_PASS, $tns);
+    $conn = @oci_connect(DB_USER, DB_PASS, $tns);
     // If the connection fails, throw an exception
     if (!$conn) {
         $m = oci_error();

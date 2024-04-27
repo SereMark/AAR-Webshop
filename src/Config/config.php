@@ -7,8 +7,8 @@ define('DB_PORT', '1521');
 define('DB_SID', 'xe');
 
 // Debug flag
-define('DEBUG', true);
+define('DEBUG', false);
 
 // Connection check frequency in seconds
-define('CheckFrequency', 99999);
+define('CheckFrequency', 120);
 ?>

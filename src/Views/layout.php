@@ -35,7 +35,14 @@
 <script src="/assets/js/ajax-handler.js?v=1.0"></script>
 
 <!-- Set the showModalAfterSeconds variable to the value of the CheckFrequency constant -->
-<script> var showModalAfterSeconds = <?php echo CheckFrequency; ?>; </script>
+<?php 
+if ($checkNow) {
+    echo '<script> var showModalAfterSeconds = 0; </script>';
+    $checkNow = false;
+}else{
+    echo '<script> var showModalAfterSeconds = ' . CheckFrequency . '; </script>';
+}
+?>
 <!-- Include the modal script -->
 <script src="/assets/js/modal.js?v=1.0"></script>
 
