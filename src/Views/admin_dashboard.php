@@ -139,6 +139,7 @@
                             <td>
                                 <form action="/delete-product" method="post">
                                     <input type="hidden" name="productid" value="<?= $product['PRODUCTID'] ?>">
+                                    <input type="hidden" name="return" value="<?= $_SERVER['REQUEST_URI'] ?>">
                                     <button type="submit" class="btn-delete">Delete</button>
                                 </form>
                             </td>

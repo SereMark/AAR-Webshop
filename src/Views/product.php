@@ -55,9 +55,19 @@ if ($product) {
                         <input type="number" id="quantity" name="quantity" value="1" min="1" class="quantity-field">
                         <button type="submit" class="add-to-cart-button">Add to Cart</button>
                     </form>
-                    <div class="delete-product-button-container">
-                        <button type="button" class="delete-product-button" disabled>Delete [WIP]</button>
-                    </div>
+                    <?php
+                    if (isset($_SESSION['userid'], $product['USERID']) && $_SESSION['userid'] == $product['USERID']) {
+                    ?>
+                        <div class="delete-product-button-container">
+                            <form action="/delete-product" method="post">
+                                <input type="hidden" name="productid" value="<?= $productId ?>">
+                                <input type="hidden" name="return" value="<?= '/' ?>">
+                                <button type="submit" class="delete-product-button">Delete</button>
+                            </form>
+                        </div>
+                        <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>

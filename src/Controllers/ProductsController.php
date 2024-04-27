@@ -62,7 +62,8 @@ class ProductsController extends BaseController {
             'name' => $_POST['name'],
             'price' => $_POST['price'],
             'description' => $_POST['description'],
-            'categoryID' => $_POST['categoryID']
+            'categoryID' => $_POST['categoryID'],
+            'userid' => $_SESSION['userid']
         ];
 
         if (strlen($productData['name']) > 50) {
@@ -91,8 +92,7 @@ class ProductsController extends BaseController {
             $this->redirect('/?info=LoginRequired');
         }
 
-        // $products = $this->productsModel->fetchProductsByUserId($userId);
-        $products = null;
+        $products = $this->productsModel->fetchProductsByUserId($userId);
         
         $pageTitle = 'My Products';
         $content = __DIR__ . '/../Views/productList.php';
@@ -104,10 +104,12 @@ class ProductsController extends BaseController {
      */
     public function deleteProduct() {
         $productId = $_POST['productid'] ?? null;
+        $returnUrl = $_POST['return'] ?? '/?info=error';
+
         if ($productId && $this->productsModel->deleteProduct($productId)) {
-            $this->redirect('/admin_dashboard?info=delete');
+            $this->redirect($returnUrl . '?info=delete');
         } else {
-            $this->redirect('/admin_dashboard?info=error');
+            $this->redirect($returnUrl . '?info=error');
         }
     }
 

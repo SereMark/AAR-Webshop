@@ -36,7 +36,7 @@ class UserController extends BaseController {
         
         $orderCount = $this->orderModel->getOrderCountByUserId($userId);
         $reviewCount = $this->reviewsModel->getReviewCountByUserId($userId);
-        //$productCount = $this->productsModel->getProductCountByUserId($userId);
+        $productCount = $this->productsModel->getProductCountByUserId($userId);
 
         $pageTitle = 'Profile';
         $content = __DIR__ . '/../Views/profile.php';

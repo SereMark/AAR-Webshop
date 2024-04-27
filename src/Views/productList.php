@@ -6,19 +6,19 @@
 <body>
     <main class="main-content">
         <section class="list">
-            <?php if (empty($productItems)): ?>
-                <!-- <p class="empty-list">Your product list is empty.</p> -->
-                <p class="empty-list">Elcsesztük a tervezést, nincs a termékekhez UserID csatolva.</p>
+            <?php if (empty($products)): ?>
+                <p class="empty-list">Your product list is empty.</p>
             <?php else: ?>
                 <ul class="list-items">
-                    <?php foreach ($productItems as $item): ?>
+                    <?php foreach ($products as $item): ?>
                         <li class="list-item">
                             <div class="item-details">
-                                <h2 class="item-name"><?= htmlspecialchars($item['productname']) ?></h2>
-                                <p class="item-info">Price: <?= htmlspecialchars($item['price']) ?>$</p>
+                                <h2 class="item-name"><?= htmlspecialchars($item['NAME']) ?></h2>
+                                <p class="item-info">Price: <?= htmlspecialchars($item['PRICE']) ?>$</p>
                             </div>
-                            <form class="delete-form" action="/product/delete" method="post">
-                                <input type="hidden" name="productitemid" value="<?= $item['productitemid'] ?>">
+                            <form class="delete-form" action="/delete-product" method="post">
+                                <input type="hidden" name="productid" value="<?= $item['PRODUCTID'] ?>">
+                                <input type="hidden" name="return" value="<?= $_SERVER['REQUEST_URI'] ?>">
                                 <button type="submit" class="delete-btn">Remove</button>
                             </form>
                         </li>
