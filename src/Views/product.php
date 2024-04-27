@@ -49,8 +49,10 @@ if ($product) {
                     <p class="price">Price: $<?= $productPrice ?></p>
                 </div>
                 <div class="button-container">
-                    <form action="/cart" method="post">
+                    <form action="/cart" method="post" class="button-container">
                         <input type="hidden" name="productid" value="<?= $productId ?>">
+                        <label for="quantity" style="margin-right: 10px; color: #ccc;">Quantity:</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" class="quantity-field">
                         <button type="submit" class="add-to-cart-button">Add to Cart</button>
                     </form>
                     <div class="delete-product-button-container">

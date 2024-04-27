@@ -86,6 +86,10 @@ $router->post('/cart', function () {
     $controller = new CartController();
     $controller->addItemToCart();
 });
+$router->post('/cart/update', function () {
+    $controller = new CartController();
+    $controller->updateItemQuantity();
+});
 $router->post('/cart/delete', function() {
     $controller = new CartController();
     $controller->deleteItemFromCart();

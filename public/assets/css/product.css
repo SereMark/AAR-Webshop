@@ -240,3 +240,45 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+.quantity-field {
+    width: 80px;
+    padding: 8px 12px;
+    margin-right: 10px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+}
+
+.quantity-field::-webkit-inner-spin-button, 
+.quantity-field::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-field:focus {
+    border-color: #ffd740;
+    outline: none;
+}
+
+.update-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.update-btn:hover {
+    background-color: #43A047;
+}
+
+.button-container form {
+    display: flex;
+    align-items: center;
+}
