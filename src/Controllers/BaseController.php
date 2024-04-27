@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/../Helpers/db.php';
 class BaseController {
     /**
      * Constructor that starts session if not already started.
@@ -6,6 +7,18 @@ class BaseController {
     public function __construct() {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
+        }
+        $this->checkDatabaseConnection();
+    }
+
+    /**
+     * Checks if the database is connected.
+     */
+    protected function checkDatabaseConnection() {
+        if (!isDatabaseConnected()) {
+            $pageTitle = 'Connection Error';
+            require __DIR__ . '/../Views/layout.php';
+            exit; // Stop further execution if the database is not connected
         }
     }
 

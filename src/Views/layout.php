@@ -28,7 +28,11 @@
 </div>
 
 <!-- Include the footer -->
-<?php include __DIR__ . '/footer.php'; ?>
+<?php 
+    if (!($pageTitle == 'Connection Error')) {
+        include __DIR__ . '/footer.php'; 
+    }
+?>
 
 <!-- Include the jQuery library and the ajax-handler script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -36,9 +40,8 @@
 
 <!-- Set the showModalAfterSeconds variable to the value of the CheckFrequency constant -->
 <?php 
-if ($checkNow) {
+if ($pageTitle == 'Connection Error') {
     echo '<script> var showModalAfterSeconds = 0; </script>';
-    $checkNow = false;
 }else{
     echo '<script> var showModalAfterSeconds = ' . CheckFrequency . '; </script>';
 }

@@ -19,22 +19,12 @@ class ProductsController extends BaseController {
      * Display all products
      */
     public function index() {
-        $isDatabaseConnected = isDatabaseConnected();
+        $products = $this->productsModel->fetchProducts();
+        $categories = $this->categoriesModel->fetchCategories();
 
-        if (!$isDatabaseConnected) {
-            $checkNow = true;
-            $pageTitle = 'Connection Error';
-            require __DIR__ . '/../Views/layout.php';
-            return;
-        }
-        else {
-            $products = $this->productsModel->fetchProducts();
-            $categories = $this->categoriesModel->fetchCategories();
-
-            $pageTitle = 'Products';
-            $content = __DIR__ . '/../Views/products.php';
-            require __DIR__ . '/../Views/layout.php';
-        }
+        $pageTitle = 'Products';
+        $content = __DIR__ . '/../Views/products.php';
+        require __DIR__ . '/../Views/layout.php';
     }
 
     /**
