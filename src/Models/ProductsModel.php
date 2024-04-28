@@ -109,6 +109,27 @@ class ProductsModel {
     }
 
     /**
+     * Search products in the database
+     * @param string $term The search term
+     * @return array - Array of found products
+     */
+    public function searchProducts($term) {
+        $conn = getDatabaseConnection();
+        $sql = "SELECT * FROM products WHERE LOWER(name) LIKE LOWER(:term) OR LOWER(description) LIKE LOWER(:term)";
+        $stid = oci_parse($conn, $sql);
+        $likeTerm = '%' . $term . '%';
+        oci_bind_by_name($stid, ':term', $likeTerm);
+        
+        oci_execute($stid);
+        $products = [];
+        oci_fetch_all($stid, $products, 0, -1, OCI_FETCHSTATEMENT_BY_ROW);
+        
+        oci_free_statement($stid);
+        oci_close($conn);
+        return $products;
+    }    
+
+    /**
      * Delete a product by its ID
      * @param int $productId
      * @return bool - True if the product was deleted successfully, false otherwise

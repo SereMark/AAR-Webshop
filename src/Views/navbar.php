@@ -11,10 +11,10 @@
         </a>
         <!-- Search container -->
         <div class="search-container">
-            <!-- Input field for search -->
-            <input type="text" placeholder="Search products..." class="search-input">
-            <!-- Search button -->
-            <button type="submit" class="search-button">Search</button>
+        <form action="/search" method="get" id="searchForm">
+          <input type="text" name="q" placeholder="Search products..." class="search-input" required>
+          <button type="submit" class="search-button">Search</button>
+      </form>
         </div>
         <!-- Right side of the header -->
         <div class="header-right">
@@ -35,3 +35,18 @@
         </div>
     </div>
 </nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var searchForm = document.getElementById('searchForm');
+    if (searchForm) {
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            var searchQuery = document.querySelector('.search-input').value;
+            window.location.href = '/search?q=' + encodeURIComponent(searchQuery);
+        });
+    } else {
+        console.log('Search form not found');
+    }
+});
+</script>

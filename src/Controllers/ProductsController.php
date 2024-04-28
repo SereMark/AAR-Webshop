@@ -100,6 +100,22 @@ class ProductsController extends BaseController {
     }
 
     /**
+     * Search for products based on a query
+     */
+    public function search() {
+        $searchTerm = $_GET['q'] ?? '';
+        if (!empty($searchTerm)) {
+            $products = $this->productsModel->searchProducts($searchTerm);
+            $pageTitle = 'Search results for: ' . $searchTerm;
+            $categories = $this->categoriesModel->fetchCategories();
+            $content = __DIR__ . '/../Views/products.php';
+        } else {
+            $this->redirect('/');
+        }
+        require __DIR__ . '/../Views/layout.php';
+    }    
+
+    /**
      * Handle the deletion of a product
      */
     public function deleteProduct() {

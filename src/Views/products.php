@@ -41,30 +41,13 @@
 
     <!-- Start of the Product Grid -->
     <section class="product-grid">
-        <?php
-        // Include the ProductsModel
-        require_once __DIR__ . '/../Models/ProductsModel.php';
-
-        // Create a new ProductsModel
-        $productsModel = new ProductsModel();
-        // Fetch the products
-        $products = $productsModel->fetchProducts();
-
-        // Loop through each product
-        foreach ($products as $product):
-            // Get the product ID, name, price, and description
-            $productId = $product['PRODUCTID'] ?? 0; // Ensure there is a unique ID for each product
-            $name = $product['NAME'] ?? 'Name not set';
-            $price = number_format((float)($product['PRICE'] ?? 0), 2, '.', '');
-            $description = $product['DESCRIPTION'] ?? 'No description provided.';
-        ?>
-            <!-- Anchor tag added around the product card -->
-            <a href="/product?id=<?php echo htmlspecialchars($productId); ?>" class="product-link">
+        <?php foreach ($products as $product): ?>
+            <a href="/product?id=<?php echo htmlspecialchars($product['PRODUCTID']); ?>" class="product-link">
                 <div class="product-card">
-                    <img src="assets/images/placeholder.jpg" alt="<?php echo htmlspecialchars($name); ?>" class="product-image">
-                    <h4 class="product-name"><?php echo htmlspecialchars($name); ?></h4>
-                    <p class="product-price">$<?php echo htmlspecialchars($price); ?></p>
-                    <p class="product-description"><?php echo htmlspecialchars($description); ?></p>
+                    <img src="/assets/images/placeholder.jpg" alt="<?php echo htmlspecialchars($product['NAME']); ?>" class="product-image">
+                    <h4 class="product-name"><?php echo htmlspecialchars($product['NAME']); ?></h4>
+                    <p class="product-price">$<?php echo htmlspecialchars(number_format((float)$product['PRICE'], 2, '.', '')); ?></p>
+                    <p class="product-description"><?php echo htmlspecialchars($product['DESCRIPTION']); ?></p>
                 </div>
             </a>
         <?php endforeach; ?>
