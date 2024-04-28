@@ -22,6 +22,11 @@ if (typeof messages === 'undefined') {
         'couponAdded': 'Coupon added successfully!',
         'CodeAlreadyExists' : 'Coupon code already exists!',
         'numberError' : 'Please enter a valid number!',
+        'codeError': 'Coupon code cannot be empty or whitespace!',
+        'codeLengthError': 'Coupon code exceeds the maximum length of 255 characters!',
+        'discountRangeError': 'Discount value must be between 0 and 999.99!',
+        'decimalError': 'Discount must not have more than two decimal places!',
+        'genericDatabaseError': 'Database operation failed, please try again!'
     };
 }
 

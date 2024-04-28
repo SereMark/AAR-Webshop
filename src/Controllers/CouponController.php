@@ -13,40 +13,55 @@ class CouponController extends BaseController {
     }
 
     public function addCoupon() {
-        $this->ensureLoggedIn();
+        $this->ensureLoggedIn();  // Ensure user is logged in
+    
+        // Retrieve input data
         $couponCode = $_POST['couponCode'] ?? null;
         $couponDiscount = $_POST['discount'] ?? null;
-
-        // Check if either coupon code or discount is missing.
-        if (!$couponCode || !$couponDiscount) {
-            error_log("Coupon code or discount is missing");
-            $this->redirect('/?info=error');
+    
+        // Validate coupon code
+        if (empty(trim($couponCode))) {
+            $this->redirect('/admin_dashboard?info=codeError');
             return; // Return after redirect to prevent further execution
         }
-
-        // Redirect if discount is numeric (assuming here you want numeric values, reverse if necessary).
+    
+        if (strlen($couponCode) > 255) {
+            $this->redirect('/admin_dashboard?info=codeLengthError');
+            return; // Return after redirect
+        }
+    
+        // Validate discount
         if (!is_numeric($couponDiscount)) {
-            error_log("Discount is not numeric");
             $this->redirect('/admin_dashboard?info=numberError');
             return; // Return after redirect
         }
-
-        // Check for existing coupon code before adding.
+    
+        $couponDiscount = floatval($couponDiscount);
+        if ($couponDiscount >= 1000 || $couponDiscount < 0) {
+            $this->redirect('/admin_dashboard?info=discountRangeError');
+            return; // Return after redirect
+        }
+    
+        // Check for more than two decimal places
+        if (floor($couponDiscount * 100) != $couponDiscount * 100) {
+            $this->redirect('/admin_dashboard?info=decimalError');
+            return; // Return after redirect
+        }
+    
+        // Check for existing coupon code
         if ($this->couponsModel->couponExists($couponCode)) {
-            error_log("Coupon code already exists");
             $this->redirect('/admin_dashboard?info=CodeAlreadyExists');
             return; // Return after redirect
         }
-
-        // Attempt to add the coupon.
+    
+        // Attempt to add the coupon to the database
         try {
             $this->couponsModel->addCoupon($couponCode, $couponDiscount);
             $this->redirect('/admin_dashboard?info=couponAdded');
-        } catch (Exception $e) {
-            error_log("Error adding coupon: " . $e->getMessage());
+        } catch (Exception) {
             $this->redirect('/admin_dashboard?info=error');
         }
-    }
+    }    
 
     /**
      * Deletes a coupon.
