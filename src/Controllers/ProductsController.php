@@ -19,13 +19,14 @@ class ProductsController extends BaseController {
      * Display all products
      */
     public function index() {
-        $products = $this->productsModel->fetchProducts();
+        $categoryId = $_GET['category'] ?? null;
+        $products = $categoryId ? $this->productsModel->fetchProductsByCategory($categoryId) : $this->productsModel->fetchProducts();
         $categories = $this->categoriesModel->fetchCategories();
 
         $pageTitle = 'Products';
         $content = __DIR__ . '/../Views/products.php';
         require __DIR__ . '/../Views/layout.php';
-    }
+    }    
 
     /**
      * Display a specific product by ID

@@ -14,14 +14,16 @@
     <aside class="sidebar">
         <!-- Title for the categories -->
         <h3>Categories</h3>
-        <!-- List of categories -->
-        <ul>
-            <!-- Loop through each category -->
-            <?php foreach ($categories as $category):?>
-                <!-- Display the category name -->
-                <li><a href="#"><?php echo htmlspecialchars($category['NAME']); ?></a></li>
-            <?php endforeach; ?>
-        </ul>
+            <!-- List of categories -->
+            <ul>
+                <?php foreach ($categories as $category): ?>
+                    <li>
+                        <a href="/?category=<?php echo htmlspecialchars($category['CATEGORYID']); ?>">
+                            <?php echo htmlspecialchars($category['NAME']); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
     </aside>
     <!-- End of the Sidebar/Aside -->
 
