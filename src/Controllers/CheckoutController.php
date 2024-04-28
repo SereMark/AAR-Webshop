@@ -13,8 +13,10 @@ class CheckoutController extends BaseController {
     }
 
     public function showCheckout() {
-        //For now just show a notfound error
-        header("HTTP/1.0 404 Not Found");
-        require __DIR__ . '/../Views/notfound.php';
+        $this->ensureLoggedIn();
+        $userId = $_SESSION['userid'];
+        $content = __DIR__ . '/../Views/checkout.php';
+        $pageTitle = 'Checkout';
+        require __DIR__ . '/../Views/layout.php';
     }
 }
