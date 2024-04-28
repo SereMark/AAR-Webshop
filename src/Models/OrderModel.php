@@ -124,20 +124,35 @@ class OrderModel
     public function deleteOrderById(int $orderId): bool
     {
         $conn = getDatabaseConnection();
-        $sql = 'DELETE FROM orders WHERE orderid = :orderid';
-        $stmt = oci_parse($conn, $sql);
-        oci_bind_by_name($stmt, ':orderid', $orderId);
+        try {
+            // Delete order items first (using PDO for clarity)
+            $sql = "DELETE FROM ORDERITEMS WHERE ORDERID = :orderId";
+            $stmt = oci_parse($conn, $sql);
+            oci_bind_by_name($stmt, ':orderid', $orderId);
 
-        if (!oci_execute($stmt)) {
-            $error = oci_error($stmt);
-            oci_free_statement($stmt);
-            oci_close($conn);
-            throw new Exception("Failed to delete order: " . $error['message']);
+            if (!oci_execute($stmt)) {
+                $error = oci_error($stmt);
+                oci_free_statement($stmt);
+                throw new Exception("Failed to delete order: " . $error['message']);
+            }
+
+            // Delete the order
+            $sql = 'DELETE FROM orders WHERE orderid = :orderid';
+            $stmt = oci_parse($conn, $sql);
+            oci_bind_by_name($stmt, ':orderid', $orderId);
+
+            if (!oci_execute($stmt)) {
+                $error = oci_error($stmt);
+                oci_free_statement($stmt);
+                throw new Exception("Failed to delete order: " . $error['message']);
+            }
+            return true;
+        } catch (Exception $e) {
+            throw new Exception("Failed to delete order: " . $e->getMessage());
+        } finally {
+            oci_close($conn); // Ensure connection is closed even on exceptions
         }
 
-        oci_free_statement($stmt);
-        oci_close($conn);
-        return true;
     }
 
 
