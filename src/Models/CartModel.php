@@ -11,6 +11,7 @@ class CartModel {
     /**
      * CartModel constructor
      * Initializes database connection
+     * @throws Exception
      */
     public function __construct() {
         $this->db = getDatabaseConnection();
@@ -21,7 +22,8 @@ class CartModel {
      * @param int $userId - ID of the user
      * @return array - Array of cart items
      */
-    public function getCartItemsByUserId($userId) {
+    public function getCartItemsByUserId(int $userId): array
+    {
         $sql = "SELECT ci.cartitemid, ci.productid, p.name, p.price, ci.quantity 
                 FROM cartitems ci 
                 JOIN products p ON ci.productid = p.productid 
@@ -50,7 +52,7 @@ class CartModel {
      * @param int $userId - ID of the user
      * @return int - Cart ID
      */
-    private function getOrCreateCartId($userId) {
+    public function getOrCreateCartId(int $userId) {
         // First, try to fetch the existing cart ID
         $sql = "SELECT cartid FROM cart WHERE userid = :userid";
         $stmt = oci_parse($this->db, $sql);
@@ -81,7 +83,8 @@ class CartModel {
      * @param int $quantity - New quantity
      * @return bool - True if the update was successful, false otherwise
      */
-    public function updateCartItemQuantity($cartItemId, $quantity) {
+    public function updateCartItemQuantity(int $cartItemId, int $quantity): bool
+    {
         $sql = "UPDATE cartitems SET quantity = :quantity WHERE cartitemid = :cartitemid";
         $stmt = oci_parse($this->db, $sql);
         oci_bind_by_name($stmt, ':quantity', $quantity);
@@ -95,7 +98,8 @@ class CartModel {
      * @param int $productId - ID of the product
      * @return bool - True if the item was added successfully, false otherwise
      */
-    public function addItemToCart($userId, $productId, $quantity = 1) {
+    public function addItemToCart(int $userId, int $productId, $quantity = 1): bool
+    {
         // Check if product already in cart and update quantity
         $sql = "SELECT cartitemid, quantity FROM cartitems WHERE cartid = (SELECT cartid FROM cart WHERE userid = :userid) AND productid = :productid";
         $stmt = oci_parse($this->db, $sql);
@@ -110,7 +114,6 @@ class CartModel {
             $stmt = oci_parse($this->db, $sql);
             oci_bind_by_name($stmt, ':quantity', $newQuantity);
             oci_bind_by_name($stmt, ':cartitemid', $row['CARTITEMID']);
-            return oci_execute($stmt);
         } else {
             // If product is not in the cart, insert new
             $cartId = $this->getOrCreateCartId($userId);
@@ -119,8 +122,8 @@ class CartModel {
             oci_bind_by_name($stmt, ':cartid', $cartId);
             oci_bind_by_name($stmt, ':productid', $productId);
             oci_bind_by_name($stmt, ':quantity', $quantity);
-            return oci_execute($stmt);
         }
+        return oci_execute($stmt);
     }    
 
     /**
@@ -128,11 +131,27 @@ class CartModel {
      * @param int $cartItemId - ID of the cart item
      * @return bool - True if the item was removed successfully, false otherwise
      */
-    public function removeItemFromCart($cartItemId) {
+    public function removeItemFromCart(int $cartItemId): bool
+    {
         $sql = "DELETE FROM cartitems WHERE cartitemid = :cartitemid";
         $stmt = oci_parse($this->db, $sql);
         oci_bind_by_name($stmt, ':cartitemid', $cartItemId);
 
         return oci_execute($stmt);
     }
+
+    /**
+     * Removes a cart
+     * @param int $cartId - ID of the cart
+     * @return bool - True if the item was removed successfully, false otherwise
+     */
+    public function removeCartById(int $cartId): bool {
+        $sql = "DELETE FROM cart WHERE cartid = :cartid";
+        $stmt = oci_parse($this->db, $sql);
+        oci_bind_by_name($stmt, ':cartid', $cartId);
+
+        return oci_execute($stmt);
+    }
+
+
 }
