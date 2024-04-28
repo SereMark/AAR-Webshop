@@ -62,6 +62,7 @@
                             <th>Zipcode</th>
                             <th>City</th>
                             <th>Address</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
