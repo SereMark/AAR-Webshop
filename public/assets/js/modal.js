@@ -18,6 +18,7 @@ if (typeof messages === 'undefined') {
         'passwordChangedPleaseLoginAgain': 'Password changed successfully! Please login again.',
         'notAdmin': 'You must be an admin to access this page!',
         'categoryAdded': 'Category added successfully!',
+        'orderInserted': 'Order placed! Thank you for your purchase!',
     };
 }
 
@@ -31,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Handle the information modal
 function handleInfoModal() {
     // Get URL parameters
-    var urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.search);
 
     // If there's an 'info' parameter, display the corresponding message
     if (urlParams.has('info')) {
@@ -42,7 +43,7 @@ function handleInfoModal() {
     }
 
     // Add a click event listener to the close button
-    var closeButton = document.querySelector('.close');
+    const closeButton = document.querySelector('.close');
     if (closeButton) {
         closeButton.addEventListener('click', function() {
             hideModal('infoModal');
@@ -123,14 +124,14 @@ function handleModalClicks() {
         } 
         // If the clicked element is a close button, hide the closest modal
         else if (event.target.classList.contains('close')) {
-            var modal = event.target.closest('.modal');
+            const modal = event.target.closest('.modal');
             if (modal) {
                 hideModal(modal.id);
             }
         } 
         // If the clicked element is the retry button, check the database connection
         else if (event.target.id === 'retryBtn') {
-            var btn = event.target;
+            const btn = event.target;
             btn.disabled = true; // Disable the button
             btn.style.backgroundColor = 'grey'; // Change the background color to grey
             btn.style.cursor = 'not-allowed'; // Change the cursor to 'not-allowed'
@@ -151,7 +152,7 @@ function handleModalClicks() {
 
 // Check the database connection
 function checkDatabaseConnection() {
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.open("GET", "/check-db-connection", true);
     xhr.onload = function() {
         handleDbConnectionResponse(JSON.parse(xhr.responseText).connected);
@@ -177,5 +178,5 @@ function handleDbConnectionResponse(isConnected) {
 
     // Store the connection status and the current timestamp in local storage
     localStorage.setItem('dbConnected', isConnected ? 'true' : 'false');
-    localStorage.setItem('lastDbCheckTimestamp', new Date().getTime());
+    localStorage.setItem('lastDbCheckTimestamp', new Date().getTime().toString());
 }
