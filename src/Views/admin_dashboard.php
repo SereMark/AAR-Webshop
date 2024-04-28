@@ -59,7 +59,9 @@
                             <th>User ID</th>
                             <th>Payment Method</th>
                             <th>Total</th>
-                            <th>Actions</th>
+                            <th>Zipcode</th>
+                            <th>City</th>
+                            <th>Address</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,6 +71,9 @@
                             <td><?= htmlspecialchars($order['USERID'] ?? '') ?></td>
                             <td><?= htmlspecialchars($order['PAYMENTMETHOD'] ?? '') ?></td>
                             <td>$<?= htmlspecialchars($order['TOTALAMOUNT'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($order['ZIPCODE'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($order['CITY'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($order['ADDRESS'] ?? '') ?></td>
                             <td>
                                 <form action="/delete-order" method="post">
                                     <input type="hidden" name="orderid" value="<?= $order['ORDERID'] ?>">
