@@ -142,9 +142,17 @@ $router->post('/order-details', function() {
     $controller = new OrderController();
     $controller->showUserOrderReview();
 });
+$router->get('/order-details', function() {
+    $controller = new OrderController();
+    $controller->showUserOrderReview();
+});
 $router->post('/order-details/orderFeedback', function() {
     $controller = new OrderController();
     $controller->placeOrder();
+});
+$router->post('/order-details/couponUpdate', function() {
+    $controller = new OrderController();
+    $controller->activateCoupon();
 });
 
 // Coupon related routes

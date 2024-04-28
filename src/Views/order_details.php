@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Overview</title>
     <link rel="stylesheet" href="/assets/css/order-details.css">
+
 </head>
 <body>
 <?php
@@ -21,8 +22,12 @@ if ($has_payment_value) {
 $user = $usersModel->getUserDetailsById($userId);
 
 $totalPrice = 0;
-foreach ($cartItems as $item) {
-    $totalPrice += $item['price'] * $item['quantity'];
+if (!isset($_POST['total_amount'])) {
+    foreach ($cartItems as $item) {
+        $totalPrice += $item['price'] * $item['quantity'];
+    }
+}else {
+    $totalPrice = $totalAmount;
 }
 
 ?>
@@ -54,9 +59,24 @@ foreach ($cartItems as $item) {
                     </li>
                 <?php endforeach; ?>
             </ul>
-            <div class="total-amount">
-                <p class="total-label">Total:</p>
-                <span class="total-price">$<?= number_format($totalPrice, 2) ?></span>
+
+            <div class="coupon-and-price">
+                <div class="coupon-block">
+                    <form action="/order-details/couponUpdate" method="post">
+                        <label for="coupon">Coupon Code:</label>
+                        <input type="text" id="coupon" name="coupon">
+                        <input type="hidden" name="zipcode" value="<?= $zipcode ?>">
+                        <input type="hidden" name="city" value="<?= $city ?>">
+                        <input type="hidden" name="address" value="<?= $address ?>">
+                        <input type="hidden" name="payment_type" value="<?= $payment_type ?>">
+                        <input type="hidden" name="total_amount" value="<?= $totalPrice ?>">
+                        <button type="submit" class="coupon-button">Add</button>
+                    </form>
+                </div>
+                <div class="total-amount">
+                    <p class="total-label">Total:</p>
+                    <span class="total-price">$<?= number_format($totalPrice, 2) ?></span>
+                </div>
             </div>
 
 
@@ -108,7 +128,6 @@ foreach ($cartItems as $item) {
                     <button onclick="showModal('orderInserted')" type="submit" class="confirm-btn">Place order</button>
                 </div>
             </form>
-
         </div>
     </div>
 </main>

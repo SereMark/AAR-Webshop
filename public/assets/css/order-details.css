@@ -162,3 +162,9 @@ input[type="hidden"] {
     margin-bottom: 5px; /* Add some space below labels */
 }
 
+.coupon-and-price {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+

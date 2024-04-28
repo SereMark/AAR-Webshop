@@ -1,26 +1,32 @@
 <?php
 require_once 'BaseController.php';
 
-class OrderController extends BaseController {
+class OrderController extends BaseController
+{
     private $OrderModel;
     private $cartModel;
     private $usersModel;
+
+    private $couponModel;
 
     /**
      * OrderController constructor
      * Initializes OrderModel
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->OrderModel = $this->loadModel('Order');
         $this->cartModel = $this->loadModel('Cart');
         $this->usersModel = $this->loadModel('Users');
+        $this->couponModel = $this->loadModel('Coupons');
     }
 
     /**
      * Display all orders for a specific user by their ID
      */
-    public function showUserOrders() {
+    public function showUserOrders()
+    {
         $userId = $_SESSION['userid'] ?? null;
         if (!$userId) {
             $this->redirect('/?info=LoginRequired');
@@ -33,22 +39,52 @@ class OrderController extends BaseController {
         $content = __DIR__ . '/../Views/ordersList.php';
         require __DIR__ . '/../Views/layout.php';
     }
+
     /**
      * Display actual order details
      */
-    public function showUserOrderReview() {
-            $this->ensureLoggedIn();
-            $userId = $_SESSION['userid'];
-            $cartItems = $this->cartModel->getCartItemsByUserId($userId);
-            $content = __DIR__ . '/../Views/order_details.php';
-            $pageTitle = 'Order details';
-            require __DIR__ . '/../Views/layout.php';
+    public function showUserOrderReview()
+    {
+        $this->ensureLoggedIn();
+        $userId = $_SESSION['userid'];
+        $cartItems = $this->cartModel->getCartItemsByUserId($userId);
+        $coupons = $this->couponModel->fetchCoupons();
+        $content = __DIR__ . '/../Views/order_details.php';
+        $pageTitle = 'Order details';
+        require __DIR__ . '/../Views/layout.php';
+    }
+
+    /**
+     * Activate coupon in order details
+     */
+    public function activateCoupon()
+    {
+        $this->ensureLoggedIn();
+        $userId = $_SESSION['userid'];
+        $cartItems = $this->cartModel->getCartItemsByUserId($userId);
+        $coupons = $this->couponModel->fetchCoupons();
+        $totalAmount = $_POST['total_amount'] ?? '';
+        $zipcode = $_POST['zipcode'] ?? '';
+        $city = $_POST['city'] ?? '';
+        $address = $_POST['address'] ?? '';
+        $paymentType = $_POST['payment_type'] ?? '';
+        if (isset($_POST['coupon'])) {
+            foreach ($coupons as $coupon) {
+                if ($coupon['CODE'] == $_POST['coupon']) {
+                    $totalAmount = $totalAmount * (1 - ($coupon['DISCOUNT'] / 100));
+                }
+            }
+        }
+        $content = __DIR__ . '/../Views/order_details.php';
+        $pageTitle = 'Order details';
+        require __DIR__ . '/../Views/layout.php';
     }
 
     /**
      * Handles the deletion of an order by its ID
      */
-    public function deleteOrder() {
+    public function deleteOrder()
+    {
         $orderId = $_POST['orderid'] ?? null;
         if ($orderId && $this->OrderModel->deleteOrderById($orderId)) {
             $this->redirect('/admin_dashboard?info=delete');
@@ -57,7 +93,8 @@ class OrderController extends BaseController {
         }
     }
 
-    public function placeOrder() {
+    public function placeOrder()
+    {
         $userId = $_SESSION['userid'] ?? null;
 
         $cartItems = $this->cartModel->getCartItemsByUserId($userId);
