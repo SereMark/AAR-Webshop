@@ -143,6 +143,16 @@ $router->post('/order-details/orderFeedback', function() {
     $controller->placeOrder();
 });
 
+// Coupon related routes
+$router->post('/add-coupon', function() {
+    $controller = new CouponController();
+    $controller->addCoupon();
+});
+$router->post('/delete-coupon', function() {
+    $controller = new CouponController();
+    $controller->deleteCoupon();
+});
+
 // System related routes
 $router->get('/check-db-connection', function () {
     $controller = new SystemController();

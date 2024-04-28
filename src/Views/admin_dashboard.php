@@ -157,7 +157,7 @@
         </section>
         <section class="dashboard-section">
             <h2>Categories</h2>
-            <form action="/add-category" method="post" class="add-category-form">
+            <form action="/add-category" method="post" class="add-form">
                 <input type="text" name="categoryName" placeholder="Enter category name" required>
                 <button type="submit" class="btn">Add Category</button>
             </form>
@@ -178,6 +178,41 @@
                             <td>
                                 <form action="/delete-category" method="post">
                                     <input type="hidden" name="categoryid" value="<?= $category['CATEGORYID'] ?>">
+                                    <button type="submit" class="btn-delete">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="dashboard-section">
+            <h2>Coupons</h2>
+            <form action="/add-coupon" method="post" class="add-form">
+                <input type="text" name="couponCode" placeholder="Enter coupon code" required>
+                <input type="text" name="discount" placeholder="Enter discount amount" required>
+                <button type="submit" class="btn">Add Coupon</button>
+            </form>
+            <div class="table-wrapper">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Coupon ID</th>
+                            <th>Code</th>
+                            <th>Discount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($coupons as $coupon): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($coupon['COUPONID'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($coupon['CODE'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($coupon['DISCOUNT'] ?? '') ?>%</td>
+                            <td>
+                                <form action="/delete-coupon" method="post">
+                                    <input type="hidden" name="couponid" value="<?= $coupon['COUPONID'] ?>">
                                     <button type="submit" class="btn-delete">Delete</button>
                                 </form>
                             </td>

@@ -7,6 +7,7 @@ class UserController extends BaseController {
     private $reviewsModel;
     private $productsModel;
     private $categoriesModel;
+    private $couponsModel;
 
     /**
      * Constructor initializes the Models.
@@ -18,6 +19,7 @@ class UserController extends BaseController {
         $this->reviewsModel = $this->loadModel('Reviews');
         $this->productsModel = $this->loadModel('Products');
         $this->categoriesModel = $this->loadModel('Categories');
+        $this->couponsModel = $this->loadModel('Coupons');
     }
 
     /**
@@ -144,7 +146,8 @@ class UserController extends BaseController {
             $orders = $this->orderModel->fetchAllOrders();
             $reviews = $this->reviewsModel->fetchAllReviews();
             $products = $this->productsModel->fetchProducts();
-            $categories = $this->categoriesModel->fetchCategories();    
+            $categories = $this->categoriesModel->fetchCategories();  
+            $coupons = $this->couponsModel->fetchCoupons();  
 
             $pageTitle = 'Admin Dashboard';
             $content = __DIR__ . '/../Views/admin_dashboard.php';

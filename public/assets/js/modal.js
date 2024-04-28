@@ -19,6 +19,9 @@ if (typeof messages === 'undefined') {
         'notAdmin': 'You must be an admin to access this page!',
         'categoryAdded': 'Category added successfully!',
         'orderInserted': 'Order placed! Thank you for your purchase!',
+        'couponAdded': 'Coupon added successfully!',
+        'CodeAlreadyExists' : 'Coupon code already exists!',
+        'numberError' : 'Please enter a valid number!',
     };
 }
 
