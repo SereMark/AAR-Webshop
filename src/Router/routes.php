@@ -134,6 +134,14 @@ $router->post('/delete-order', function() {
     $controller = new OrderController();
     $controller->deleteOrder();
 });
+$router->post('/order-details', function() {
+    $controller = new OrderController();
+    $controller->showUserOrderReview();
+});
+$router->post('/order-details/orderFeedback', function() {
+    $controller = new OrderController();
+    $controller->placeOrder();
+});
 
 // System related routes
 $router->get('/check-db-connection', function () {
