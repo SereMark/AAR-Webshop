@@ -1,0 +1,155 @@
+.profile-wrapper {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+    padding: 40px;
+    height: calc(100vh - 168px);
+    background-color: #121212;
+}
+
+.sidebar {
+    background-color: #242424;
+    border-radius: 12px;
+    padding: 25px;
+    height: calc(100vh - 220px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar h3 {
+    color: #FFD700;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+}
+
+.sidebar-nav li a {
+    color: #E0E0E0;
+    padding: 15px 20px;
+    display: block;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.sidebar-nav li a:hover, .sidebar-nav li a:focus {
+    background-color: #404040;
+    color: #ffffff;
+}
+
+.sidebar-nav li a.danger-link {
+    color: #FF6347;
+}
+
+.sidebar-nav li a.danger-link:hover {
+    background-color: #802020;
+    color: #FFF;
+}
+
+.profile-main {
+    position: relative;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+    background-color: #1E1E1E;
+    height: calc(100vh - 220px);
+}
+
+.profile-header h1 {
+    color: #f4f4f4;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    object-fit: cover;
+}
+
+.profile-dashboard, .profile-information {
+    background: #262626;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.dashboard-item {
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.dashboard-icon {
+    font-size: 1.5rem;
+    color: #FFD700;
+    margin-bottom: 8px;
+}
+
+.dashboard-value {
+    display: block;
+    font-size: 2rem;
+    color: #FFD700;
+}
+
+.dashboard-label {
+    color: #AAA;
+}
+
+.dashboard-item-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: inherit;
+    padding: 15px;
+    border-radius: 8px;
+    margin: auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-item-link:hover, .dashboard-item-link:focus {
+    background-color: #333;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.admin-dashboard-button {
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+    background-color: #dc3545;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.admin-dashboard-button:hover {
+    background-color: #c82333;
+    color: white;
+    transform: translateY(-2px);
+    cursor: pointer;
+}
+
+.admin-dashboard-button.disabled {
+    background-color: #888;
+    color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.admin-dashboard-button.disabled:hover {
+    background-color: #888;
+    transform: none;
+}

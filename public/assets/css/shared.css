@@ -1,0 +1,43 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  color: #f4f4f4;
+  line-height: 1.6;
+  background-color: #121212;
+}
+
+a {
+  color: #1e90ff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #63b8ff;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #FFCB05;
+  color: #000000;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 25px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #ffda48;
+  box-shadow: 0 5px 8px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}

@@ -1,0 +1,139 @@
+.main-content {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    color: #f4f4f4;
+    min-height: 100vh;
+}
+
+.list {
+    background-color: #2c2f33;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    padding: 20px;
+}
+
+.empty-list {
+    text-align: center;
+    color: #bbb;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.list-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #40444b;
+}
+
+.item-details {
+    flex-grow: 1;
+    margin-right: 20px;
+}
+
+.item-name {
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.item-info {
+    font-size: 18px;
+    color: #bbbbbb;
+}
+
+.delete-form {
+    flex-shrink: 0;
+}
+
+.delete-btn, .danger-link {
+    background-color: #e03131;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.delete-btn:hover, .danger-link:hover{
+    background-color: #f03e3e;
+    color: white;
+    transform: scale(1.05);
+}
+
+.confirm-container {
+    text-align: right;
+    padding: 20px 0;
+}
+
+.confirm-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.confirm-btn:hover {
+    background-color: #218838;
+}
+
+.quantity-field {
+    width: 60px;
+    padding: 8px 10px;
+    margin-right: 10px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+}
+
+.quantity-field::-webkit-inner-spin-button, 
+.quantity-field::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-field:focus {
+    border-color: #ffd740;
+    outline: none;
+}
+
+.update-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.update-btn:hover {
+    background-color: #43A047;
+}
+
+.item-details form {
+    display: flex;
+    align-items: center;
+}
+
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #40444b;
+}

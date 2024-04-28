@@ -1,0 +1,97 @@
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+  position: relative;
+  background-color: #222;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.7);
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  color: #eee;
+}
+
+.close {
+  color: #ccc;
+  position: absolute;
+  top: 12px;
+  right: 23px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.close:hover, .close:focus{
+  color: #ff4444;
+  cursor: pointer;
+}
+
+#connectionStatusIcon {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.button {
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  box-sizing: border-box;
+  max-width: calc(100% - 40px);
+}
+
+.confirm {
+  background-color: #4CAF50;
+  color: white;
+  display: block;
+}
+
+.confirm:hover {
+  background-color: #45a049;
+}
+
+.cancel {
+  background-color: #f44336;
+  color: white;
+  display: block;
+  margin-top: -38px;
+  float: right;
+}
+
+.cancel:hover {
+  background-color: #d7382a;
+}
+
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+      width: 90%;
+      padding: 20px;
+  }
+
+  .button {
+    padding: 10px;
+    margin-top: 10px;
+    max-width: calc(100% - 20px);
+  }
+}

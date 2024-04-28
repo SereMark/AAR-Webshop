@@ -1,0 +1,147 @@
+.dashboard {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.dashboard-section {
+    background-color: #1F1F1F;
+    border: 1px solid #333;
+    border-radius: 6px;
+    margin-bottom: 50px;
+    padding: 20px;
+}
+
+.dashboard-section h2 {
+    border-bottom: 1px solid #333;
+    color: #FFCB05;
+    font-size: 24px;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.styled-table {
+    background-color: #222;
+    border-collapse: collapse;
+    border-radius: 6px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.styled-table thead tr {
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    border-bottom: 1px solid #333;
+    padding: 12px 15px;
+}
+
+.styled-table td {
+    color: #ddd;
+    word-break: break-all;
+}
+
+.styled-table td:nth-child(4),
+.styled-table td:nth-child(5) {
+    min-width: 100px;
+    word-break: normal;
+}
+
+.styled-table tbody tr {
+    background-color: #262626;
+}
+
+.styled-table tbody tr:nth-child(even) {
+    background-color: #242424;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: none;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #2e2e2e;
+}
+
+.btn, .btn-delete, .btn-admin {
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    transition: background-color 0.2s, transform 0.2s;
+    white-space: nowrap;
+}
+
+.btn:not(:disabled):hover,
+.btn-delete:not(:disabled):hover,
+.btn-admin:not(:disabled):hover {
+    transform: scale(1.05);
+}
+
+.btn:disabled,
+.btn-delete:disabled,
+.btn-admin:disabled {
+    background-color: #757575;
+    color: #ffffff;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none;
+}
+
+.btn:disabled:hover, .btn-delete:disabled:hover, .btn-admin:disabled:hover {
+    background-color: #858585;
+}
+
+.btn {
+    background-color: #ffda48;
+}
+
+.btn:hover {
+    box-shadow: 0 5px 8px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+.btn-delete {
+    background-color: #e53935;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #d32f2f;
+}
+
+.btn-admin {
+    background-color: #4CAF50;
+}
+
+.btn-admin:hover {
+    background-color: #45A049;
+}
+
+.actions-group {
+    display: inline-flex;
+    gap: 10px;
+    justify-content: flex-start;
+    max-width: 150px;
+}
+
+.add-form input[type="text"] {
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #fff;
+    display: inline-block;
+    padding: 10px;
+    width: auto;
+}
