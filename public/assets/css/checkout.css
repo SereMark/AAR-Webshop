@@ -1,0 +1,434 @@
+.main-content {
+    width: 80%;
+    margin: auto;
+    padding: 2vh;
+    min-height: 100vh;
+}
+
+.list {
+    background-color: #2c2f33;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 2vh;
+}
+
+/* Űrlap és űrlap elemek stílusai */
+.form-section {
+    background-color: #2c2f33;
+    border-radius: 8px;
+    box-shadow: 0 0.5vh 1vh rgba(0,0,0,0.2);
+    margin-bottom: 3vh;
+    padding: 2vh;
+}
+
+.form-field {
+    margin-bottom: 2vh;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: .5rem;
+    color: #8a8d90;
+}
+
+.form-field input[type="text"],
+.form-field input[type="number"] {
+    width: 100%;
+    padding: 1vh;
+    border-radius: 4px;
+    border: 1px solid #40444b;
+    background-color: #99aab5;
+    color: #23272a;
+}
+
+.card-details {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.card-details .row {
+    flex: 1;
+    padding: 1vh;
+}
+
+.shipping-details {
+    padding: 1vh;
+}
+
+
+/* Gombok és interaktív elemek */
+.button-group {
+    text-align: right;
+    padding: 2vh 0;
+}
+
+.button-group button {
+    border: none;
+    border-radius: 4px;
+    padding: 1vh 2vh;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    margin-left: 1vh;
+    color: white;
+}
+
+.button-group .confirm-btn {
+    background-color: #28a745;
+}
+
+.button-group .cancel-btn {
+    background-color: #72767d;
+}
+
+.button-group button:hover {
+    transform: scale(1.05);
+}
+
+.confirm-btn:hover {
+    background-color: #218838;
+}
+
+.cancel-btn:hover {
+    background-color: #5b5e60;
+}
+
+.payment-method {
+    display: flex;
+}
+
+.payment-method > div {
+    padding: 2vh;
+}
+
+.item-info, .item-name, .empty-list {
+    /* Set a minimum font size of 14px, a preferred size of 2.5vw, and a maximum of 18px */
+    font-size: clamp(14px, 2.5vw, 18px);
+}
+
+
+
+
+:root {
+    --hue: 223;
+    --bg: hsl(var(--hue),10%,90%);
+    --fg: hsl(var(--hue),10%,10%);
+    --primary1: hsl(var(--hue),90%,55%);
+    --primary2: hsl(var(--hue),90%,40%);
+    --primary3: hsl(var(--hue),90%,65%);
+
+}
+
+
+.radio-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.25em 0 1.25em 1.25em;
+}
+
+.radio-main,
+.track__inner {
+    position: relative;
+}
+.track,
+.track__inner {
+    height: 100%;
+}
+.track {
+    border-radius: 2em;
+    box-shadow:
+            -0.1em -0.1em 0.2em hsl(var(--hue),10%,70%) inset,
+            1em 1em 1em hsl(var(--hue),10%,95%) inset,
+            -1.5em -1.5em 1em hsl(var(--hue),10%,75%) inset,
+            0.1em 0.1em 0.2em hsl(var(--hue),10%,70%),
+            -0.1em -0.1em 0.2em hsl(var(--hue),10%,95%),
+            0.5em 0.5em 1em hsl(var(--hue),10%,70%);
+    position: absolute;
+    padding: 1em;
+    top: 0;
+    left: 0;
+    width: 4em;
+    min-height: 4em;
+}
+.track__inner {
+    background-image: linear-gradient(hsl(var(--hue),10%,80%),hsl(var(--hue),10%,65%));
+    border-radius: 1em;
+    box-shadow:
+            0.1em 0.2em 0 hsl(var(--hue),10%,65%) inset,
+            0.2em 0.4em 0 hsl(var(--hue),10%,85%) inset;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    padding: 0.25em;
+    width: 2em;
+    min-height: 2em;
+    transform: translateY(-0.1em);
+}
+.track__inner:after {
+    backdrop-filter: blur(0.2em);
+    -webkit-backdrop-filter: blur(0.2em);
+    border-radius: inherit;
+    box-shadow:
+            0 0.1em 0.1em hsl(var(--hue),10%,90%) inset,
+            0 0.1em 0 hsl(var(--hue),10%,60%);
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translate3d(0,0,0);
+    z-index: 1;
+}
+.track__ball,
+.track__ball-hole {
+    border-radius: 50%;
+    width: 1.5em;
+    height: 1.5em;
+}
+.track__ball,
+.track__ball:before {
+    position: absolute;
+}
+.track__ball {
+    transition: transform 0.3s 0.15s linear;
+}
+.track__ball:before {
+    background-color: var(--primary1);
+    box-shadow:
+            0 0 0.1em hsla(var(--hue),10%,10%,0.1) inset,
+            -0.3em -0.3em 0.5em var(--primary2) inset;
+    border-radius: inherit;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: scale(0.75);
+    transition: transform 0.15s linear;
+}
+.track__ball-hole,
+.track__separator {
+    position: relative;
+    z-index: 2;
+}
+.track__ball-hole {
+    background: linear-gradient(90deg,hsl(var(--hue),10%,60%),hsl(var(--hue),10%,50%));
+    box-shadow:
+            0 0.1em 0.2em hsl(var(--hue),10%,90%),
+            0 0 0 hsla(var(--hue),10%,10%,0);
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: box-shadow 0.3s linear;
+}
+.track__ball-hole .track__ball {
+    transform: translate3d(0,0,0);
+}
+.track__ball-hole:nth-of-type(2) .track__ball {
+    transform: translate3d(0,-3em,-1px);
+}
+.track__ball-hole:nth-of-type(3) .track__ball {
+    transform: translate3d(0,-6em,-1px);
+}
+.track__ball-hole:before {
+    border-radius: 50%;
+    content: "";
+    display: block;
+    box-shadow: 0 0.1em 0 hsl(var(--hue),10%,90%) inset;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translate3d(0,0,0);
+    transition: z-index 0s 0.15s steps(1);
+    z-index: 1;
+}
+.track__separator {
+    border-radius: 0.05em;
+    box-shadow:
+            0 0.05em 0 hsla(var(--hue),10%,55%,0.7) inset,
+            0 -0.05em 0 hsla(var(--hue),10%,65%,0.7) inset;
+    width: 1em;
+    height: 0.1em;
+}
+.track-item {
+    clip: rect(1px,1px,1px,1px);
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.track-label {
+    display: block;
+    margin-bottom: 1.5em;
+    padding-left: 4.25em;
+    position: relative;
+    text-shadow: 0 0 0.2em hsla(var(--hue),10%,10%,0.3);
+    transition: all 0.3s linear;
+    z-index: 1;
+    -webkit-tap-highlight-color: transparent;
+}
+.track-label:last-of-type {
+    margin: 0;
+}
+.track-item:checked + .track-label {
+    color: var(--primary1);
+    text-shadow: 0 0 0.2em hsla(var(--hue),90%,55%,0.3);
+    transition-delay: 0.45s;
+}
+
+/* ball behind backdrop */
+.track-item:nth-of-type(1):checked ~ .track .track__inner > .track__ball {
+    transform: translateY(0);
+}
+.track-item:nth-of-type(2):checked ~ .track .track__inner > .track__ball {
+    transform: translateY(3em);
+}
+.track-item:nth-of-type(3):checked ~ .track .track__inner > .track__ball {
+    transform: translateY(6em);
+}
+
+/* ball hole shadows */
+.track-item:nth-of-type(1):checked ~ .track .track__ball-hole:nth-of-type(1),
+.track-item:nth-of-type(2):checked ~ .track .track__ball-hole:nth-of-type(2),
+.track-item:nth-of-type(3):checked ~ .track .track__ball-hole:nth-of-type(3) {
+    box-shadow:
+            0 0.1em 0.2em hsl(var(--hue),10%,90%),
+            0.1em 0.2em 0.5em hsla(var(--hue),10%,10%,0.5);
+    transition-delay: 0.3s;
+}
+
+/* ball hole edge to appear above or below a ball */
+.track-item:nth-of-type(1):checked ~ .track .track__ball-hole:nth-of-type(1):before,
+.track-item:nth-of-type(2):checked ~ .track .track__ball-hole:nth-of-type(2):before {
+    transition-delay: 0.45s;
+    z-index: 0;
+}
+
+/* fake balls */
+.track-item:nth-of-type(1):checked ~ .track .track__ball-hole:nth-of-type(1) .track__ball:before,
+.track-item:nth-of-type(2):checked ~ .track .track__ball-hole:nth-of-type(2) .track__ball:before {
+    transform: scale(1);
+    transition-delay: 0.45s;
+}
+.track-item:nth-of-type(2):checked ~ .track .track__ball-hole:nth-of-type(1) .track__ball{
+    transform: translate3d(0,3em,-1px);
+}
+.track-item:nth-of-type(2):checked ~ .track .track__ball-hole:nth-of-type(2) .track__ball{
+    transform: translate3d(0,0,0);
+}
+.track-item:nth-of-type(2):checked ~ .track .track__ball-hole:nth-of-type(3) .track__ball {
+    transform: translate3d(0,-3em,-1px);
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: hsl(var(--hue), 10%, 10%);
+        --fg: hsl(var(--hue), 10%, 90%);
+    }
+
+
+    .track {
+        box-shadow: -0.1em -0.1em 0.2em hsl(var(--hue), 10%, 20%) inset,
+        1em 1em 1em hsl(var(--hue), 10%, 45%) inset,
+        -1.5em -1.5em 1em hsl(var(--hue), 10%, 25%) inset,
+        0.1em 0.1em 0.2em hsl(var(--hue), 10%, 20%),
+        -0.1em -0.1em 0.2em hsl(var(--hue), 10%, 45%),
+        0.5em 0.5em 1em hsl(var(--hue), 10%, 20%);
+    }
+
+    .track__inner {
+        background-image: linear-gradient(hsl(var(--hue), 10%, 30%), hsl(var(--hue), 10%, 15%));
+        box-shadow: 0.1em 0.2em 0 hsl(var(--hue), 10%, 15%) inset,
+        0.2em 0.4em 0 hsl(var(--hue), 10%, 35%) inset;
+    }
+
+    .track__inner:after {
+        box-shadow: 0 0.1em 0.1em hsl(var(--hue), 10%, 40%) inset,
+        0 0.1em 0 hsl(var(--hue), 10%, 20%);
+    }
+
+    .track__ball-hole {
+        background: linear-gradient(90deg, hsl(var(--hue), 10%, 20%), hsl(var(--hue), 10%, 10%));
+        box-shadow: 0 0.1em 0.2em hsl(var(--hue), 10%, 40%),
+        0 0 0 hsla(var(--hue), 10%, 10%, 0);
+    }
+
+    .track__ball-hole:before {
+        box-shadow: 0 0.1em 0 hsl(var(--hue), 10%, 40%) inset;
+    }
+
+    .track__separator {
+        box-shadow: 0 0.05em 0 hsla(var(--hue), 10%, 0%, 0.7) inset,
+        0 -0.05em 0 hsla(var(--hue), 10%, 10%, 0.7) inset;
+    }
+
+    .track-item:nth-of-type(1):checked ~ .track .track__ball-hole:nth-of-type(1),
+    .track-item:nth-of-type(2):checked ~ .track .track__ball-hole:nth-of-type(2) {
+        box-shadow: 0 0.1em 0.2em hsl(var(--hue), 10%, 40%),
+        0.1em 0.2em 0.5em hsla(var(--hue), 10%, 10%, 0.7);
+    }
+
+    .track-label {
+        text-shadow: 0 0 0.2em hsla(var(--hue), 10%, 90%, 0.3);
+    }
+
+    .track-item:checked + .track-label {
+        color: var(--primary3);
+        text-shadow: 0 0 0.2em hsla(var(--hue), 90%, 65%, 0.3);
+    }
+}
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 600px) {
+    .card-details {
+        flex-direction: column;
+    }
+
+    .card-details .row {
+        width: 100%;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .button-group button {
+        margin-left: 0;
+        margin-top: 1vh;
+        width: 100%;
+    }
+
+    .item-info, .item-name, .empty-list {
+        font-size: clamp(12px, 4vw, 16px);
+    }
+    
+    /* Other mobile styles */
+    .main-content {
+        padding: 5vw; /* Adjust padding on smaller screens */
+    }
+
+    .form-field input[type="text"],
+    .form-field input[type="number"] {
+        padding: 4vw; /* Larger padding for better touch targets */
+    }
+
+    .button-group button {
+        /* Larger padding and margin for better touch targets */
+        padding: 3vw;
+        margin-top: 3vw;
+    }
+}
