@@ -26,10 +26,6 @@ $router->post('/delete-all-products', function () {
     $controller = new ProductsController();
     $controller->deleteAllUserProducts();
 });
-$router->get('/search', function() {
-    $controller = new ProductsController();
-    $controller->displayProducts();
-});
 
 // Category related routes
 $router->post('/add-category', function() {
