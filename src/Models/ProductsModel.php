@@ -129,6 +129,11 @@ class ProductsModel {
         return $products;
     }    
 
+    /**
+     * Fetch all products for a specific category by its ID
+     * @param int $categoryId
+     * @return array - Array of products
+     */
     public function fetchProductsByCategory($categoryId) {
         $conn = getDatabaseConnection();
         $sql = 'SELECT * FROM products WHERE categoryID = :categoryId';
@@ -140,7 +145,7 @@ class ProductsModel {
         oci_free_statement($stid);
         oci_close($conn);
         return $products;
-    }    
+    }
 
     /**
      * Delete a product by its ID

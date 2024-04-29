@@ -22,6 +22,14 @@ class OrderController extends BaseController
         $this->couponModel = $this->loadModel('Coupons');
     }
 
+    public function showCheckout() {
+        $this->ensureLoggedIn();
+        $userId = $_SESSION['userid'];
+        $content = __DIR__ . '/../Views/checkout.php';
+        $pageTitle = 'Checkout';
+        require __DIR__ . '/../Views/layout.php';
+    }
+
     /**
      * Display all orders for a specific user by their ID
      */
@@ -41,42 +49,45 @@ class OrderController extends BaseController
     }
 
     /**
-     * Display actual order details
+     * Display the order details for a specific order by its ID
      */
-    public function showUserOrderReview()
-    {
+    public function showUserOrderReview() {
         $this->ensureLoggedIn();
         $userId = $_SESSION['userid'];
         $cartItems = $this->cartModel->getCartItemsByUserId($userId);
         $coupons = $this->couponModel->fetchCoupons();
-        $content = __DIR__ . '/../Views/order_details.php';
-        $pageTitle = 'Order details';
-        require __DIR__ . '/../Views/layout.php';
-    }
-
-    /**
-     * Activate coupon in order details
-     */
-    public function activateCoupon()
-    {
-        $this->ensureLoggedIn();
-        $userId = $_SESSION['userid'];
-        $cartItems = $this->cartModel->getCartItemsByUserId($userId);
-        $coupons = $this->couponModel->fetchCoupons();
-        $totalAmount = $_POST['total_amount'] ?? '';
-        $zipcode = $_POST['zipcode'] ?? '';
-        $city = $_POST['city'] ?? '';
-        $address = $_POST['address'] ?? '';
-        $paymentType = $_POST['payment_type'] ?? '';
+    
+        $zipcode = $_POST['zipcode'] ?? 'N/A';
+        $city = $_POST['city'] ?? 'N/A';
+        $address = $_POST['address'] ?? 'N/A';
+        $payment_type = $_POST['payment_type'] ?? 'N/A';
+        $payment_type_value = "";
+        $has_payment_value = $payment_type == "pod" || $payment_type == "card";
+        if ($has_payment_value) {
+            $payment_type_value = $payment_type == "pod" ? "Pay on delivery" : "Credit Card";
+        }
+        $user = $this->usersModel->getUserDetailsById($userId);
+    
+        $totalPrice = 0;
+        if (!isset($_POST['total_amount'])) {
+            foreach ($cartItems as $item) {
+                $totalPrice += $item['price'] * $item['quantity'];
+            }
+        } else {
+            $totalPrice = $_POST['total_amount'];
+        }
+    
+        // Check if a coupon code is provided and apply the discount if the coupon is valid
         if (isset($_POST['coupon'])) {
             foreach ($coupons as $coupon) {
                 if ($coupon['CODE'] == $_POST['coupon']) {
-                    $totalAmount = $totalAmount * (1 - ($coupon['DISCOUNT'] / 100));
+                    $totalPrice = $totalPrice * (1 - ($coupon['DISCOUNT'] / 100));
                 }
             }
         }
+    
         $content = __DIR__ . '/../Views/order_details.php';
-        $pageTitle = 'Order details';
+        $pageTitle = 'Order Details';
         require __DIR__ . '/../Views/layout.php';
     }
 

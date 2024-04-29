@@ -42,18 +42,22 @@
     </div>
 
     <!-- Start of the Product Grid -->
-    <section class="product-grid">
-        <?php foreach ($products as $product): ?>
-            <a href="/product?id=<?php echo htmlspecialchars($product['PRODUCTID']); ?>" class="product-link">
-                <div class="product-card">
-                    <img src="/assets/images/placeholder.jpg" alt="<?php echo htmlspecialchars($product['NAME']); ?>" class="product-image">
-                    <h4 class="product-name"><?php echo htmlspecialchars($product['NAME']); ?></h4>
-                    <p class="product-price">$<?php echo htmlspecialchars(number_format((float)$product['PRICE'], 2, '.', '')); ?></p>
-                    <p class="product-description"><?php echo htmlspecialchars($product['DESCRIPTION']); ?></p>
-                </div>
-            </a>
-        <?php endforeach; ?>
-    </section>
+    <?php if (empty($products)): ?>
+        <h1 class="no-products">No products match the criteria.</h1>
+    <?php else: ?>
+        <section class="product-grid">
+            <?php foreach ($products as $product): ?>
+                <a href="/product?id=<?php echo htmlspecialchars($product['PRODUCTID']); ?>" class="product-link">
+                    <div class="product-card">
+                        <img src="/assets/images/placeholder.jpg" alt="<?php echo htmlspecialchars($product['NAME']); ?>" class="product-image">
+                        <h4 class="product-name"><?php echo htmlspecialchars($product['NAME']); ?></h4>
+                        <p class="product-price">$<?php echo htmlspecialchars(number_format((float)$product['PRICE'], 2, '.', '')); ?></p>
+                        <p class="product-description"><?php echo htmlspecialchars($product['DESCRIPTION']); ?></p>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+        </section>
+    <?php endif; ?>
     <!-- End of the Product Grid -->
     </div>
 </div>

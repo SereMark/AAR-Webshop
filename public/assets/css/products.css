@@ -118,6 +118,14 @@
     color: #666;
 }
 
+/* No Products Message */
+.no-products {
+  text-align: center;
+  font-size: 24px;
+  color: #888;
+  margin-top: 50px;
+}
+
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .main {

@@ -4,7 +4,7 @@ $router = new Router();
 // Product related routes
 $router->get('/', function () {
     $controller = new ProductsController();
-    $controller->index();
+    $controller->displayProducts();
 });
 $router->get('/product', function () {
     $controller = new ProductsController();
@@ -28,7 +28,7 @@ $router->post('/delete-all-products', function () {
 });
 $router->get('/search', function() {
     $controller = new ProductsController();
-    $controller->search();
+    $controller->displayProducts();
 });
 
 // Category related routes
@@ -103,7 +103,7 @@ $router->post('/cart/delete', function() {
     $controller->deleteItemFromCart();
 });
 $router->post('/checkout', function () {
-    $controller = new CheckoutController();
+    $controller = new OrderController();
     $controller->showCheckout();
 });
 
@@ -149,10 +149,6 @@ $router->get('/order-details', function() {
 $router->post('/order-details/orderFeedback', function() {
     $controller = new OrderController();
     $controller->placeOrder();
-});
-$router->post('/order-details/couponUpdate', function() {
-    $controller = new OrderController();
-    $controller->activateCoupon();
 });
 
 // Coupon related routes
