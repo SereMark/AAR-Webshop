@@ -56,7 +56,7 @@ class OrderController extends BaseController
         $userId = $_SESSION['userid'];
         $cartItems = $this->cartModel->getCartItemsByUserId($userId);
         $coupons = $this->couponModel->fetchCoupons();
-    
+
         $zipcode = $_POST['zipcode'] ?? 'N/A';
         $city = $_POST['city'] ?? 'N/A';
         $address = $_POST['address'] ?? 'N/A';
@@ -67,25 +67,29 @@ class OrderController extends BaseController
             $payment_type_value = $payment_type == "pod" ? "Pay on delivery" : "Credit Card";
         }
         $user = $this->usersModel->getUserDetailsById($userId);
-    
+
         $totalPrice = 0;
-        if (!isset($_POST['total_amount'])) {
-            foreach ($cartItems as $item) {
-                $totalPrice += $item['price'] * $item['quantity'];
-            }
-        } else {
-            $totalPrice = $_POST['total_amount'];
+        $discountApplied = false; // Flag to indicate if any discount has been applied
+        foreach ($cartItems as &$item) {
+            $item['final_price'] = $item['price'] * $item['quantity'];
+            $totalPrice += $item['final_price'];
         }
-    
-        // Check if a coupon code is provided and apply the discount if the coupon is valid
-        if (isset($_POST['coupon'])) {
+
+        if (!$discountApplied && isset($_POST['coupon'])) {
             foreach ($coupons as $coupon) {
                 if ($coupon['CODE'] == $_POST['coupon']) {
-                    $totalPrice = $totalPrice * (1 - ($coupon['DISCOUNT'] / 100));
+                    $totalPrice *= (1 - ($coupon['DISCOUNT'] / 100));
+                    $discountApplied = true; // Mark discount as applied
+                    break; // Exit the loop as soon as a discount is applied
                 }
             }
         }
-    
+
+        if (!$discountApplied && $totalPrice > 1000) { // Apply bulk discount if total exceeds $1000
+            $totalPrice *= 0.8;
+            $discountApplied = true; // Mark discount as applied
+        }
+
         $content = __DIR__ . '/../Views/order_details.php';
         $pageTitle = 'Order Details';
         require __DIR__ . '/../Views/layout.php';

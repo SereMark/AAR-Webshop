@@ -45,6 +45,9 @@
                     <div class="total-amount">
                         <p class="total-label">Total:</p>
                         <span class="total-price">$<?= number_format($totalPrice, 2) ?></span>
+                        <?php if ($discountApplied): ?>
+                            <p class="discount-notice"> - Discount applied!</p>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="details">
