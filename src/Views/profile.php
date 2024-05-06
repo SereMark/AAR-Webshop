@@ -63,9 +63,9 @@
             </section>
             <section class="profile-information">
                 <h2>Profile Information</h2>
-                <!-- Display the user's email if available, otherwise 'N/A' -->
                 <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email'] ?? 'N/A'); ?></p>
                 <p><strong>Phone Number:</strong> <?php echo htmlspecialchars($_SESSION['phonenumber'] ?? 'N/A'); ?></p>
+                <p><strong>Frequent Buyer:</strong> <?php echo ($user['FrequentBuyer'] === 'Y') ? 'Yes' : 'No'; ?></p>
             </section>
             <?php if ($user['ISADMIN'] == 'Y'): ?>
                 <a href="/admin_dashboard" class="admin-dashboard-button">Admin Dashboard</a>

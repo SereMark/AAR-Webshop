@@ -35,6 +35,7 @@ class UserController extends BaseController {
         if (!$user) {
             $this->redirect('/?info=error');
         }
+        $user['PASSWORDHASH'] = null;
         
         $orderCount = $this->orderModel->getOrderCountByUserId($userId);
         $reviewCount = $this->reviewsModel->getReviewCountByUserId($userId);
