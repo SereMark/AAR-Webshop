@@ -9,22 +9,22 @@
             <div class="overview">
                 <h2>Overview</h2>
                 <ul class="list-items">
-                    <?php foreach ($cartItems as $item): ?>
+                    <?php foreach ($cartItems as $items): ?>
                         <li class="list-item">
                             <div class="item-details item">
                                 <div>
                                     <span>Name: </span>
-                                    <p class="item-name"><?= htmlspecialchars($item['productname']) ?></p>
+                                    <p class="item-name"><?= htmlspecialchars($items['productname']) ?></p>
                                 </div>
                                 <div>
                                     <span>Quantity: </span>
-                                    <p class="quantity-field"><?= $item['quantity'] ?></p>
+                                    <p class="quantity-field"><?= $items['quantity'] ?></p>
                                 </div>
                                 <div>
                                     <span>Price: </span>
-                                    <p class="item-price">$<?= number_format($item['price'] * $item['quantity'], 2) ?></p>
+                                    <p class="item-price">$<?= number_format($items['price'] * $items['quantity'], 2) ?></p>
                                 </div>
-                                <input type="hidden" name="cartitemid" value="<?= $item['cartitemid'] ?>">
+                                <input type="hidden" name="cartitemid" value="<?= $items['cartitemid'] ?>">
                             </div>
                         </li>
                     <?php endforeach; ?>

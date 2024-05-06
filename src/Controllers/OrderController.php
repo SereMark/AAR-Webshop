@@ -161,5 +161,29 @@ class OrderController extends BaseController
 
     }
 
+    public function markAsPaid() {
+        $orderId = $_POST['orderid'] ?? null;
+        if (!$orderId) {
+            $this->redirect('/admin_dashboard?info=error');
+        }
+    
+        if ($this->OrderModel->updateOrderPaidStatus($orderId, 'Y')) {
+            $this->redirect('/admin_dashboard?info=Success');
+        } else {
+            $this->redirect('/admin_dashboard?info=error');
+        }
+    }
 
+    public function markAsDelivered() {
+        $orderId = $_POST['orderid'] ?? null;
+        if (!$orderId) {
+            $this->redirect('/admin_dashboard?info=error');
+        }
+    
+        if ($this->OrderModel->updateOrderDeliveredStatus($orderId)) {
+            $this->redirect('/admin_dashboard?info=Success');
+        } else {
+            $this->redirect('/admin_dashboard?info=error');
+        }
+    }
 }

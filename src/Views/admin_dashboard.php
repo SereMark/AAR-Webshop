@@ -55,27 +55,36 @@
                 <table class="styled-table">
                     <thead>
                         <tr>
-                            <th>Order ID</th>
                             <th>User ID</th>
                             <th>Payment Method</th>
                             <th>Total</th>
                             <th>Zipcode</th>
                             <th>City</th>
                             <th>Address</th>
+                            <th>Order Date</th>
+                            <th>Payment Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($orders as $order): ?>
                         <tr>
-                            <td><?= htmlspecialchars($order['ORDERID'] ?? '') ?></td>
                             <td><?= htmlspecialchars($order['USERID'] ?? '') ?></td>
                             <td><?= htmlspecialchars($order['PAYMENTMETHOD'] ?? '') ?></td>
                             <td>$<?= htmlspecialchars($order['TOTALAMOUNT'] ?? '') ?></td>
                             <td><?= htmlspecialchars($order['ZIPCODE'] ?? '') ?></td>
                             <td><?= htmlspecialchars($order['CITY'] ?? '') ?></td>
                             <td><?= htmlspecialchars($order['ADDRESS'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($order['ORDERDATE'] ?? '') ?></td>
                             <td>
+                                <?= $order['PAYED'] == 'Y' ? '<span style="color:green;">Payed</span>' : ($order['WARNING_OVERDUE'] == 'Y' ? '<span style="color:red;">Overdue</span>' : 'On time') ?>
+                            </td>                            <td>
+                                <form action="/mark-as-paid" method="post">
+                                    <input type="hidden" name="orderid" value="<?= $order['ORDERID'] ?>">
+                                    <?php if ($order['PAYED'] != 'Y'): ?>
+                                        <button type="submit" class="btn btn-success">Mark as Paid</button>
+                                    <?php endif; ?>
+                                </form>
                                 <form action="/delete-order" method="post">
                                     <input type="hidden" name="orderid" value="<?= $order['ORDERID'] ?>">
                                     <button type="submit" class="btn-delete">Delete</button>
@@ -83,6 +92,57 @@
                             </td>
                         </tr>
                         <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="dashboard-section">
+            <h2>To Be Delivered Orders</h2>
+            <div class="table-wrapper">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>User ID</th>
+                            <th>Order Date</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php 
+                    $currentDate = null;
+                    foreach ($toDeliverOrders as $order):
+                        if ($currentDate !== $order['ORDERDATE']):
+                            if ($currentDate !== null):
+                                echo '<tr class="date-group-separator"><td colspan="6"></td></tr>';
+                            endif;
+                            echo '<tr class="group-heading"><td colspan="6">Orders for ' . htmlspecialchars($order['ORDERDATE']) . '</td></tr>';
+                            $currentDate = $order['ORDERDATE'];
+                        endif;
+                        ?>
+                        <tr>
+                            <td><?= htmlspecialchars($order['ORDERID'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($order['USERID'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($order['ORDERDATE'] ?? '') ?></td>
+                            <td>$<?= htmlspecialchars($order['TOTALAMOUNT'] ?? '') ?></td>
+                            <td><?= $order['PAYED'] == 'Y' ? '<span style="color:green;">Paid</span>' : '<span style="color:red;">Unpaid</span>' ?></td>
+                            <td>
+                                <form action="/mark-as-delivered" method="post">
+                                    <input type="hidden" name="orderid" value="<?= $order['ORDERID'] ?>">
+                                    <?php if (empty($order['DeliveryDate'])): ?>
+                                        <button type="submit" class="btn btn-success">Mark as Delivered</button>
+                                    <?php endif; ?>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php
+                    endforeach;
+                    if ($currentDate !== null):
+                        echo '<tr class="date-group-separator"><td colspan="6"></td></tr>';
+                    endif;
+                    ?>
                     </tbody>
                 </table>
             </div>

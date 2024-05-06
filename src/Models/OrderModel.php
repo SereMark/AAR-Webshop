@@ -105,11 +105,55 @@ class OrderModel
     public function fetchAllOrders(): array
     {
         $conn = getDatabaseConnection();
+    
+        // Call the stored procedure to check overdue orders
+        $procedureCall = 'BEGIN Update_Overdue_Warning(); END;';
+        $procedureStmt = oci_parse($conn, $procedureCall);
+        if (!oci_execute($procedureStmt)) {
+            oci_free_statement($procedureStmt);
+            oci_close($conn);
+            throw new Exception("Failed to execute the procedure 'Check overdue orders'");
+        }
+        oci_free_statement($procedureStmt);
+    
+        // Continue with fetching all orders
         $sql = 'SELECT * FROM orders ORDER BY orderid DESC';
         $stmt = oci_parse($conn, $sql);
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            throw new Exception("Failed to fetch all orders");
+        }
+    
+        $orders = [];
+        while ($row = oci_fetch_array($stmt, OCI_ASSOC)) {
+            $orders[] = $row;
+        }
+    
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $orders;
+    }
 
-        oci_execute($stmt);
-
+    /**
+     * Fetch all orders that are to be delivered
+     * @return array - Array of orders
+     * @throws Exception
+     */
+    public function fetchToBeDeliveredOrders(): array {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT ORDERID, USERID, ORDERDATE, TOTALAMOUNT, PAYED, DELIVERYDATE 
+                FROM orders 
+                WHERE PaymentMethod = \'Pay on delivery\' AND DeliveryDate IS NULL
+                ORDER BY ORDERDATE';
+        $stmt = oci_parse($conn, $sql);
+    
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            throw new Exception("Failed to fetch to be delivered orders");
+        }
+    
         $orders = [];
         while ($row = oci_fetch_array($stmt, OCI_ASSOC)) {
             $orders[] = $row;
@@ -118,7 +162,7 @@ class OrderModel
         oci_free_statement($stmt);
         oci_close($conn);
         return $orders;
-    }
+    }    
 
     /**
      * Fetch all orders from the database
@@ -198,7 +242,8 @@ class OrderModel
             throw new Exception($e->getMessage());
         }
         try {
-            $sql = 'INSERT INTO orders (userid, totalamount, paymentmethod, zipcode, city, address) VALUES(:userid, :total_amount, :payment_type, :zipcode, :city, :address)';
+            $payed = $paymentType === 'Credit Card' ? 'Y' : 'N';
+            $sql = 'INSERT INTO orders (userid, totalamount, paymentmethod, zipcode, city, address, payed) VALUES(:userid, :total_amount, :payment_type, :zipcode, :city, :address, :payed)';
             $stmt = oci_parse($conn, $sql);
             oci_bind_by_name($stmt, ':userid', $userId);
             oci_bind_by_name($stmt, ':zipcode', $zipcode);
@@ -206,6 +251,7 @@ class OrderModel
             oci_bind_by_name($stmt, ':address', $address);
             oci_bind_by_name($stmt, ':payment_type', $paymentType);
             oci_bind_by_name($stmt, ':total_amount', $totalAmount);
+            oci_bind_by_name($stmt, ':payed', $payed);
 
             if (!oci_execute($stmt)) {
                 oci_rollback($conn);
@@ -226,7 +272,6 @@ class OrderModel
 
         oci_close($conn);
         return true; // Order creation successful
-
     }
 
     /**
@@ -243,15 +288,14 @@ class OrderModel
             try {
                 foreach ($cartItems as $cartItem) {
                     $totalItemPrice = $cartItem['price'] * $cartItem['quantity'];
-                    /*echo $orderIdValue . ' - ' . $cartItem['productid'] . ' - ' . $cartItem['quantity'] . ' - ' . $totalItemPrice;*/
-
+    
                     $sql = 'INSERT INTO ORDERITEMS (ORDERID, PRODUCTID, QUANTITY, PRICE) VALUES (:orderid, :productid, :quantity, :price)';
                     $stmt = oci_parse($conn, $sql);
                     oci_bind_by_name($stmt, ':orderid', $orderId);
                     oci_bind_by_name($stmt, ':productid', $cartItem['productid']);
                     oci_bind_by_name($stmt, ':quantity', $cartItem['quantity']);
                     oci_bind_by_name($stmt, ':price', $totalItemPrice);
-
+    
                     if (!oci_execute($stmt)) {
                         oci_rollback($conn);
                         oci_free_statement($stmt);
@@ -259,7 +303,7 @@ class OrderModel
                         throw new Exception("Failed to save order items!");
                     }
                     oci_free_statement($stmt);
-                    $this->deleteCartItems();
+                    $this->deleteCartItems($cartItem['cartitemid']);
                 }
             } catch (Exception $e) {
                 oci_rollback($conn); // Rollback if any exception occurs
@@ -270,9 +314,68 @@ class OrderModel
         return false;
     }
 
-    private function deleteCartItems() {
+    /**
+     * Deletes all cart items for a specific cart by its ID
+     * @param int $cartId - ID of the cart whose items need to be deleted
+     * @return bool - Returns true if the operation is successful
+     * @throws Exception - Throws an exception if the operation fails
+     */
+    private function deleteCartItems(int $cartitemid): bool {
+        $conn = getDatabaseConnection();
+        $sql = 'DELETE FROM cartitems WHERE cartitemid = :cartitemid';
+        $stmt = oci_parse($conn, $sql);
+        oci_bind_by_name($stmt, ':cartitemid', $cartitemid);
 
+        if (!oci_execute($stmt)) {
+            $error = oci_error($stmt);
+            oci_free_statement($stmt);
+            oci_close($conn);
+            throw new Exception("Failed to delete cart items: " . $error['message']);
+        }
+
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return true;
     }
 
+    /**
+     * Update the paid status of an order
+     * @param int $orderId
+     * @param string $status
+     * @return bool
+     */
+    public function updateOrderPaidStatus($orderId, $status) {
+        $conn = getDatabaseConnection();
+        $sql = 'UPDATE orders SET Payed = :status WHERE OrderID = :orderid';
+        $stmt = oci_parse($conn, $sql);
+        oci_bind_by_name($stmt, ':status', $status);
+        oci_bind_by_name($stmt, ':orderid', $orderId);
+        $result = oci_execute($stmt);
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $result;
+    }
+    
+    /**
+     * Update the delivered status of an order
+     * @param int $orderId
+     * @return bool
+     */
+    public function updateOrderDeliveredStatus($orderId) {
+        $conn = getDatabaseConnection();
+        $sql = 'UPDATE orders SET "DELIVERYDATE" = SYSDATE WHERE "ORDERID" = :orderid';
+        $stmt = oci_parse($conn, $sql);
+        oci_bind_by_name($stmt, ':orderid', $orderId, -1); // Bind the Order ID, specify the length as -1 for integers
 
+        $result = oci_execute($stmt);
+        if (!$result) {
+            $error = oci_error($stmt);
+            oci_free_statement($stmt);
+            oci_close($conn);
+            throw new Exception("Failed to update delivered status: " . $error['message']);
+        }
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $result;  // Return true on success
+    }
 }

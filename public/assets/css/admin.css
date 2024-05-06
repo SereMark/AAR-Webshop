@@ -114,6 +114,7 @@
 .btn-delete {
     background-color: #e53935;
     color: white;
+    margin-left: 3px;
 }
 
 .btn-delete:hover {

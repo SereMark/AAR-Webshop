@@ -146,6 +146,14 @@ $router->post('/order-details/orderFeedback', function() {
     $controller = new OrderController();
     $controller->placeOrder();
 });
+$router->post('/mark-as-paid', function () {
+    $controller = new OrderController();
+    $controller->markAsPaid();
+});
+$router->post('/mark-as-delivered', function () {
+    $controller = new OrderController();
+    $controller->markAsDelivered();
+});
 
 // Coupon related routes
 $router->post('/add-coupon', function() {

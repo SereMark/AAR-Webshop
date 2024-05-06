@@ -145,6 +145,7 @@ class UserController extends BaseController {
         if ($user['ISADMIN']) {
             $users = $this->usersModel->fetchAllUsers();
             $orders = $this->orderModel->fetchAllOrders();
+            $toDeliverOrders = $this->orderModel->fetchToBeDeliveredOrders();
             $reviews = $this->reviewsModel->fetchAllReviews();
             $products = $this->productsModel->fetchProducts();
             $categories = $this->categoriesModel->fetchCategories();  
