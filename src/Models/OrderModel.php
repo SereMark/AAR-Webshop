@@ -39,6 +39,37 @@ class OrderModel
     }
 
     /**
+     * Fetch all order items for a specific order by its ID
+     * @param int $orderId
+     * @return array - Array of order items
+     * @throws Exception
+     */
+    public function fetchOrderItemsByOrderId(int $orderId) {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT oi.orderid, oi.productid, oi.quantity, oi.price, p.name
+                FROM orderitems oi
+                JOIN products p ON p.productid = oi.productid
+                WHERE oi.orderid = :orderid';
+        $stmt = oci_parse($conn, $sql);
+        oci_bind_by_name($stmt, ':orderid', $orderId, -1, SQLT_INT);
+    
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            throw new Exception("Fetching order items failed");
+        }
+    
+        $items = [];
+        while (($row = oci_fetch_array($stmt, OCI_ASSOC + OCI_RETURN_NULLS)) !== false) {
+            $items[] = $row;
+        }
+    
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $items;
+    }    
+    
+    /**
      * Fetch the count of orders for a specific user by their ID
      * @param int $userId
      * @return int - Count of orders

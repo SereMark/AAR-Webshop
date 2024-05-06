@@ -3,7 +3,7 @@
 }
 
 .order-container {
-    width: 50%; /* Adjust the width as necessary */
+    width: 50%;
     margin: 40px auto;
     padding: 20px;
     background-color: #20262a;
@@ -57,8 +57,6 @@
     line-height: 1.5;
 }
 
-
-/* Gombok és interaktív elemek */
 .button-group {
     text-align: right;
     padding: 2vh 0;
@@ -94,72 +92,68 @@
     background-color: #5b5e60;
 }
 
-
 .list-items {
-    list-style: none; /* Remove default bullets */
-    padding: 0; /* Remove default padding */
-    margin: 0; /* Remove default margin */
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .list-item {
-    display: flex; /* Arrange items horizontally */
-    align-items: center; /* Vertically align content */
-    padding: 15px 20px; /* Add some padding */
-    border-bottom: 1px solid #ddd; /* Add a subtle border between items */
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .item-details {
-    flex: 1; /* Allow details to expand */
-    display: grid; /* Use grid layout for structured formatting */
-    grid-template-columns: repeat(3, 1fr); /* Divide into three equal columns */
-    grid-gap: 10px; /* Add some space between details */
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
 }
 
 .item-details span {
-    font-weight: bold; /* Make labels stand out */
+    font-weight: bold;
 }
 
 .item-name,
 .quantity-field,
 .item-price {
-    margin: 0; /* Remove default margin */
+    margin: 0;
 }
 
 .item-price, .total-price {
-    color: #3c763d; /* Green color for price */
+    color: #3c763d;
 }
 
 .total-label {
     margin-right: 4px;
 }
 
-/* Hide the hidden input by default */
 input[type="hidden"] {
     display: none;
 }
 
-
-
 .details {
     display: flex;
-    flex-wrap: wrap; /* Allow content to wrap if needed */
-    margin: 20px 0; /* Add some margin above and below the details section */
+    flex-wrap: wrap;
+    margin: 20px 0;
 }
 
 .details div {
     display: flex;
-    flex-direction: column; /* Stack labels and values vertically */
-    width: 50%; /* Set width for each detail container */
-    margin-bottom: 15px; /* Add some space between details */
-    padding: 1vh; /* Add some padding around content */
-    border: 1px solid #ddd; /* Add a thin border */
-    border-radius: 5px; /* Slightly round corners */
+    flex-direction: column;
+    width: 50%;
+    margin-bottom: 15px;
+    padding: 1vh;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 .details label {
-    font-weight: bold; /* Make labels stand out */
-    margin-bottom: 5px; /* Add some space below labels */
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .coupon-and-price {
@@ -167,4 +161,3 @@ input[type="hidden"] {
     flex-direction: row;
     justify-content: space-between;
 }
-

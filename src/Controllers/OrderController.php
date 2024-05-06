@@ -39,14 +39,17 @@ class OrderController extends BaseController
         if (!$userId) {
             $this->redirect('/?info=LoginRequired');
         }
-
-        $orderItems = $this->OrderModel->fetchOrdersByUserId($userId);
+    
+        $orders = $this->OrderModel->fetchOrdersByUserId($userId);
+        foreach ($orders as &$order) {
+            $order['items'] = $this->OrderModel->fetchOrderItemsByOrderId($order['ORDERID']);
+        }
+    
         $user = $this->usersModel->getUserDetailsById($userId);
-
         $pageTitle = 'Orders';
         $content = __DIR__ . '/../Views/ordersList.php';
         require __DIR__ . '/../Views/layout.php';
-    }
+    }    
 
     /**
      * Display the order details for a specific order by its ID
