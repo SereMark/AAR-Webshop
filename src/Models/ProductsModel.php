@@ -194,4 +194,20 @@ class ProductsModel {
         oci_close($conn);
         return true;
     }
+
+    /**
+     * Fetch the newest products from the database
+     * @return array - Array of products
+     */
+    public function fetchNewestProducts() {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT * FROM products ORDER BY creation_date DESC FETCH FIRST 8 ROWS ONLY';
+        $stid = oci_parse($conn, $sql);
+        oci_execute($stid);
+        $products = [];
+        oci_fetch_all($stid, $products, 0, -1, OCI_FETCHSTATEMENT_BY_ROW);
+        oci_free_statement($stid);
+        oci_close($conn);
+        return $products;
+    }    
 }

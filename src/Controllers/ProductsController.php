@@ -22,6 +22,7 @@ class ProductsController extends BaseController {
         $categoryId = $_GET['category'] ?? null;
         $searchTerm = $_GET['q'] ?? null;
         $categories = $this->categoriesModel->fetchCategories();
+        $newestProducts = $this->productsModel->fetchNewestProducts();
 
         if (!empty($searchTerm)) {
             $products = $this->productsModel->searchProducts($searchTerm);
