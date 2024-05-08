@@ -387,12 +387,6 @@
 }
 
 
-
-
-
-
-
-
 @media only screen and (max-width: 600px) {
     .card-details {
         flex-direction: column;
@@ -431,4 +425,8 @@
         padding: 3vw;
         margin-top: 3vw;
     }
+}
+
+#expirydate {
+    pointer-events: none;
 }

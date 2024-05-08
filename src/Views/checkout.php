@@ -7,7 +7,7 @@
 <body>
     <main class="main-content">
         <section class="list">
-            <form action="/order-details" method="post">
+            <form action="/order-details" method="post" onSubmit="return validateForm()">
                 <h2>Shipping Information</h2>
                 <div class="shipping-details">
                     <div class="form-field">
@@ -29,7 +29,8 @@
                     <div class="radio-main">
                         <input class="track-item" id="payment_type_card" type="radio" name="payment_type" value="card">
                         <label class="track-label" for="payment_type_card">Credit Card</label>
-                        <input class="track-item" id="payment_type_pod" type="radio" name="payment_type" value="pod" checked>
+                        <input class="track-item" id="payment_type_pod" type="radio" name="payment_type" value="pod"
+                           checked>
                         <label class="track-label" for="payment_type_pod">Pay on Delivery</label>
                         <div class="track">
                             <div class="track__inner">
@@ -51,7 +52,9 @@
                             </div>
                             <div class="form-field">
                                 <label for="expirydate">Expiry Date:</label>
-                                <input type="text" id="expirydate" name="expirydate" required>
+                                <input type="text" id="expirydate" name="expirydate" value="01/24" tabindex="-1">
+                            <label for="month">MM</label><input type="number" id="month" value="1" min="1" max="12" onchange="validateFormMonth()">
+                            <label for="year">YY</label><input type="number" id="year" value="24" min="24" max="99" onchange="validateFormYear()">
                             </div>
                         </div>
                         <div class="row">
@@ -74,4 +77,5 @@
         </section>
     </main>
 </body>
+
 </html>
