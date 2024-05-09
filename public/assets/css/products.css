@@ -126,19 +126,19 @@
   margin-top: 50px;
 }
 
-.new-products-container, .suggested-products-container {
+.new-products-container, .suggested-products-container, .top-category-products-container {
   margin-bottom: 40px;
   padding: 20px;
   background-color: #1a1a1a;
   border-left: 5px solid #1e90ff;
 }
 
-.new-products-container h2, .suggested-products-container h2 {
+.new-products-container h2, .suggested-products-container h2, .top-category-products-container h2 {
   color: #fff;
   margin-bottom: 20px;
 }
 
-.product-grid.new-arrivals-grid, .product-grid.suggested-products-grid {
+.product-grid.new-arrivals-grid, .product-grid.suggested-products-grid, .product-grid.top-category-products-grid {
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
 }
@@ -161,4 +161,30 @@
   .product-card {
     flex: 0 1 100%;
   }
+}
+
+.collapsible {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  font-size: 1.5em;
+  text-align: left;
+}
+
+.collapsible .arrow {
+  float: right;
+}
+
+.collapsible-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.collapsible-content.show {
+  max-height: 1000px; /* adjust this value according to your content size */
 }

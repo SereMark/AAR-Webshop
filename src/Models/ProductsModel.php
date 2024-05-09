@@ -150,6 +150,45 @@ class ProductsModel {
         return $count;
     }
 
+    public function getTopProductsByCategory($categoryId) {
+        $conn = getDatabaseConnection();
+        $sql = "WITH ranked_products AS (
+                SELECT
+                    p.PRODUCTID,
+                    p.NAME,
+                    COUNT(o.ORDERID) as purchase_count
+                FROM
+                    ORDERITEMS o
+                        JOIN
+                    PRODUCTS p ON o.PRODUCTID = p.PRODUCTID
+                WHERE
+                    p.CATEGORYID = :categoryId
+                GROUP BY
+                    p.PRODUCTID,
+                    p.NAME
+                )
+                SELECT
+                    pro.*
+                FROM
+                    PRODUCTS pro
+                        JOIN
+                    ranked_products rp ON pro.PRODUCTID = rp.PRODUCTID
+                ORDER BY
+                    rp.purchase_count DESC,
+                    pro.PRODUCTID
+                FETCH FIRST 5 ROWS ONLY
+                ";
+
+        $stid = oci_parse($conn, $sql);
+        oci_bind_by_name($stid, ':categoryId', $categoryId, -1, SQLT_INT);
+        oci_execute($stid);
+        $categoryTopProducts = [];
+        oci_fetch_all($stid, $categoryTopProducts, 0, -1, OCI_FETCHSTATEMENT_BY_ROW);
+        oci_free_statement($stid);
+        oci_close($conn);
+        return $categoryTopProducts;
+    }
+
     /**
      * Search products in the database
      * @param string $term The search term

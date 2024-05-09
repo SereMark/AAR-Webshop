@@ -24,6 +24,7 @@ class ProductsController extends BaseController {
         $categories = $this->categoriesModel->fetchCategories();
         $newestProducts = $this->productsModel->fetchNewestProducts();
         $productSuggestions = [];
+        $topCategoryProducts = [];
         if (isset($_SESSION['userid'])) {
             $productSuggestions = $this->productsModel->getProductSuggestionsByUserId($_SESSION['userid']);
         }
@@ -32,6 +33,7 @@ class ProductsController extends BaseController {
             $pageTitle = 'Search results for: ' . $searchTerm;
         } else {
             $products = $categoryId ? $this->productsModel->fetchProductsByCategory($categoryId) : $this->productsModel->fetchProducts();
+            $topCategoryProducts = $categoryId ? $this->productsModel->getTopProductsByCategory($categoryId) : [];
             $pageTitle = $categoryId ? $this->categoriesModel->fetchCategoryById($categoryId)['NAME'] : 'Products';
         }
 
