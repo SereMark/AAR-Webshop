@@ -129,7 +129,7 @@ class OrderController extends BaseController
         try {
             if ($orderModel->createOrder($userId, $cartItems, $totalAmount, $zipcode, $city, $address, $paymentType)) {
                 // Order creation successful, redirect or display confirmation
-                echo "Order placed successfully!";
+                //echo "Order placed successfully!";
                 $removedAllItems = true;
                 foreach ($cartItems as $cartItem) {
                     try {
