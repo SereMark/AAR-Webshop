@@ -149,7 +149,8 @@ class UserController extends BaseController {
             $reviews = $this->reviewsModel->fetchAllReviews();
             $products = $this->productsModel->fetchProducts();
             $categories = $this->categoriesModel->fetchCategories();  
-            $coupons = $this->couponsModel->fetchCoupons();  
+            $coupons = $this->couponsModel->fetchCoupons();
+            $jsonData = $this->usersModel->fetchStatistics();
 
             $pageTitle = 'Admin Dashboard';
             $content = __DIR__ . '/../Views/admin_dashboard.php';

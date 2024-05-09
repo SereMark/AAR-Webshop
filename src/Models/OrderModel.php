@@ -142,9 +142,9 @@ class OrderModel
      */
     public function fetchToBeDeliveredOrders(): array {
         $conn = getDatabaseConnection();
-        $sql = 'SELECT ORDERID, USERID, ORDERDATE, TOTALAMOUNT, PAYED, DELIVERYDATE 
+        $sql = 'SELECT ORDERID, USERID, ORDERDATE, TOTALAMOUNT, PAYED, "DeliveryDate"
                 FROM orders 
-                WHERE PaymentMethod = \'Pay on delivery\' AND DeliveryDate IS NULL
+                WHERE PaymentMethod = \'Pay on delivery\' AND "DeliveryDate" IS NULL
                 ORDER BY ORDERDATE';
         $stmt = oci_parse($conn, $sql);
     

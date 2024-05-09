@@ -32,10 +32,44 @@ class UsersModel {
         oci_close($conn);
         return true;
     }
-    
+
+
+    /**
+     * Get the total revenue for each month of the current year
+     * @return array|false
+     * @throws Exception
+     */
+    public function fetchStatistics(): string {
+        $conn = getDatabaseConnection();
+        $sql = "SELECT TO_CHAR(ORDERDATE, 'YYYY-MM') AS Month, SUM(TOTALAMOUNT) AS Revenue
+                FROM SYSTEM.ORDERS
+                WHERE EXTRACT(YEAR FROM ORDERDATE) = TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY'))
+                GROUP BY TO_CHAR(ORDERDATE, 'YYYY-MM')
+                ORDER BY Month";
+        $stmt = oci_parse($conn, $sql);
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            return false;
+        }
+
+        $results = [];
+        while ($row = oci_fetch_assoc($stmt)) {
+            $results[] = $row;
+        }
+
+        oci_free_statement($stmt);
+        oci_close($conn);
+
+        // Encode data as JSON
+        return $jsonData = json_encode($results);
+    }
+
+
     /**
      * Check if a user exists by email
      * @return bool - Existence of user
+     * @throws Exception
      */
     public function doesUserExistByEmail($email) {
         $conn = getDatabaseConnection();
