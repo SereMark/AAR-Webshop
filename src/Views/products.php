@@ -41,10 +41,29 @@
         <?php endif; ?>
     </div>
 
+        <!-- Suggestions Section -->
+        <?php if (!empty($productSuggestions)): ?>
+            <div class="suggested-products-container">
+                <h2>Suggested Products</h2>
+                <section class="product-grid suggested-products-grid">
+                    <?php foreach ($productSuggestions as $product): ?>
+                        <a href="/product?id=<?php echo htmlspecialchars($product['PRODUCTID']); ?>" class="product-link">
+                            <div class="product-card">
+                                <img src="/assets/images/placeholder.jpg" alt="<?php echo htmlspecialchars($product['NAME']); ?>" class="product-image">
+                                <h4 class="product-name"><?php echo htmlspecialchars($product['NAME']); ?></h4>
+                                <p class="product-price">$<?php echo htmlspecialchars(number_format((float)$product['PRICE'], 2, '.', '')); ?></p>
+                                <p class="product-description"><?php echo htmlspecialchars($product['DESCRIPTION']); ?></p>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
+                </section>
+            </div>
+        <?php endif; ?>
     <!-- Start of the Product Grid -->
     <?php if (empty($products)): ?>
         <h1 class="no-products">No products match the criteria.</h1>
     <?php else: ?>
+    <!-- New Arrivals Section -->
     <div class="new-products-container">
         <h2>New Arrivals</h2>
         <section class="product-grid new-arrivals-grid">

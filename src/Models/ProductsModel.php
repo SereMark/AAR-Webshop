@@ -43,6 +43,48 @@ class ProductsModel {
     }
 
     /**
+     * Fetch produt suggestions based on the order ID
+     * @return array - Products
+     * @throws Exception
+     */
+    public function getProductSuggestionsByUserId($userId): array
+    {
+        $conn = getDatabaseConnection();
+        $sql = 'WITH latest_order AS (
+                    SELECT MAX(orderid) as latest_orderid FROM orders WHERE userid = :userid
+                ),
+                latest_order_products AS (
+                    SELECT productid
+                    FROM orderitems
+                    WHERE orderid = (SELECT latest_orderid FROM latest_order)
+                ),
+                other_orders_with_same_products AS (
+                    SELECT oi.orderid
+                    FROM orderitems oi
+                    JOIN latest_order_products lop ON oi.productid = lop.productid
+                    WHERE oi.orderid != (SELECT latest_orderid FROM latest_order)
+                    GROUP BY oi.orderid
+                ),
+                other_order_products AS (
+                    SELECT DISTINCT oi.productid
+                    FROM orderitems oi
+                    WHERE oi.orderid IN (SELECT orderid FROM other_orders_with_same_products)
+                )
+                SELECT p.*
+                FROM other_order_products oop
+                JOIN products p ON oop.productid = p.productid';
+        $stid = oci_parse($conn, $sql);
+        oci_bind_by_name($stid, ':userId', $userId);
+        oci_execute($stid);
+        $products = [];
+        oci_fetch_all($stid, $products, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC + OCI_RETURN_LOBS);
+
+        oci_free_statement($stid);
+        oci_close($conn);
+        return $products;
+    }
+
+    /**
      * Add a new product to the database
      * @param array $productData - Data of the product to add
      * @return bool - True if successful, false otherwise

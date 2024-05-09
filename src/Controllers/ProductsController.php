@@ -23,7 +23,10 @@ class ProductsController extends BaseController {
         $searchTerm = $_GET['q'] ?? null;
         $categories = $this->categoriesModel->fetchCategories();
         $newestProducts = $this->productsModel->fetchNewestProducts();
-
+        $productSuggestions = [];
+        if (isset($_SESSION['userid'])) {
+            $productSuggestions = $this->productsModel->getProductSuggestionsByUserId($_SESSION['userid']);
+        }
         if (!empty($searchTerm)) {
             $products = $this->productsModel->searchProducts($searchTerm);
             $pageTitle = 'Search results for: ' . $searchTerm;
