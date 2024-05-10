@@ -363,7 +363,7 @@ class OrderModel
      */
     public function updateOrderDeliveredStatus($orderId) {
         $conn = getDatabaseConnection();
-        $sql = 'UPDATE orders SET "DELIVERYDATE" = SYSDATE WHERE "ORDERID" = :orderid';
+        $sql = 'UPDATE orders SET "DeliveryDate" = SYSDATE WHERE "ORDERID" = :orderid';
         $stmt = oci_parse($conn, $sql);
         oci_bind_by_name($stmt, ':orderid', $orderId, -1); // Bind the Order ID, specify the length as -1 for integers
 
