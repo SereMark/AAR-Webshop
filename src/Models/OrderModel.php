@@ -174,14 +174,16 @@ class OrderModel
      * @return array - Array of orders
      * @throws Exception
      */
-    public function fetchLastInsertedOrder(): array
+    public function fetchLastInsertedOrderByUser($userId)
     {
         $conn = getDatabaseConnection();
         $sql = 'SELECT *
                 FROM orders
+                WHERE userid = :userid
                 ORDER BY orderid DESC
                 FETCH FIRST 1 ROW ONLY';
         $stmt = oci_parse($conn, $sql);
+        oci_bind_by_name($stmt, ':userid', $userId, -1, SQLT_INT);
 
         oci_execute($stmt);
 
@@ -189,10 +191,11 @@ class OrderModel
         while ($row = oci_fetch_array($stmt, OCI_ASSOC)) {
             $lastOrder[] = $row;
         }
+        $order = $lastOrder[0] ?? null;
 
         oci_free_statement($stmt);
         oci_close($conn);
-        return $lastOrder;
+        return $order;
     }
 
     /**
@@ -267,7 +270,7 @@ class OrderModel
 
             oci_free_statement($stmt);
 
-            $lastInsertedOrder = $this->fetchLastInsertedOrder();
+            $lastInsertedOrder = $this->fetchLastInsertedOrderByUser($userId);
 
             $this->insertIntoCartitems($cartItems, $conn, $lastInsertedOrder);
         } catch (Exception $e) {
@@ -286,10 +289,10 @@ class OrderModel
      * @return bool
      * @throws Exception
      */
-    public function insertIntoCartitems(array $cartItems, $conn, array $lastInsertedOrder): bool
+    public function insertIntoCartitems(array $cartItems, $conn, $lastInsertedOrder): bool
     {
         if ($lastInsertedOrder && $cartItems) {
-            $orderId = $lastInsertedOrder[0]["ORDERID"];
+            $orderId = $lastInsertedOrder["ORDERID"];
             try {
                 foreach ($cartItems as $cartItem) {
                     $totalItemPrice = $cartItem['price'] * $cartItem['quantity'];
@@ -383,4 +386,80 @@ class OrderModel
         oci_close($conn);
         return $result;  // Return true on success
     }
+
+
+    // function to get blob from invoices table in the database where orderid is the given orderid
+
+    /**
+     * @throws Exception
+     */
+    public function getInvoiceBlob($orderId) {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT BLOB FROM INVOICES WHERE ORDERID = :orderid';
+        $stmt = oci_parse($conn, $sql);
+        oci_bind_by_name($stmt, ':orderid', $orderId, -1, SQLT_INT);
+
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            throw new Exception("Failed to fetch invoice blob");
+        }
+
+        $row = oci_fetch_array($stmt, OCI_ASSOC);
+        $invoiceBlob = $row['BLOB'] ?? null;
+
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $invoiceBlob;
+    }
+
+    // function to insert blob into invoices table in the database
+
+    /**
+     * @throws Exception
+     */
+    public function insertInvoiceBlob($orderId, $blob) {
+        $conn = getDatabaseConnection();
+        $sql = 'INSERT INTO INVOICES (ORDERID, BLOB) VALUES (:orderid, :blob)';
+        $stmt = oci_parse($conn, $sql);
+        oci_bind_by_name($stmt, ':orderid', $orderId, -1, SQLT_INT);
+        oci_bind_by_name($stmt, ':bloburl', $blob, -1, SQLT_BLOB);
+
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            throw new Exception("Failed to insert invoice blob");
+        }
+
+        oci_commit($conn);
+        oci_free_statement($stmt);
+        oci_close($conn);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function fetchOrderByOrderId($orderId) {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT * FROM orders WHERE orderid = :orderid';
+        $stmt = oci_parse($conn, $sql);
+        oci_bind_by_name($stmt, ':orderid', $orderId, -1, SQLT_INT);
+
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            throw new Exception("Failed to fetch order by order ID");
+        }
+
+        $row = oci_fetch_array($stmt, OCI_ASSOC);
+        $order = $row[0] ?? null;
+
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $order;
+    }
+
+
+
+
 }

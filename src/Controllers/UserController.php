@@ -167,7 +167,7 @@ class UserController extends BaseController {
             $this->redirect('/?info=error');
         }
 
-        if ($user['ISADMIN']) {
+        if ($user['ISADMIN'] != 'N') {
             $users = $this->usersModel->fetchAllUsers();
             $orders = $this->orderModel->fetchAllOrders();
             $toDeliverOrders = $this->orderModel->fetchToBeDeliveredOrders();

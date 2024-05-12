@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="/assets/css/order-details.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+    <script src="/assets/js/orderDetails.js"></script>
 </head>
 <body>
     <main class="main-content">
@@ -75,14 +77,17 @@
                     </div>
                 </div>
                 <form id="order-form" method="post" action="/order-details/orderFeedback">
-                    <input type="hidden" name="zipcode" value="<?= $zipcode ?>">
-                    <input type="hidden" name="city" value="<?= $city ?>">
-                    <input type="hidden" name="address" value="<?= $address ?>">
-                    <input type="hidden" name="payment_type" value="<?= $payment_type_value ?>">
-                    <input type="hidden" name="total_amount" value="<?= $totalPrice ?>">
+                    <input type="hidden" name="zipcode" id="zipcode" value="<?= $zipcode ?>">
+                    <input type="hidden" name="city" id="city" value="<?= $city ?>">
+                    <input type="hidden" name="address" id="address" value="<?= $address ?>">
+                    <input type="hidden" name="payment_type" id="payment_type" value="<?= $payment_type_value ?>">
+                    <input type="hidden" name="total_amount" id="total_amount" value="<?= $totalPrice ?>">
+                    <input type="hidden" name="cart_items" id="cart_items" value='<?= json_encode($cartItems) ?>'>
+                    <input type="hidden" name="blob" id="blob" value="">
+
                     <div class="form-actions button-group">
                         <button type="button" class="cancel-btn" onclick="window.history.back()">Back</button>
-                        <button onclick="showModal('orderInserted')" type="submit" class="confirm-btn">Place order</button>
+                        <button onclick="createPdfBlob(event); showModal('orderInserted')" id="confirm-btn" type="submit" class="confirm-btn">Place order</button>
                     </div>
                 </form>
             </div>
