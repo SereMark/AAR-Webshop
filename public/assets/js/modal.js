@@ -15,6 +15,7 @@ if (typeof messages === 'undefined') {
         'reviewAdd': 'Review added successfully!',
         'reviewDelete': 'Review deleted successfully!',
         'profileUpdated': 'Profile info updated successfully!',
+        'balanceUpdated': 'Balance updated successfully!',
         'passwordChangedPleaseLoginAgain': 'Password changed successfully! Please login again.',
         'notAdmin': 'You must be an admin to access this page!',
         'categoryAdded': 'Category added successfully!',
@@ -26,7 +27,8 @@ if (typeof messages === 'undefined') {
         'codeLengthError': 'Coupon code exceeds the maximum length of 255 characters!',
         'discountRangeError': 'Discount value must be between 0 and 999.99!',
         'decimalError': 'Discount must not have more than two decimal places!',
-        'genericDatabaseError': 'Database operation failed, please try again!'
+        'genericDatabaseError': 'Database operation failed, please try again!',
+        'Success': 'Success!',
     };
 }
 

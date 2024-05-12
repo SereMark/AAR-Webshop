@@ -16,7 +16,7 @@ class CouponController extends BaseController
 
     public function addCoupon()
     {
-        $this->ensureLoggedIn();  // Ensure user is logged in
+        $this->ensureLoggedIn();
 
         // Retrieve input data
         $couponCode = $_POST['couponCode'] ?? null;
@@ -25,36 +25,36 @@ class CouponController extends BaseController
         // Validate coupon code
         if (empty(trim($couponCode))) {
             $this->redirect('/admin_dashboard?info=codeError');
-            return; // Return after redirect to prevent further execution
+            return;
         }
 
         if (strlen($couponCode) > 255) {
             $this->redirect('/admin_dashboard?info=codeLengthError');
-            return; // Return after redirect
+            return;
         }
 
         // Validate discount
         if (!is_numeric($couponDiscount)) {
             $this->redirect('/admin_dashboard?info=numberError');
-            return; // Return after redirect
+            return;
         }
 
         $couponDiscount = floatval($couponDiscount);
         if ($couponDiscount >= 1000 || $couponDiscount < 0) {
             $this->redirect('/admin_dashboard?info=discountRangeError');
-            return; // Return after redirect
+            return;
         }
 
         // Check for more than two decimal places
         if (floor($couponDiscount * 100) != $couponDiscount * 100) {
             $this->redirect('/admin_dashboard?info=decimalError');
-            return; // Return after redirect
+            return;
         }
 
         // Check for existing coupon code
         if ($this->couponsModel->couponExists($couponCode)) {
             $this->redirect('/admin_dashboard?info=CodeAlreadyExists');
-            return; // Return after redirect
+            return;
         }
 
         // Attempt to add the coupon to the database
@@ -64,14 +64,6 @@ class CouponController extends BaseController
         } catch (Exception) {
             $this->redirect('/admin_dashboard?info=error');
         }
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCoupons()
-    {
-        return $this->couponsModel->fetchCoupons();
     }
 
     /**

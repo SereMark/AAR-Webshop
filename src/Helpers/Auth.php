@@ -9,6 +9,7 @@ function startSession($user) {
     $_SESSION['email'] = $user['EMAIL'];
     $_SESSION['phonenumber'] = $user['PHONENUMBER'];
     $_SESSION['isadmin'] = $user['ISADMIN'];
+    $_SESSION['balance'] = $user['BALANCE'];
 }
 
 /**

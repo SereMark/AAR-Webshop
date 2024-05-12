@@ -45,7 +45,7 @@ class CartModel {
         }
     
         return $cartItems;
-    }    
+    }
 
     /**
      * Get or create a cart ID for a given user

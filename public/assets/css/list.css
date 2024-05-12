@@ -11,6 +11,7 @@
     border-radius: 8px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     padding: 20px;
+    margin-top: 20px;
 }
 
 .empty-list {
@@ -20,23 +21,33 @@
     font-weight: bold;
 }
 
-.list-items {
+.list-items, .item-details ul {
     list-style: none;
     margin: 0;
     padding: 0;
+    padding-top: 10px;
 }
 
 .list-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 0;
+    margin-bottom: 10px;
+    padding: 15px;
+    background: #1e2124;
     border-bottom: 1px solid #40444b;
+    border-radius: 6px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.list-item:hover {
+    transform: scale(1.01);
 }
 
 .item-details {
     flex-grow: 1;
     margin-right: 20px;
+    margin-top: 10px;
 }
 
 .item-name {
@@ -49,11 +60,29 @@
     color: #bbbbbb;
 }
 
-.delete-form {
-    flex-shrink: 0;
+.sub-items {
+    padding-top: 10px;
 }
 
-.delete-btn, .danger-link {
+.sub-item {
+    background: #282c34;
+    margin-top: 5px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.sub-item-name, .sub-item-info {
+    display: block;
+    font-size: 16px;
+}
+
+.delete-form, .item-details form {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.delete-btn, .danger-link, .confirm-btn, .update-btn {
     background-color: #e03131;
     color: white;
     border: none;
@@ -63,29 +92,20 @@
     transition: background-color 0.2s, transform 0.2s;
 }
 
-.delete-btn:hover, .danger-link:hover{
-    background-color: #f03e3e;
-    color: white;
+.delete-btn:hover, .danger-link:hover, .confirm-btn:hover, .update-btn:hover {
     transform: scale(1.05);
 }
 
-.confirm-container {
-    text-align: right;
-    padding: 20px 0;
-}
-
-.confirm-btn {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-top: 20px;
+.confirm-btn, .update-btn {
+    background-color: #4CAF50;
 }
 
 .confirm-btn:hover {
     background-color: #218838;
+}
+
+.update-btn:hover {
+    background-color: #43A047;
 }
 
 .quantity-field {
@@ -100,40 +120,7 @@
     text-align: center;
 }
 
-.quantity-field::-webkit-inner-spin-button, 
-.quantity-field::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
 .quantity-field:focus {
     border-color: #ffd740;
     outline: none;
-}
-
-.update-btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.update-btn:hover {
-    background-color: #43A047;
-}
-
-.item-details form {
-    display: flex;
-    align-items: center;
-}
-
-.list-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #40444b;
 }

@@ -35,10 +35,12 @@ class UserController extends BaseController {
         if (!$user) {
             $this->redirect('/?info=error');
         }
+        $user['PASSWORDHASH'] = null;
         
         $orderCount = $this->orderModel->getOrderCountByUserId($userId);
         $reviewCount = $this->reviewsModel->getReviewCountByUserId($userId);
         $productCount = $this->productsModel->getProductCountByUserId($userId);
+        $balanceCount = $this->usersModel->getBalanceByUserId($userId);
 
         $pageTitle = 'Profile';
         $content = __DIR__ . '/../Views/profile.php';
@@ -100,6 +102,30 @@ class UserController extends BaseController {
         }
     }    
 
+    public function updateBalance() {
+        $userId = $_SESSION['userid'] ?? null;
+        if (!$userId) {
+            $this->redirect('/?info=LoginRequired');
+        }
+        $balance = $_POST['balance'] ;
+        $cvc =  $_POST['cvc'] ;
+        $expiry_date =  $_POST['expiry_date'] ;
+        $card_number = $_POST['card_number'] ;
+        
+    
+        if ($this->usersModel->updateBalance($userId, $balance, $card_number, $cvc, $expiry_date)) {
+            $_SESSION['balance'] = $balance;
+            $_SESSION['card_number'] = $card_number;
+            $_SESSION['cvc'] = $cvc;
+            $_SESSION['expiry_date'] = $expiry_date;
+            $_SESSION['userId'] = $userId;
+    
+            $this->redirect('/profile?info=balanceUpdated');
+        } else {
+            $this->redirect('/profile/?info=error');
+        }
+    }    
+
     /**
      * Deletes the user's profile based on their session ID and redirects or displays an error.
      */
@@ -141,13 +167,15 @@ class UserController extends BaseController {
             $this->redirect('/?info=error');
         }
 
-        if ($user['ISADMIN']) {
+        if ($user['ISADMIN'] != 'N') {
             $users = $this->usersModel->fetchAllUsers();
             $orders = $this->orderModel->fetchAllOrders();
+            $toDeliverOrders = $this->orderModel->fetchToBeDeliveredOrders();
             $reviews = $this->reviewsModel->fetchAllReviews();
             $products = $this->productsModel->fetchProducts();
             $categories = $this->categoriesModel->fetchCategories();  
-            $coupons = $this->couponsModel->fetchCoupons();  
+            $coupons = $this->couponsModel->fetchCoupons();
+            $jsonData = $this->usersModel->fetchStatistics();
 
             $pageTitle = 'Admin Dashboard';
             $content = __DIR__ . '/../Views/admin_dashboard.php';

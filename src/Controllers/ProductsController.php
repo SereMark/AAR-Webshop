@@ -16,17 +16,30 @@ class ProductsController extends BaseController {
     }
 
     /**
-     * Display all products
+     * Display products based on category or search term
      */
-    public function index() {
+    public function displayProducts() {
         $categoryId = $_GET['category'] ?? null;
-        $products = $categoryId ? $this->productsModel->fetchProductsByCategory($categoryId) : $this->productsModel->fetchProducts();
+        $searchTerm = $_GET['q'] ?? null;
         $categories = $this->categoriesModel->fetchCategories();
+        $newestProducts = $this->productsModel->fetchNewestProducts();
+        $productSuggestions = [];
+        $topCategoryProducts = [];
+        if (isset($_SESSION['userid'])) {
+            $productSuggestions = $this->productsModel->getProductSuggestionsByUserId($_SESSION['userid']);
+        }
+        if (!empty($searchTerm)) {
+            $products = $this->productsModel->searchProducts($searchTerm);
+            $pageTitle = 'Search results for: ' . $searchTerm;
+        } else {
+            $products = $categoryId ? $this->productsModel->fetchProductsByCategory($categoryId) : $this->productsModel->fetchProducts();
+            $topCategoryProducts = $categoryId ? $this->productsModel->getTopProductsByCategory($categoryId) : [];
+            $pageTitle = $categoryId ? $this->categoriesModel->fetchCategoryById($categoryId)['NAME'] : 'Products';
+        }
 
-        $pageTitle = 'Products';
         $content = __DIR__ . '/../Views/products.php';
         require __DIR__ . '/../Views/layout.php';
-    }    
+    }
 
     /**
      * Display a specific product by ID
@@ -99,22 +112,6 @@ class ProductsController extends BaseController {
         $content = __DIR__ . '/../Views/productList.php';
         require __DIR__ . '/../Views/layout.php';
     }
-
-    /**
-     * Search for products based on a query
-     */
-    public function search() {
-        $searchTerm = $_GET['q'] ?? '';
-        if (!empty($searchTerm)) {
-            $products = $this->productsModel->searchProducts($searchTerm);
-            $pageTitle = 'Search results for: ' . $searchTerm;
-            $categories = $this->categoriesModel->fetchCategories();
-            $content = __DIR__ . '/../Views/products.php';
-        } else {
-            $this->redirect('/');
-        }
-        require __DIR__ . '/../Views/layout.php';
-    }    
 
     /**
      * Handle the deletion of a product

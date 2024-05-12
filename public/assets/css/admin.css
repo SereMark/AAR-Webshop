@@ -114,6 +114,7 @@
 .btn-delete {
     background-color: #e53935;
     color: white;
+    margin-left: 3px;
 }
 
 .btn-delete:hover {
@@ -144,4 +145,26 @@
     display: inline-block;
     padding: 10px;
     width: auto;
+}
+
+.collapsible {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    font-size: 1.5em;
+    text-align: left;
+}
+
+.collapsible .arrow {
+    float: right;
+}
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
 }

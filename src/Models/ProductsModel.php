@@ -43,6 +43,48 @@ class ProductsModel {
     }
 
     /**
+     * Fetch produt suggestions based on the order ID
+     * @return array - Products
+     * @throws Exception
+     */
+    public function getProductSuggestionsByUserId($userId): array
+    {
+        $conn = getDatabaseConnection();
+        $sql = 'WITH latest_order AS (
+                    SELECT MAX(orderid) as latest_orderid FROM orders WHERE userid = :userid
+                ),
+                latest_order_products AS (
+                    SELECT productid
+                    FROM orderitems
+                    WHERE orderid = (SELECT latest_orderid FROM latest_order)
+                ),
+                other_orders_with_same_products AS (
+                    SELECT oi.orderid
+                    FROM orderitems oi
+                    JOIN latest_order_products lop ON oi.productid = lop.productid
+                    WHERE oi.orderid != (SELECT latest_orderid FROM latest_order)
+                    GROUP BY oi.orderid
+                ),
+                other_order_products AS (
+                    SELECT DISTINCT oi.productid
+                    FROM orderitems oi
+                    WHERE oi.orderid IN (SELECT orderid FROM other_orders_with_same_products)
+                )
+                SELECT p.*
+                FROM other_order_products oop
+                JOIN products p ON oop.productid = p.productid';
+        $stid = oci_parse($conn, $sql);
+        oci_bind_by_name($stid, ':userId', $userId);
+        oci_execute($stid);
+        $products = [];
+        oci_fetch_all($stid, $products, 0, -1, OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC + OCI_RETURN_LOBS);
+
+        oci_free_statement($stid);
+        oci_close($conn);
+        return $products;
+    }
+
+    /**
      * Add a new product to the database
      * @param array $productData - Data of the product to add
      * @return bool - True if successful, false otherwise
@@ -108,6 +150,45 @@ class ProductsModel {
         return $count;
     }
 
+    public function getTopProductsByCategory($categoryId) {
+        $conn = getDatabaseConnection();
+        $sql = "WITH ranked_products AS (
+                SELECT
+                    p.PRODUCTID,
+                    p.NAME,
+                    COUNT(o.ORDERID) as purchase_count
+                FROM
+                    ORDERITEMS o
+                        JOIN
+                    PRODUCTS p ON o.PRODUCTID = p.PRODUCTID
+                WHERE
+                    p.CATEGORYID = :categoryId
+                GROUP BY
+                    p.PRODUCTID,
+                    p.NAME
+                )
+                SELECT
+                    pro.*
+                FROM
+                    PRODUCTS pro
+                        JOIN
+                    ranked_products rp ON pro.PRODUCTID = rp.PRODUCTID
+                ORDER BY
+                    rp.purchase_count DESC,
+                    pro.PRODUCTID
+                FETCH FIRST 5 ROWS ONLY
+                ";
+
+        $stid = oci_parse($conn, $sql);
+        oci_bind_by_name($stid, ':categoryId', $categoryId, -1, SQLT_INT);
+        oci_execute($stid);
+        $categoryTopProducts = [];
+        oci_fetch_all($stid, $categoryTopProducts, 0, -1, OCI_FETCHSTATEMENT_BY_ROW);
+        oci_free_statement($stid);
+        oci_close($conn);
+        return $categoryTopProducts;
+    }
+
     /**
      * Search products in the database
      * @param string $term The search term
@@ -129,6 +210,11 @@ class ProductsModel {
         return $products;
     }    
 
+    /**
+     * Fetch all products for a specific category by its ID
+     * @param int $categoryId
+     * @return array - Array of products
+     */
     public function fetchProductsByCategory($categoryId) {
         $conn = getDatabaseConnection();
         $sql = 'SELECT * FROM products WHERE categoryID = :categoryId';
@@ -140,7 +226,7 @@ class ProductsModel {
         oci_free_statement($stid);
         oci_close($conn);
         return $products;
-    }    
+    }
 
     /**
      * Delete a product by its ID
@@ -189,4 +275,20 @@ class ProductsModel {
         oci_close($conn);
         return true;
     }
+
+    /**
+     * Fetch the newest products from the database
+     * @return array - Array of products
+     */
+    public function fetchNewestProducts() {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT * FROM products ORDER BY creation_date DESC FETCH FIRST 8 ROWS ONLY';
+        $stid = oci_parse($conn, $sql);
+        oci_execute($stid);
+        $products = [];
+        oci_fetch_all($stid, $products, 0, -1, OCI_FETCHSTATEMENT_BY_ROW);
+        oci_free_statement($stid);
+        oci_close($conn);
+        return $products;
+    }    
 }

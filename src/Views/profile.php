@@ -1,6 +1,7 @@
-<!-- Include the editProfileModal and the changePasswordModal -->
+ <!-- Include the editProfileModal and the changePasswordModal -->
 <?php include __DIR__ . '/edit_profile.php'; ?>
 <?php include __DIR__ . '/change_password.php'; ?>
+<?php include __DIR__ . '/change_limit.php'; ?>
 
 <!DOCTYPE html>
 <html>
@@ -9,8 +10,6 @@
     <link rel="stylesheet" href="/assets/css/profile.css">
     <!-- Link to the profile page's JavaScript file -->
     <script src="/assets/js/profile.js"></script>
-    <!-- Link to the Font Awesome CSS file for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <!-- Wrapper for the profile page -->
@@ -25,7 +24,9 @@
                     <li><a href="#" onclick="showModal('editProfileModal'); return false;">Edit Profile</a></li>
                     <li><a href="#" onclick="showModal('changePasswordModal'); return false;">Change Password</a></li>
                     <li><a href="/logout">Logout</a></li>
+                    <li><a href="#" onclick="showModal('changeBalanceLimitModal'); return false;">Deposit</a></li>
                     <li><a href="/delete-profile" class="danger-link">Delete Profile</a></li>
+                   
                 </ul>
             </div>
         </aside>
@@ -33,10 +34,17 @@
         <main class="profile-main">
             <!-- Header section with profile picture and welcome message -->
             <section class="profile-header">
-                <img src="/assets/images/profile.png" alt="User's Profile Picture" class="profile-picture">
-                <!-- Welcome message, displaying the user's name if available, otherwise 'Guest' -->
-                <h1>Welcome, <?php echo htmlspecialchars($_SESSION['name'] ?? 'Guest'); ?>!</h1>
+                    <img src="/assets/images/profile.png" alt="User's Profile Picture" class="profile-picture">
+                    <!-- Welcome message, displaying the user's name if available, otherwise 'Guest' -->
+                    <h1>Welcome, <?php echo htmlspecialchars($_SESSION['name'] ?? 'Guest'); ?>!</h1>
             </section>
+            <section class="profile-information">
+                    <h2>Profile Information</h2>
+                    <!-- Display the user's email if available, otherwise 'N/A' -->
+                    <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email'] ?? 'N/A'); ?></p>
+                    <p><strong>Phone Number:</strong> <?php echo htmlspecialchars($_SESSION['phonenumber'] ?? 'N/A'); ?></p>
+                    <p><strong>Frequent Buyer:</strong> <?php echo ($user['FrequentBuyer'] === 'Y') ? 'Yes' : 'No'; ?></p>
+                </section>
             <!-- Mini dashboard for quick stats -->
             <section class="profile-dashboard">
                 <a href="/orders" class="dashboard-item-link">
@@ -60,13 +68,18 @@
                         <span class="dashboard-label">Reviews</span>
                     </div>
                 </a>
+                
+                <a class="dashboard-item-link">
+                    <div class="dashboard-item">
+                   
+                    <i class="fa-solid fa-money-bill dashboard-icon"></i>
+                        <span class="dashboard-value"><?php echo $balanceCount ?? 0; ?>$</span>
+                        <span class="dashboard-label">Balance</span>
+                    </div>
+                </a>
+                
             </section>
-            <section class="profile-information">
-                <h2>Profile Information</h2>
-                <!-- Display the user's email if available, otherwise 'N/A' -->
-                <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email'] ?? 'N/A'); ?></p>
-                <p><strong>Phone Number:</strong> <?php echo htmlspecialchars($_SESSION['phonenumber'] ?? 'N/A'); ?></p>
-            </section>
+           
             <?php if ($user['ISADMIN'] == 'Y'): ?>
                 <a href="/admin_dashboard" class="admin-dashboard-button">Admin Dashboard</a>
             <?php else: ?>

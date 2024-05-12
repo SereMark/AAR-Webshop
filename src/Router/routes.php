@@ -4,7 +4,7 @@ $router = new Router();
 // Product related routes
 $router->get('/', function () {
     $controller = new ProductsController();
-    $controller->index();
+    $controller->displayProducts();
 });
 $router->get('/product', function () {
     $controller = new ProductsController();
@@ -25,10 +25,6 @@ $router->post('/delete-product', function () {
 $router->post('/delete-all-products', function () {
     $controller = new ProductsController();
     $controller->deleteAllUserProducts();
-});
-$router->get('/search', function() {
-    $controller = new ProductsController();
-    $controller->search();
 });
 
 // Category related routes
@@ -65,6 +61,10 @@ $router->post('/edit-profile', function() {
 $router->post('/change-password', function() {
     $controller = new UserController();
     $controller->updatePassword();
+});
+$router->post('/change-balance', function() {
+    $controller = new UserController();
+    $controller->updateBalance();
 });
 $router->get('/admin_dashboard', function () {
     $controller = new UserController();
@@ -103,7 +103,7 @@ $router->post('/cart/delete', function() {
     $controller->deleteItemFromCart();
 });
 $router->post('/checkout', function () {
-    $controller = new CheckoutController();
+    $controller = new OrderController();
     $controller->showCheckout();
 });
 
@@ -150,9 +150,13 @@ $router->post('/order-details/orderFeedback', function() {
     $controller = new OrderController();
     $controller->placeOrder();
 });
-$router->post('/order-details/couponUpdate', function() {
+$router->post('/mark-as-paid', function () {
     $controller = new OrderController();
-    $controller->activateCoupon();
+    $controller->markAsPaid();
+});
+$router->post('/mark-as-delivered', function () {
+    $controller = new OrderController();
+    $controller->markAsDelivered();
 });
 
 // Coupon related routes

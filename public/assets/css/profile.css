@@ -52,10 +52,13 @@
     height: calc(100vh - 220px);
 }
 
-.profile-header h1 {
+.profile-header {
     color: #f4f4f4;
     font-size: 2rem;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .profile-picture {
@@ -76,7 +79,7 @@
 
 .profile-dashboard {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 20px;
 }
 
@@ -105,12 +108,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 15px;
     justify-content: center;
     text-decoration: none;
+    flex-grow: 1;
     color: inherit;
-    padding: 15px;
     border-radius: 8px;
-    margin: auto;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
