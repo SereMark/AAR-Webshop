@@ -1,5 +1,6 @@
 <?php
 require_once 'BaseController.php';
+require_once 'fpdf.php';
 
 class OrderController extends BaseController
 {
@@ -22,7 +23,8 @@ class OrderController extends BaseController
         $this->couponModel = $this->loadModel('Coupons');
     }
 
-    public function showCheckout() {
+    public function showCheckout()
+    {
         $this->ensureLoggedIn();
         $userId = $_SESSION['userid'];
         $content = __DIR__ . '/../Views/checkout.php';
@@ -39,22 +41,27 @@ class OrderController extends BaseController
         if (!$userId) {
             $this->redirect('/?info=LoginRequired');
         }
-    
+
         $orders = $this->OrderModel->fetchOrdersByUserId($userId);
         foreach ($orders as &$order) {
             $order['items'] = $this->OrderModel->fetchOrderItemsByOrderId($order['ORDERID']);
+            $order['blob'] = $this->OrderModel->getInvoiceBlob($order['ORDERID']);
+            $order['blobFileName'] = 'invoice_' . $order['ORDERID'] . '.pdf';
+            var_dump($this->OrderModel->getInvoiceBlob($order['ORDERID']));
         }
-    
+
+
         $user = $this->usersModel->getUserDetailsById($userId);
         $pageTitle = 'Orders';
         $content = __DIR__ . '/../Views/ordersList.php';
         require __DIR__ . '/../Views/layout.php';
-    }    
+    }
 
     /**
      * Display the order details for a specific order by its ID
      */
-    public function showUserOrderReview() {
+    public function showUserOrderReview()
+    {
         $this->ensureLoggedIn();
         $userId = $_SESSION['userid'];
         $cartItems = $this->cartModel->getCartItemsByUserId($userId);
@@ -122,6 +129,7 @@ class OrderController extends BaseController
         $city = $_POST['city'] ?? '';
         $address = $_POST['address'] ?? '';
         $paymentType = $_POST['payment_type'] ?? '';
+        $blob = $_POST['blobUrl'] ?? null;
 
         $orderModel = new OrderModel();
 
@@ -130,22 +138,15 @@ class OrderController extends BaseController
             if ($orderModel->createOrder($userId, $cartItems, $totalAmount, $zipcode, $city, $address, $paymentType)) {
                 // Order creation successful, redirect or display confirmation
                 //echo "Order placed successfully!";
-                $removedAllItems = true;
-                foreach ($cartItems as $cartItem) {
-                    try {
-                        $this->cartModel->removeItemFromCart($cartItem['cartitemid']);
-                    } catch (Exception $e) {
-                        echo "Error removing item with cartitemid " . $cartItem['cartitemid'] . ": " . $e->getMessage();
-                        $removedAllItems = false; // Set to false on any removal error
-                    }
-                }
-
-                if ($removedAllItems) {
+                if ($this->removeOrderedCartItems($cartItems)) {
                     try {
                         $this->cartModel->removeCartById($cartId);
                     } catch (Exception $e) {
                         echo "Error removing cart with cartid " . $cartId . ": " . $e->getMessage();
                     }
+                    $lastOrder = $orderModel->fetchLastInsertedOrderByUser($userId);
+                    $orderId = $lastOrder['ORDERID'];
+                    $this->OrderModel->insertInvoiceBlob($orderId, $blob);
                 } else {
                     echo "Some cart items failed to be removed. Cart not removed.";
                 }
@@ -158,15 +159,30 @@ class OrderController extends BaseController
             echo "Error: " . $e->getMessage();
         }
         $this->redirect('/?info=orderInserted');
-
     }
 
-    public function markAsPaid() {
+    public function removeOrderedCartItems($cartItems): bool
+    {
+        $removedAllItems = true;
+        foreach ($cartItems as $cartItem) {
+            try {
+                $this->cartModel->removeItemFromCart($cartItem['cartitemid']);
+            } catch (Exception $e) {
+                echo "Error removing item with cartitemid " . $cartItem['cartitemid'] . ": " . $e->getMessage();
+                $removedAllItems = false; // Set to false on any removal error
+            }
+        }
+        return $removedAllItems;
+    }
+
+
+    public function markAsPaid()
+    {
         $orderId = $_POST['orderid'] ?? null;
         if (!$orderId) {
             $this->redirect('/admin_dashboard?info=error');
         }
-    
+
         if ($this->OrderModel->updateOrderPaidStatus($orderId, 'Y')) {
             $this->redirect('/admin_dashboard?info=Success');
         } else {

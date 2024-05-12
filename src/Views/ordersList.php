@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="/assets/css/list.css">
+    <script src="/assets/js/profile.js"></script>
 </head>
 <body>
     <main class="main-content">
@@ -25,6 +26,8 @@
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
+                                <?php echo $order['blobFileName'] ?>
+                                <button onclick="showPdf(<?php echo $order['blob'] ?>, <?php echo $order['blobFileName'] ?>)">Invoice</button>
                             </div>
                         </li>
                     <?php endforeach; ?>
