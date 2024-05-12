@@ -87,3 +87,14 @@ COMPOUND TRIGGER
     END AFTER STATEMENT;
 
 END TRG_FREQUENT_BUYER;
+
+create table SYSTEM.INVOICES
+(
+    INVOICEID NUMBER generated as identity
+        constraint INVOICES_PK
+            primary key,
+    ORDERID   NUMBER
+        constraint INVOICES_ORDERS_ORDERID_FK
+            references SYSTEM.ORDERS,
+    BLOB      BLOB
+);
