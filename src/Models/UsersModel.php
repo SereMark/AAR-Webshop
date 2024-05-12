@@ -192,6 +192,21 @@ class UsersModel {
         return $result;
     }
 
+    public function updateBalanceById($userId, $balance) {
+        $conn = getDatabaseConnection();
+        $sql = 'UPDATE USERS SET BALANCE = BALANCE - :balance WHERE USERID = :USERID';
+        $stmt = oci_parse($conn, $sql);
+
+        oci_bind_by_name($stmt, ':balance', $balance);
+        oci_bind_by_name($stmt, ':USERID', $userId);
+
+        $result = oci_execute($stmt);
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $result;
+    }
+
+    
     public function updatePassword($userId, $passwordHash) {
         $conn = getDatabaseConnection();
         $sql = 'UPDATE USERS SET PASSWORDHASH = :PASSWORDHASH WHERE USERID = :USERID';
@@ -199,6 +214,25 @@ class UsersModel {
 
         oci_bind_by_name($stmt, ':PASSWORDHASH', $passwordHash);
         oci_bind_by_name($stmt, ':USERID', $userId);
+
+        $result = oci_execute($stmt);
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $result;
+    }
+
+    
+
+    public function updateBalance($userId, $balance, $card_number, $cvc, $expiry_date) {
+        $conn = getDatabaseConnection();
+        $sql = 'UPDATE USERS SET BALANCE = BALANCE + :balance, CARD_NUMBER = :card_number, cvc = :cvc, EXPIRY_DATE = :expiry_date WHERE USERID = :USERID';
+        $stmt = oci_parse($conn, $sql);
+
+        oci_bind_by_name($stmt, ':balance', $balance);
+        oci_bind_by_name($stmt, ':USERID', $userId);
+        oci_bind_by_name($stmt, ':card_number', $card_number);
+        oci_bind_by_name($stmt, ':cvc', $cvc);
+        oci_bind_by_name($stmt, ':expiry_date', $expiry_date);
 
         $result = oci_execute($stmt);
         oci_free_statement($stmt);
@@ -233,4 +267,29 @@ class UsersModel {
         oci_close($conn);
         return $result;
     }    
+
+    
+    public function getBalanceByUserId($userId) {
+        $conn = getDatabaseConnection();
+        $sql = 'SELECT BALANCE FROM users WHERE userid = :userid';
+        $stmt = oci_parse($conn, $sql);
+
+        oci_bind_by_name($stmt, ':userid', $userId, -1, SQLT_INT);
+
+        if (!oci_execute($stmt)) {
+            oci_free_statement($stmt);
+            oci_close($conn);
+            return 0;
+        }
+
+        $row = oci_fetch_array($stmt, OCI_ASSOC);
+        $count = $row['BALANCE'] ?? 0;
+
+        oci_free_statement($stmt);
+        oci_close($conn);
+        return $count;
+    }
+    
+
+
 }

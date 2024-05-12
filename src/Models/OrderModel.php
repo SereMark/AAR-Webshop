@@ -109,11 +109,16 @@ class OrderModel
         // Call the stored procedure to check overdue orders
         $procedureCall = 'BEGIN Update_Overdue_Warning(); END;';
         $procedureStmt = oci_parse($conn, $procedureCall);
+        /*
         if (!oci_execute($procedureStmt)) {
             oci_free_statement($procedureStmt);
             oci_close($conn);
+            
             throw new Exception("Failed to execute the procedure 'Check overdue orders'");
+            
         }
+        */
+        
         oci_free_statement($procedureStmt);
     
         // Continue with fetching all orders

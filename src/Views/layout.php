@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/assets/css/navbar.css">
     <link rel="stylesheet" href="/assets/css/modal.css">
     <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <!-- Set the favicon for the webpage -->
     <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico" />
     <!-- Set the title of the webpage -->

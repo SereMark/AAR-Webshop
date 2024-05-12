@@ -40,6 +40,7 @@ class UserController extends BaseController {
         $orderCount = $this->orderModel->getOrderCountByUserId($userId);
         $reviewCount = $this->reviewsModel->getReviewCountByUserId($userId);
         $productCount = $this->productsModel->getProductCountByUserId($userId);
+        $balanceCount = $this->usersModel->getBalanceByUserId($userId);
 
         $pageTitle = 'Profile';
         $content = __DIR__ . '/../Views/profile.php';
@@ -96,6 +97,30 @@ class UserController extends BaseController {
             } else {
                 $this->redirect('/profile/?info=error');
             }
+        } else {
+            $this->redirect('/profile/?info=error');
+        }
+    }    
+
+    public function updateBalance() {
+        $userId = $_SESSION['userid'] ?? null;
+        if (!$userId) {
+            $this->redirect('/?info=LoginRequired');
+        }
+        $balance = $_POST['balance'] ;
+        $cvc =  $_POST['cvc'] ;
+        $expiry_date =  $_POST['expiry_date'] ;
+        $card_number = $_POST['card_number'] ;
+        
+    
+        if ($this->usersModel->updateBalance($userId, $balance, $card_number, $cvc, $expiry_date)) {
+            $_SESSION['balance'] = $balance;
+            $_SESSION['card_number'] = $card_number;
+            $_SESSION['cvc'] = $cvc;
+            $_SESSION['expiry_date'] = $expiry_date;
+            $_SESSION['userId'] = $userId;
+    
+            $this->redirect('/profile?info=balanceUpdated');
         } else {
             $this->redirect('/profile/?info=error');
         }

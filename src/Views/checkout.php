@@ -24,6 +24,13 @@
                     </div>
                 </div>
 
+                <?php 
+                    $finalPrice = 0;
+                
+                    foreach ($cartItems as $item) {
+                        $finalPrice += $item['price'];}
+                ?>
+                 <?php if ($balance <= $finalPrice): ?>
                 <h2>Payment Information</h2>
                 <div class="payment-method-block">
                     <div class="radio-main">
@@ -69,6 +76,7 @@
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
                 <div class="form-actions button-group">
                     <button type="button" class="cancel-btn" onclick="window.history.back();">Back to Cart</button>
                     <button type="submit" class="confirm-btn">Proceed to Payment</button>

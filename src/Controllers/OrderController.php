@@ -25,6 +25,8 @@ class OrderController extends BaseController
     public function showCheckout() {
         $this->ensureLoggedIn();
         $userId = $_SESSION['userid'];
+        $cartItems = $this->cartModel->getCartItemsByUserId($userId);
+        $balance = $_SESSION['balance'];
         $content = __DIR__ . '/../Views/checkout.php';
         $pageTitle = 'Checkout';
         require __DIR__ . '/../Views/layout.php';
@@ -114,6 +116,7 @@ class OrderController extends BaseController
     public function placeOrder()
     {
         $userId = $_SESSION['userid'] ?? null;
+        $balance = $_SESSION['balance'] ?? 0;
 
         $cartItems = $this->cartModel->getCartItemsByUserId($userId);
         $cartId = $this->cartModel->getOrCreateCartId($userId);
@@ -124,7 +127,7 @@ class OrderController extends BaseController
         $paymentType = $_POST['payment_type'] ?? '';
 
         $orderModel = new OrderModel();
-
+        $this->usersModel->updateBalanceById($userId, $totalAmount);
 
         try {
             if ($orderModel->createOrder($userId, $cartItems, $totalAmount, $zipcode, $city, $address, $paymentType)) {

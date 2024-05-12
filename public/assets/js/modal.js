@@ -15,6 +15,7 @@ if (typeof messages === 'undefined') {
         'reviewAdd': 'Review added successfully!',
         'reviewDelete': 'Review deleted successfully!',
         'profileUpdated': 'Profile info updated successfully!',
+        'balanceUpdated': 'Balance updated successfully!',
         'passwordChangedPleaseLoginAgain': 'Password changed successfully! Please login again.',
         'notAdmin': 'You must be an admin to access this page!',
         'categoryAdded': 'Category added successfully!',

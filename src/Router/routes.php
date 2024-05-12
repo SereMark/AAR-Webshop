@@ -62,6 +62,10 @@ $router->post('/change-password', function() {
     $controller = new UserController();
     $controller->updatePassword();
 });
+$router->post('/change-balance', function() {
+    $controller = new UserController();
+    $controller->updateBalance();
+});
 $router->get('/admin_dashboard', function () {
     $controller = new UserController();
     $controller->showAdminDashboard();
