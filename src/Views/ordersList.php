@@ -26,8 +26,7 @@
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
-                                <?php echo $order['blobFileName'] ?>
-                                <button onclick="showPdf(<?php echo $order['blob'] ?>, <?php echo $order['blobFileName'] ?>)">Invoice</button>
+                                <button onclick='showPdf(<?php echo json_encode(bin2hex($order['blob']->load())) ?>)'>Invoice</button>
                             </div>
                         </li>
                     <?php endforeach; ?>

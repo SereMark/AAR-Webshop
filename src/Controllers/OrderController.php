@@ -47,8 +47,7 @@ class OrderController extends BaseController
         foreach ($orders as &$order) {
             $order['items'] = $this->OrderModel->fetchOrderItemsByOrderId($order['ORDERID']);
             $order['blob'] = $this->OrderModel->getInvoiceBlob($order['ORDERID']);
-            $order['blobFileName'] = 'invoice_' . $order['ORDERID'] . '.pdf';
-            var_dump($this->OrderModel->getInvoiceBlob($order['ORDERID']));
+            //var_dump($this->OrderModel->getInvoiceBlob($order['ORDERID']));
         }
 
 
@@ -131,7 +130,7 @@ class OrderController extends BaseController
         $city = $_POST['city'] ?? '';
         $address = $_POST['address'] ?? '';
         $paymentType = $_POST['payment_type'] ?? '';
-        $blob = $_POST['blobUrl'] ?? null;
+        $blob = $_POST['blob'] ?? null;
 
         $orderModel = new OrderModel();
         $this->usersModel->updateBalanceById($userId, $totalAmount);
@@ -146,9 +145,17 @@ class OrderController extends BaseController
                     } catch (Exception $e) {
                         echo "Error removing cart with cartid " . $cartId . ": " . $e->getMessage();
                     }
+
+                    // Remove the 'data:application/pdf;base64,' part
+                    $base64String = str_replace('data:application/pdf;base64,', '', $blob);
+
+                    // Decode the base64 string back into a blob
+                    $blobDecode = base64_decode($base64String);
+
                     $lastOrder = $orderModel->fetchLastInsertedOrderByUser($userId);
                     $orderId = $lastOrder['ORDERID'];
-                    $this->OrderModel->insertInvoiceBlob($orderId, $blob);
+
+                    $this->OrderModel->insertInvoiceBlob($orderId, $blobDecode);
                 } else {
                     echo "Some cart items failed to be removed. Cart not removed.";
                 }

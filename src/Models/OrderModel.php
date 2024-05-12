@@ -395,7 +395,7 @@ class OrderModel
      */
     public function getInvoiceBlob($orderId) {
         $conn = getDatabaseConnection();
-        $sql = 'SELECT BLOB FROM INVOICES WHERE ORDERID = :orderid';
+        $sql = 'SELECT PDF_CONTENT FROM INVOICES WHERE ORDERID = :orderid';
         $stmt = oci_parse($conn, $sql);
         oci_bind_by_name($stmt, ':orderid', $orderId, -1, SQLT_INT);
 
@@ -406,7 +406,7 @@ class OrderModel
         }
 
         $row = oci_fetch_array($stmt, OCI_ASSOC);
-        $invoiceBlob = $row['BLOB'] ?? null;
+        $invoiceBlob = $row['PDF_CONTENT'] ?? null;
 
         oci_free_statement($stmt);
         oci_close($conn);
@@ -420,19 +420,35 @@ class OrderModel
      */
     public function insertInvoiceBlob($orderId, $blob) {
         $conn = getDatabaseConnection();
-        $sql = 'INSERT INTO INVOICES (ORDERID, BLOB) VALUES (:orderid, :blob)';
+        $sql = 'INSERT INTO INVOICES (ORDERID, PDF_CONTENT) VALUES (:orderid, EMPTY_BLOB()) RETURNING PDF_CONTENT INTO :blob';
         $stmt = oci_parse($conn, $sql);
         oci_bind_by_name($stmt, ':orderid', $orderId, -1, SQLT_INT);
-        oci_bind_by_name($stmt, ':bloburl', $blob, -1, SQLT_BLOB);
 
-        if (!oci_execute($stmt)) {
+        // Create a new LOB descriptor
+        $blobDescriptor = oci_new_descriptor($conn, OCI_D_LOB);
+
+        // Bind the LOB descriptor to :bloburl
+        oci_bind_by_name($stmt, ':blob', $blobDescriptor, -1, OCI_B_BLOB);
+
+        if (!oci_execute($stmt, OCI_DEFAULT)) { // Use OCI_DEFAULT flag for LOBs
             oci_free_statement($stmt);
             oci_close($conn);
             throw new Exception("Failed to insert invoice blob");
         }
 
+        // Save the blob data to the LOB descriptor
+        if(!$blobDescriptor->save($blob)) {
+            oci_rollback($conn);
+            throw new Exception('Failed to save blob data');
+        }
+
+        // Commit the transaction
         oci_commit($conn);
+
+        // Free the LOB descriptor and statement
+        $blobDescriptor->free();
         oci_free_statement($stmt);
+
         oci_close($conn);
     }
 

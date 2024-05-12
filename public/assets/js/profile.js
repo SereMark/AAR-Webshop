@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const deleteLink = document.querySelector('.danger-link');
 
     // Add click event listener to the delete link
+    if (deleteLink !== null)
     deleteLink.addEventListener('click', function(event) {
         // Prevent the default action of the event (in this case, prevent the link from navigating to its href)
         event.preventDefault();
@@ -23,35 +24,16 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-function showPdf(blobData, reportName) {
-    // Adapted from: https://blog.jayway.com/2017/07/13/open-pdf-downloaded-api-javascript/
-    const fileName = reportName && `${ reportName }.pdf` || 'myreport.pdf';
+function showPdf(blobData) {
+    // Convert the hexadecimal data to a Uint8Array
+    let data = new Uint8Array(blobData.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
 
-    const newBlob = new Blob([blobData], {type: "application/pdf"});
+    // Create a Blob from the Uint8Array
+    let blob = new Blob([data], {type: 'application/pdf'});
 
-    const newWindow = window.open('', reportName, "width=800,height=1200");
-    if ((newWindow)) {
-        setTimeout( () => {
-            const dataUrl = window.URL.createObjectURL(newBlob);
-            const title = newWindow.document.createElement('title');
-            const iframe = newWindow.document.createElement('iframe');
+    // Create an object URL from the Blob
+    let url = URL.createObjectURL(blob);
 
-            title.appendChild(document.createTextNode(reportName));
-            newWindow.document.head.appendChild(title);
-
-            iframe.setAttribute('src', dataUrl);
-            iframe.setAttribute('width', "100%");
-            iframe.setAttribute('height', "100%");
-
-            newWindow.document.body.appendChild(iframe);
-
-            setTimeout( () => {
-                // For Firefox it is necessary to delay revoking the ObjectURL
-                window.URL.revokeObjectURL(dataUrl);
-            }, 100);
-        }, 100);
-    } else {
-        alert("To display reports, please disable any pop-blockers for this page and try again.");
-    }
-
-};
+    // Open the URL in a new tab
+    window.open(url, '_blank');
+}

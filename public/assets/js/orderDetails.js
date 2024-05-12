@@ -30,6 +30,7 @@ function createPdfBlob(event) {
 
     // Add the payment type
     doc.text('Payment Type: ' + payment_type, 10, 110);
+    doc.setFontSize(14);
 
     // Add a title for the cart items
     doc.text('Cart Items:', 10, 120);
@@ -39,6 +40,7 @@ function createPdfBlob(event) {
     let subtotal = 0;
     for (let i = 0; i < cart_items.length; i++) {
         const item = cart_items[i];
+        doc.setFontSize(12);
         doc.text('Item ' + (i + 1) + ': ' + item.productname, 10, y);
         doc.text('Quantity: ' + item.quantity, 10, y + 10);
         doc.text('Price: ' + item.price, 10, y + 20);
@@ -47,6 +49,7 @@ function createPdfBlob(event) {
     }
 
     // Add the subtotal, taxes (if applicable), and total amount
+    doc.setFontSize(14);
     doc.text('Subtotal: ' + subtotal, 10, y);
     doc.text('Taxes: ' + (total_amount - subtotal), 10, y + 10);
     doc.text('Total Amount: ' + total_amount, 10, y + 20);
@@ -64,11 +67,6 @@ function createPdfBlob(event) {
         const base64data = reader.result;
         document.getElementById("blob").value = base64data;
     }
-
-
-/*
-    console.log(new Blob([blob], {type: 'application/pdf'}));
-*/
 
     // Create an object URL from the Blob
     const url = URL.createObjectURL(pdfBlob);
