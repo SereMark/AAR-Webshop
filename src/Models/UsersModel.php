@@ -11,27 +11,43 @@ class UsersModel {
      * @return bool - Success status
      */
     public function createUser(string $name, string $email, string $phonenumber, string $passwordHash): bool {
+        // Obtain a database connection
         $conn = getDatabaseConnection();
+    
+        // Define the SQL query with placeholders for the parameters
+        // Using placeholders helps to prevent SQL injection by separating data from SQL commands
         $sql = 'INSERT INTO USERS (NAME, EMAIL, PHONENUMBER, ISADMIN, PASSWORDHASH) VALUES (:NAME, :EMAIL, :PHONENUMBER, :ISADMIN, :PASSWORDHASH)';
+        
+        // Prepare the SQL statement
+        // The oci_parse function prepares the SQL query for execution
         $stmt = oci_parse($conn, $sql);
-
+    
+        // Bind the actual values to the placeholders in the SQL statement
+        // oci_bind_by_name binds the user input values to the named placeholders, ensuring that they are treated as data
         oci_bind_by_name($stmt, ':NAME', $name);
         oci_bind_by_name($stmt, ':EMAIL', $email);
         $isadmin = 'N'; // Default to non-admin
         oci_bind_by_name($stmt, ':ISADMIN', $isadmin);    
         oci_bind_by_name($stmt, ':PHONENUMBER', $phonenumber);
         oci_bind_by_name($stmt, ':PASSWORDHASH', $passwordHash);
-
+    
+        // Execute the SQL statement
+        // The oci_execute function executes the prepared statement with the bound values
+        // Since the query is already prepared with placeholders, user input is safely processed as data
         if (!oci_execute($stmt)) {
+            // If execution fails, free the statement and close the connection
+            // This ensures proper resource management and error handling
             oci_free_statement($stmt);
             oci_close($conn);
             return false;
         }
-
+    
+        // If execution succeeds, free the statement and close the connection
+        // This ensures that there are no resource leaks
         oci_free_statement($stmt);
         oci_close($conn);
         return true;
-    }
+    }    
 
 
     /**
@@ -41,29 +57,34 @@ class UsersModel {
      */
     public function fetchStatistics(): string {
         $conn = getDatabaseConnection();
-        $sql = "SELECT TO_CHAR(ORDERDATE, 'YYYY-MM') AS Month, SUM(TOTALAMOUNT) AS Revenue
-                FROM SYSTEM.ORDERS
-                WHERE EXTRACT(YEAR FROM ORDERDATE) = TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY'))
-                GROUP BY TO_CHAR(ORDERDATE, 'YYYY-MM')
-                ORDER BY Month";
-        $stmt = oci_parse($conn, $sql);
+        $stmt = oci_parse($conn, 'BEGIN Fetch_Yearly_Revenue(:cursor); END;');
+        $cursor = oci_new_cursor($conn);
+    
+        // Bind the cursor as an output parameter
+        oci_bind_by_name($stmt, ":cursor", $cursor, -1, OCI_B_CURSOR);
+    
+        // Execute the statement
         if (!oci_execute($stmt)) {
             oci_free_statement($stmt);
             oci_close($conn);
-            return false;
+            return false; // It's better to throw an exception or handle errors appropriately
         }
-
+    
+        // Execute the cursor like a normal statement
+        oci_execute($cursor);
+    
         $results = [];
-        while ($row = oci_fetch_assoc($stmt)) {
+        while ($row = oci_fetch_assoc($cursor)) {
             $results[] = $row;
         }
-
+    
+        oci_free_statement($cursor);
         oci_free_statement($stmt);
         oci_close($conn);
-
+    
         // Encode data as JSON
-        return $jsonData = json_encode($results);
-    }
+        return json_encode($results);
+    }    
 
 
     /**

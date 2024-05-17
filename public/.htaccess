@@ -1,6 +1,21 @@
+# Enable the rewrite engine
 RewriteEngine On
+
+# Set the base URL for per-directory rewrites
 RewriteBase /
-RewriteRule ^assets - [L]
+
+# If the URL starts with "assets", do nothing and stop processing further rules
+RewriteRule ^assets - [L] #  If this rule matches, it should be the last rule processed (L stands for Last)
+
+# Check if the requested filename does not exist as a file
 RewriteCond %{REQUEST_FILENAME} !-f
+
+# Check if the requested filename does not exist as a directory
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.php [QSA,L]
+
+# If the previous conditions are met, rewrite the request to index.php
+# Append any query string from the original request to the new request
+# and stop processing further rules
+RewriteRule ^ index.php [QSA,L] # The [QSA] flag appends any query string from the original request
+                                # to the new request (QSA stands for Query String Append).
+                                # The [L] flag means that this is the last rule to be processed.
