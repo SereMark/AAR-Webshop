@@ -1,12 +1,5 @@
 <?php
-/**
- * This file implements the Front Controller Pattern.
- * 
- * All incoming HTTP requests are directed to this file, which serves as the single entry point
- * for the application. This approach centralizes the handling of requests, providing a unified 
- * location for initializing resources, configuring settings, and routing requests to the 
- * appropriate controller actions based on the defined routes.
- */
+
 
 // Include the configuration file
 require_once __DIR__ . '/../src/Config/config.php';
