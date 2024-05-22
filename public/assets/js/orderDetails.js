@@ -1,4 +1,6 @@
 function createPdfBlob(event) {
+    event.preventDefault(); // Prevent the form from submitting prematurely
+
     // Get the values from the hidden inputs
     const zipcode = document.getElementById('zipcode').value;
     const city = document.getElementById('city').value;
@@ -66,6 +68,8 @@ function createPdfBlob(event) {
     reader.onloadend = function() {
         const base64data = reader.result;
         document.getElementById("blob").value = base64data;
+        // Trigger the form submission here, after the FileReader has completed
+        document.getElementById("order-form").submit();
     }
 
     // Create an object URL from the Blob

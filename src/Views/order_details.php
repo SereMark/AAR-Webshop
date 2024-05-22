@@ -87,7 +87,7 @@
 
                     <div class="form-actions button-group">
                         <button type="button" class="cancel-btn" onclick="window.history.back()">Back</button>
-                        <button onclick="createPdfBlob(event); showModal('orderInserted')" id="confirm-btn" type="submit" class="confirm-btn">Place order</button>
+                        <button type="button" onclick="createPdfBlob(event);" class="confirm-btn">Place order</button>
                     </div>
                 </form>
             </div>
