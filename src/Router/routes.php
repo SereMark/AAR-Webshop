@@ -34,7 +34,6 @@ $router->get('/cart', fn() => controller('Cart')->showCart());
 $router->post('/cart', fn() => controller('Cart')->addItemToCart());
 $router->post('/cart/update', fn() => controller('Cart')->updateItemQuantity());
 $router->post('/cart/delete', fn() => controller('Cart')->deleteItemFromCart());
-$router->post('/checkout', fn() => controller('Order')->showCheckout());
 
 // Review related routes
 $router->post('/submit-review', fn() => controller('Reviews')->submitReview());
@@ -44,6 +43,7 @@ $router->get('/reviews', fn() => controller('Reviews')->showUserReviews());
 $router->post('/delete-all-reviews', fn() => controller('Reviews')->deleteAllUserReviews());
 
 // Order related routes
+$router->post('/checkout', fn() => controller('Order')->showCheckout());
 $router->get('/orders', fn() => controller('Order')->showUserOrders());
 $router->post('/delete-order', fn() => controller('Order')->deleteOrder());
 $router->post('/order-details', fn() => controller('Order')->showUserOrderReview());
@@ -59,7 +59,5 @@ $router->post('/delete-coupon', fn() => controller('Coupon')->deleteCoupon());
 // System related routes
 $router->get('/check-db-connection', fn() => controller('System')->checkDatabaseConnection());
 
-// Error handling
-$router->setNotFoundHandler(fn() => controller('Error')->showNotFound());
-
 return $router;
+?>

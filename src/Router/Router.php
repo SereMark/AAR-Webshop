@@ -1,83 +1,128 @@
 <?php
-
-// Router class to handle HTTP requests
+/**
+ * Class Router
+ * 
+ * The Router class handles routing and dispatching of HTTP requests.
+ */
 class Router {
-    // Stores the handlers for each route
-    private $handlers = [];
-    // Stores the handler for not found routes
-    private $notFoundHandler;
+    private array $handlers = [];
 
     /**
-     * Adds a GET route
+     * Registers a GET route handler.
      *
      * @param string $path The route path
-     * @param callable $handler The handler for the route
+     * @param callable $handler The route handler function
+     * @return self
      */
-    public function get($path, $handler) {
-        // Add a handler for GET requests to the specified path
-        $this->addHandler('GET', $path, $handler);
+    public function get(string $path, callable $handler): self {
+        return $this->addHandler('GET', $path, $handler);
     }
 
     /**
-     * Adds a POST route
+     * Registers a POST route handler.
      *
      * @param string $path The route path
-     * @param callable $handler The handler for the route
+     * @param callable $handler The route handler function
+     * @return self
      */
-    public function post($path, $handler) {
-        // Add a handler for POST requests to the specified path
-        $this->addHandler('POST', $path, $handler);
+    public function post(string $path, callable $handler): self {
+        return $this->addHandler('POST', $path, $handler);
     }
 
     /**
-     * Adds a route
+     * Registers a PUT route handler.
      *
-     * @param string $method The HTTP method (GET, POST, etc.)
      * @param string $path The route path
-     * @param callable $handler The handler for the route
+     * @param callable $handler The route handler function
+     * @return self
      */
-    private function addHandler($method, $path, $handler) {
-        // Store the handler for the specified HTTP method and path
-        $this->handlers[$method][$path] = $handler;
+    public function put(string $path, callable $handler): self {
+        return $this->addHandler('PUT', $path, $handler);
     }
 
     /**
-     * Sets the handler for not found routes
+     * Registers a DELETE route handler.
      *
-     * @param callable $handler The handler for not found routes
+     * @param string $path The route path
+     * @param callable $handler The route handler function
+     * @return self
      */
-    public function setNotFoundHandler($handler) {
-        // Store the handler for not found routes
-        $this->notFoundHandler = $handler;
+    public function delete(string $path, callable $handler): self {
+        return $this->addHandler('DELETE', $path, $handler);
     }
 
     /**
-     * Dispatches the request to the appropriate handler
+     * Registers a PATCH route handler.
+     *
+     * @param string $path The route path
+     * @param callable $handler The route handler function
+     * @return self
      */
-    public function dispatch() {
-        // Get the current HTTP method (GET, POST, etc.)
-        $method = $_SERVER['REQUEST_METHOD'];
-        // Get the current request URI path
-        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    public function patch(string $path, callable $handler): self {
+        return $this->addHandler('PATCH', $path, $handler);
+    }
 
-        // Find the handler for the current method and path
-        $handler = $this->handlers[$method][$path] ?? null;
+    /**
+     * Adds a route handler for the specified method and path.
+     *
+     * @param string $method The HTTP method
+     * @param string $path The route path
+     * @param callable $handler The route handler function
+     * @return self
+     */
+    private function addHandler(string $method, string $path, callable $handler): self {
+        $pattern = preg_replace('/\{([\w]+)\}/', '(?<$1>[\w-]+)', $path);
+        $this->handlers[$method][$pattern] = $handler;
+        return $this;
+    }
 
-        // If a handler is found, call it
-        if ($handler) {
-            // Call the handler function, passing the Router instance
-            call_user_func($handler, $this);
-        // If no handler is found but a not found handler is set, call it
-        } elseif ($this->notFoundHandler) {
-            // Call the not found handler function, passing the Router instance
-            call_user_func($this->notFoundHandler, $this);
-        // If no handler is found and no not found handler is set, return a 404 response
-        } else {
-            // Send a 404 Not Found header
-            header("HTTP/1.0 404 Not Found");
-            // Include the not found page
-            require __DIR__ . '/../views/notfound.php';
+    /**
+     * Dispatches the HTTP request to the appropriate route handler.
+     *
+     * @return void
+     */
+    public function dispatch(): void {
+        try {
+            $method = $_SERVER['REQUEST_METHOD'];
+            $requestedUrl = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+            $routeFound = false;
+            foreach ($this->handlers[$method] ?? [] as $pattern => $handler) {
+                if (preg_match("#^$pattern$#", $requestedUrl, $matches)) {
+                    array_shift($matches);
+                    call_user_func_array($handler, [$this, $matches]);
+                    $routeFound = true;
+                    break;
+                }
+            }
+
+            if (!$routeFound) {
+                $this->respondNotFound();
+            }
+        } catch (\Exception $e) {
+            $this->respondInternalError($e);
         }
+    }
+
+    /**
+     * Sends a 404 Not Found response.
+     *
+     * @return void
+     */
+    private function respondNotFound(): void {
+        header("HTTP/1.0 404 Not Found");
+        require __DIR__ . '/../views/notfound.php';
+    }
+
+    /**
+     * Sends a 500 Internal Server Error response.
+     *
+     * @param \Exception $e The exception object
+     * @return void
+     */
+    private function respondInternalError(\Exception $e): void {
+        header("HTTP/1.1 500 Internal Server Error");
+        echo "500 Internal Server Error: " . $e->getMessage();
     }
 }
 ?>
