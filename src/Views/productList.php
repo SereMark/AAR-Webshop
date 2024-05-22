@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="/assets/css/list.css">
-    <script src="/assets/js/products.js"></script>
+    <script src="/assets/js/productList.js"></script>
 </head>
 <body>
     <main class="main-content">
